@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 分享 — CineVerse</title>
+    <style id="theme-vars">
+/* Cinema Personal Site - Bright Editorial Theme */
+/* Brand prefix: cine */
+
+:root {
+  /* === Primary Color System === */
+  --color-primary: #E85D3A;
+  --color-primary-light: #F2845F;
+  --color-primary-dark: #C44A2B;
+  --color-primary-tint-1: rgba(232,93,58,0.10);
+  --color-primary-tint-2: rgba(232,93,58,0.05);
+  --color-primary-tint-3: rgba(232,93,58,0.03);
+
+  /* === Neutral Scale (Warm Light) === */
+  --color-bg-base: #FAFAF8;
+  --color-bg-elevated: #FFFFFF;
+  --color-bg-surface: #F3F2EF;
+  --color-bg-muted: #EAEAE6;
+  --color-bg-overlay: rgba(250,250,248,0.90);
+  --color-border-default: #E0DFDB;
+  --color-border-subtle: #EDECE8;
+  --color-border-strong: #CCCBC6;
+
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #6B6B6B;
+  --color-text-tertiary: #9A9A96;
+  --color-text-inverse: #FFFFFF;
+  --color-text-link: #E85D3A;
+
+  /* === State Colors === */
+  --state-success: #2DA86A;
+  --state-warning: #E8A33A;
+  --state-error: #DC3545;
+  --state-info: #3B82F6;
+
+  /* === Shape System === */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* === Typography === */
+  --font-display: 'Playfair Display', Georgia, 'Noto Serif SC', serif;
+  --font-body: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  /* === Spacing Scale === */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.05);
+  --shadow-glow: 0 0 20px rgba(232,93,58,0.12);
+
+  /* === Transitions === */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* === Container === */
+  --container-max: 1200px;
+  --content-padding: 24px;
+}
+
+/* === Typography Classes === */
+.cine-display { font-family: var(--font-display); font-weight: 700; letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.cine-display-lg { font-family: var(--font-display); font-weight: 700; font-size: var(--text-4xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.cine-heading { font-family: var(--font-display); font-weight: 600; font-size: var(--text-2xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-snug); }
+.cine-subheading { font-family: var(--font-body); font-weight: 500; font-size: var(--text-lg); line-height: var(--leading-snug); color: var(--color-text-secondary); }
+.cine-body { font-family: var(--font-body); font-size: var(--text-base); line-height: var(--leading-normal); color: var(--color-text-primary); }
+.cine-body-sm { font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
+.cine-caption { font-family: var(--font-body); font-size: var(--text-xs); line-height: var(--leading-normal); color: var(--color-text-tertiary); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+.cine-mono { font-family: var(--font-mono); font-size: var(--text-sm); }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--color-bg-base);
+    --color-foreground: var(--color-text-primary);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--color-text-inverse);
+    --color-muted: var(--color-bg-muted);
+    --color-muted-foreground: var(--color-text-secondary);
+    --color-card: var(--color-bg-elevated);
+    --color-card-foreground: var(--color-text-primary);
+    --color-border: var(--color-border-default);
+    --color-ring: var(--color-primary);
+    --color-destructive: var(--state-error);
+    --color-accent: var(--color-primary);
+    --color-accent-foreground: var(--color-text-inverse);
+    --color-popover: var(--color-bg-elevated);
+    --color-popover-foreground: var(--color-text-primary);
+    --color-sidebar: var(--color-bg-surface);
+    --color-sidebar-foreground: var(--color-text-primary);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+    --font-display: var(--font-display);
+    --font-body: var(--font-body);
+    --font-mono: var(--font-mono);
+  }
+
+  @layer base {
+    body { background: var(--color-bg-base); color: var(--color-text-primary); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <!-- Shared Shell: Fixed Top Navbar -->
+    <header class="fixed top-0 left-0 w-full z-50" style="background: var(--color-bg-elevated); border-bottom: 1px solid var(--color-border-subtle);">
+      <nav class="mx-auto flex items-center justify-between" style="max-width: var(--container-max); height: 64px; padding: 0 var(--content-padding);">
+        <a href="#" class="shrink-0 cine-display" style="color: var(--color-primary); font-size: var(--text-xl); text-decoration: none;">CineVerse</a>
+        <div class="hidden md:flex items-center gap-1">
+          <a href="#" data-nav-key="index" data-dom-id="nav-index" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 whitespace-nowrap" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);"
+             onmouseover="this.style.background='var(--color-primary-tint-1)';this.style.color='var(--color-primary)'"
+             onmouseout="this.style.background='transparent';this.style.color='var(--color-text-secondary)'">首页</a>
+          <a href="#" data-nav-key="movie-recommend" data-dom-id="nav-movie-recommend" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 whitespace-nowrap" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);"
+             onmouseover="this.style.background='var(--color-primary-tint-1)';this.style.color='var(--color-primary)'"
+             onmouseout="this.style.background='transparent';this.style.color='var(--color-text-secondary)'">影视推荐</a>
+          <a href="#" data-nav-key="learning" data-dom-id="nav-learning" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 whitespace-nowrap" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);"
+             onmouseover="this.style.background='var(--color-primary-tint-1)';this.style.color='var(--color-primary)'"
+             onmouseout="this.style.background='transparent';this.style.color='var(--color-text-secondary)'">学习资料</a>
+          <a href="#" data-nav-key="ai-share" data-dom-id="nav-ai-share" data-active="true" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 whitespace-nowrap" style="color: var(--color-primary); text-decoration: none; font-family: var(--font-body); border-bottom: 2px solid var(--color-primary);"
+             onmouseover="this.style.background='var(--color-primary-tint-1)'"
+             onmouseout="this.style.background='transparent'">AI 分享</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="pt-16">
+
+      <!-- ===== Section 1: AI Hero ===== -->
+      <section class="w-full" style="padding: 80px 0 64px 0;">
+        <div class="mx-auto grid grid-cols-1 lg:grid-cols-5 gap-8 items-center" style="max-width: var(--container-max); padding: 0 var(--content-padding);">
+          <!-- Left: Text Content (60%) -->
+          <div class="lg:col-span-3">
+            <h1 class="cine-display" style="font-size: clamp(40px, 6vw, 72px); text-wrap: balance; word-break: keep-all; overflow-wrap: break-word; color: var(--color-text-primary);">
+              智慧光影
+            </h1>
+            <p class="mt-6" style="font-family: var(--font-body); font-size: var(--text-lg); line-height: var(--leading-normal); color: var(--color-text-secondary); max-width: 520px;">
+              AI 赋能创作，探索影视与技术的交汇点
+            </p>
+            <a href="#tool-showcase" class="inline-flex items-center justify-center whitespace-nowrap mt-8 rounded-lg font-medium transition-transform duration-150" style="background: var(--color-primary); color: var(--color-text-inverse); padding: 12px 24px; font-family: var(--font-body); font-size: var(--text-base); text-decoration: none;"
+               onmouseover="this.style.background='var(--color-primary-dark)';this.style.transform='translateY(-1px)'"
+               onmouseout="this.style.background='var(--color-primary)';this.style.transform='translateY(0)'">
+              开始探索
+            </a>
+          </div>
+          <!-- Right: Image (40%) -->
+          <div class="lg:col-span-2">
+            <img src="../assets/ai-bright.jpg" alt="AI 赋能影视创作" class="w-full rounded-lg object-cover" style="box-shadow: var(--shadow-md); aspect-ratio: 4/3;">
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Section 2: Tool Showcase ===== -->
+      <section id="tool-showcase" class="w-full" style="padding: 64px 0;">
+        <div class="mx-auto" style="max-width: var(--container-max); padding: 0 var(--content-padding);">
+          <h2 class="cine-heading" style="font-size: clamp(22px, 2.4vw, 32px); color: var(--color-text-primary); text-wrap: balance; word-break: keep-all;">
+            推荐工具
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+
+            <!-- Tool Card 1: Runway ML -->
+            <article class="rounded-lg transition-shadow duration-150 transition-transform duration-150" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm); padding: var(--space-8);"
+                     onmouseover="this.style.boxShadow='var(--shadow-md)';this.style.transform='translateY(-2px)'"
+                     onmouseout="this.style.boxShadow='var(--shadow-sm)';this.style.transform='translateY(0)'">
+              <div class="inline-flex items-center justify-center rounded-lg" style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--color-primary-tint-2), var(--color-primary-tint-1));">
+                <i data-lucide="video" style="width: 22px; height: 22px; color: var(--color-primary);"></i>
+              </div>
+              <h3 class="cine-heading mt-4" style="font-size: var(--text-xl); color: var(--color-text-primary);">Runway ML</h3>
+              <p class="mt-2 cine-body-sm" style="line-height: var(--leading-relaxed);">
+                革命性的 AI 视频生成工具，支持文本转视频与智能剪辑
+              </p>
+              <div class="flex items-center gap-2 mt-4">
+                <span class="inline-flex items-center justify-center rounded-lg whitespace-nowrap" style="background: var(--color-primary-tint-2); color: var(--color-primary-dark); padding: 2px 10px; font-size: var(--text-xs); font-family: var(--font-body);">免费</span>
+                <span class="inline-flex items-center justify-center rounded-lg whitespace-nowrap" style="background: var(--color-bg-muted); color: var(--color-text-secondary); padding: 2px 10px; font-size: var(--text-xs); font-family: var(--font-body);">视频生成</span>
+              </div>
+              <a href="#" class="inline-flex items-center gap-1 mt-5 whitespace-nowrap font-medium transition-colors duration-150" style="color: var(--color-primary); font-family: var(--font-body); font-size: var(--text-sm); text-decoration: none;"
+                 onmouseover="this.style.color='var(--color-primary-dark)'"
+                 onmouseout="this.style.color='var(--color-primary)'">
+                查看详情 <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+              </a>
+            </article>
+
+            <!-- Tool Card 2: Midjourney -->
+            <article class="rounded-lg transition-shadow duration-150 transition-transform duration-150" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm); padding: var(--space-8);"
+                     onmouseover="this.style.boxShadow='var(--shadow-md)';this.style.transform='translateY(-2px)'"
+                     onmouseout="this.style.boxShadow='var(--shadow-sm)';this.style.transform='translateY(0)'">
+              <div class="inline-flex items-center justify-center rounded-lg" style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--color-primary-tint-2), var(--color-primary-tint-1));">
+                <i data-lucide="image" style="width: 22px; height: 22px; color: var(--color-primary);"></i>
+              </div>
+              <h3 class="cine-heading mt-4" style="font-size: var(--text-xl); color: var(--color-text-primary);">Midjourney</h3>
+              <p class="mt-2 cine-body-sm" style="line-height: var(--leading-relaxed);">
+                顶级 AI 图像生成平台，创造令人惊叹的视觉概念与分镜
+              </p>
+              <div class="flex items-center gap-2 mt-4">
+                <span class="inline-flex items-center justify-center rounded-lg whitespace-nowrap" style="background: var(--color-primary-tint-2); color: var(--color-primary-dark); padding: 2px 10px; font-size: var(--text-xs); font-family: var(--font-body);">付费</span>
+                <span class="inline-flex items-center justify-center rounded-lg whitespace-nowrap" style="background: var(--color-bg-muted); color: var(--color-text-secondary); padding: 2px 10px; font-size: var(--text-xs); font-family: var(--font-body);">图像生成</span>
+              </div>
+              <a href="#" class="inline-flex items-center gap-1 mt-5 whitespace-nowrap font-medium transition-colors duration-150" style="color: var(--color-primary); font-family: var(--font-body); font-size: var(--text-sm); text-decoration: none;"
+                 onmouseover="this.style.color='var(--color-primary-dark)'"
+                 onmouseout="this.style.color='var(--color-primary)'">
+                查看详情 <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+              </a>
+            </article>
+
+            <!-- Tool Card 3: ElevenLabs -->
+            <article class="rounded-lg transition-shadow duration-150 transition-transform duration-150" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm); padding: var(--space-8);"
+                     onmouseover="this.style.boxShadow='var(--shadow-md)';this.style.transform='translateY(-2px)'"
+                     onmouseout="this.style.boxShadow='var(--shadow-sm)';this.style.transform='translateY(0)'">
+              <div class="inline-flex items-center justify-center rounded-lg" style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--color-primary-tint-2), var(--color-primary-tint-1));">
+                <i data-lucide="audio-waveform" style="width: 22px; height: 22px; color: var(--color-primary);"></i>
+              </div>
+              <h3 class="cine-heading mt-4" style="font-size: var(--text-xl); color: var(--color-text-primary);">ElevenLabs</h3>
+              <p class="mt-2 cine-body-sm" style="line-height: var(--leading-relaxed);">
+                AI 驱动的语音合成与音频处理，精准还原自然人声
+              </p>
+              <div class="flex items-center gap-2 mt-4">
+                <span class="inline-flex items-center justify-center rounded-lg whitespace-nowrap" style="background: var(--color-primary-tint-2); color: var(--color-primary-dark); padding: 2px 10px; font-size: var(--text-xs); font-family: var(--font-body);">免费</span>
+                <span class="inline-flex items-center justify-center rounded-lg whitespace-nowrap" style="background: var(--color-bg-muted); color: var(--color-text-secondary); padding: 2px 10px; font-size: var(--text-xs); font-family: var(--font-body);">音频处理</span>
+              </div>
+              <a href="#" class="inline-flex items-center gap-1 mt-5 whitespace-nowrap font-medium transition-colors duration-150" style="color: var(--color-primary); font-family: var(--font-body); font-size: var(--text-sm); text-decoration: none;"
+                 onmouseover="this.style.color='var(--color-primary-dark)'"
+                 onmouseout="this.style.color='var(--color-primary)'">
+                查看详情 <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+              </a>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Section 3: Article List ===== -->
+      <section class="w-full" style="padding: 64px 0;">
+        <div class="mx-auto" style="max-width: var(--container-max); padding: 0 var(--content-padding);">
+          <h2 class="cine-heading" style="font-size: clamp(22px, 2.4vw, 32px); color: var(--color-text-primary); text-wrap: balance; word-break: keep-all;">
+            技术文章
+          </h2>
+          <div class="mt-10 rounded-lg" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm); overflow: hidden;">
+
+            <!-- Article 1 -->
+            <div class="flex items-start gap-4 px-6 py-5 transition-colors duration-150" style="border-bottom: 1px solid var(--color-border-subtle);"
+                 onmouseover="this.style.background='var(--color-bg-surface)'"
+                 onmouseout="this.style.background='transparent'">
+              <span class="shrink-0 inline-flex items-center justify-center rounded-lg font-bold whitespace-nowrap" style="width: 36px; height: 36px; background: var(--color-primary); color: var(--color-text-inverse); font-family: var(--font-display); font-size: var(--text-sm);">01</span>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-medium truncate" style="font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text-primary);">AI视频生成的五大趋势</h3>
+                <p class="mt-1 line-clamp-2" style="font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-text-secondary); line-height: var(--leading-normal);">从文本到视频的生成技术正在飞速发展，了解塑造未来影视创作的关键方向</p>
+              </div>
+              <div class="shrink-0 flex items-center gap-3">
+                <span class="hidden sm:inline-flex items-center justify-center rounded-lg whitespace-nowrap" style="background: var(--color-bg-muted); color: var(--color-text-secondary); padding: 2px 10px; font-size: var(--text-xs); font-family: var(--font-body);">趋势</span>
+                <span class="whitespace-nowrap" style="font-family: var(--font-body); font-size: var(--text-xs); color: var(--color-text-tertiary);">2025-06-12</span>
+              </div>
+            </div>
+
+            <!-- Article 2 -->
+            <div class="flex items-start gap-4 px-6 py-5 transition-colors duration-150" style="border-bottom: 1px solid var(--color-border-subtle);"
+                 onmouseover="this.style.background='var(--color-bg-surface)'"
+                 onmouseout="this.style.background='transparent'">
+              <span class="shrink-0 inline-flex items-center justify-center rounded-lg font-bold whitespace-nowrap" style="width: 36px; height: 36px; background: var(--color-primary); color: var(--color-text-inverse); font-family: var(--font-display); font-size: var(--text-sm);">02</span>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-medium truncate" style="font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text-primary);">如何用AI辅助剧本创作</h3>
+                <p class="mt-1 line-clamp-2" style="font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-text-secondary); line-height: var(--leading-normal);">探索 ChatGPT、Claude 等大语言模型在剧本构思、角色塑造与对白打磨中的实战应用</p>
+              </div>
+              <div class="shrink-0 flex items-center gap-3">
+                <span class="hidden sm:inline-flex items-center justify-center rounded-lg whitespace-nowrap" style="background: var(--color-bg-muted); color: var(--color-text-secondary); padding: 2px 10px; font-size: var(--text-xs); font-family: var(--font-body);">创作</span>
+                <span class="whitespace-nowrap" style="font-family: var(--font-body); font-size: var(--text-xs); color: var(--color-text-tertiary);">2025-05-28</span>
+              </div>
+            </div>
+
+            <!-- Article 3 -->
+            <div class="flex items-start gap-4 px-6 py-5 transition-colors duration-150" style="border-bottom: 1px solid var(--color-border-subtle);"
+                 onmouseover="this.style.background='var(--color-bg-surface)'"
+                 onmouseout="this.style.background='transparent'">
+              <span class="shrink-0 inline-flex items-center justify-center rounded-lg font-bold whitespace-nowrap" style="width: 36px; height: 36px; background: var(--color-primary); color: var(--color-text-inverse); font-family: var(--font-display); font-size: var(--text-sm);">03</span>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-medium truncate" style="font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text-primary);">Stable Diffusion在影视中的应用</h3>
+                <p class="mt-1 line-clamp-2" style="font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-text-secondary); line-height: var(--leading-normal);">从概念设计到后期特效，开源图像模型正在改变影视制作的视觉流程</p>
+              </div>
+              <div class="shrink-0 flex items-center gap-3">
+                <span class="hidden sm:inline-flex items-center justify-center rounded-lg whitespace-nowrap" style="background: var(--color-bg-muted); color: var(--color-text-secondary); padding: 2px 10px; font-size: var(--text-xs); font-family: var(--font-body);">应用</span>
+                <span class="whitespace-nowrap" style="font-family: var(--font-body); font-size: var(--text-xs); color: var(--color-text-tertiary);">2025-05-15</span>
+              </div>
+            </div>
+
+            <!-- Article 4 -->
+            <div class="flex items-start gap-4 px-6 py-5 transition-colors duration-150" style="border-bottom: 1px solid var(--color-border-subtle);"
+                 onmouseover="this.style.background='var(--color-bg-surface)'"
+                 onmouseout="this.style.background='transparent'">
+              <span class="shrink-0 inline-flex items-center justify-center rounded-lg font-bold whitespace-nowrap" style="width: 36px; height: 36px; background: var(--color-primary); color: var(--color-text-inverse); font-family: var(--font-display); font-size: var(--text-sm);">04</span>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-medium truncate" style="font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text-primary);">AI配音与人工配音对比</h3>
+                <p class="mt-1 line-clamp-2" style="font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-text-secondary); line-height: var(--leading-normal);">音质、情感表达与制作成本全方位对比，帮助创作者做出明智选择</p>
+              </div>
+              <div class="shrink-0 flex items-center gap-3">
+                <span class="hidden sm:inline-flex items-center justify-center rounded-lg whitespace-nowrap" style="background: var(--color-bg-muted); color: var(--color-text-secondary); padding: 2px 10px; font-size: var(--text-xs); font-family: var(--font-body);">对比</span>
+                <span class="whitespace-nowrap" style="font-family: var(--font-body); font-size: var(--text-xs); color: var(--color-text-tertiary);">2025-04-30</span>
+              </div>
+            </div>
+
+            <!-- Article 5 -->
+            <div class="flex items-start gap-4 px-6 py-5 transition-colors duration-150"
+                 onmouseover="this.style.background='var(--color-bg-surface)'"
+                 onmouseout="this.style.background='transparent'">
+              <span class="shrink-0 inline-flex items-center justify-center rounded-lg font-bold whitespace-nowrap" style="width: 36px; height: 36px; background: var(--color-primary); color: var(--color-text-inverse); font-family: var(--font-display); font-size: var(--text-sm);">05</span>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-medium truncate" style="font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text-primary);">从Sora到Kling：视频模型演进</h3>
+                <p class="mt-1 line-clamp-2" style="font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-text-secondary); line-height: var(--leading-normal);">梳理主流 AI 视频模型的技术路径与创作能力差异</p>
+              </div>
+              <div class="shrink-0 flex items-center gap-3">
+                <span class="hidden sm:inline-flex items-center justify-center rounded-lg whitespace-nowrap" style="background: var(--color-bg-muted); color: var(--color-text-secondary); padding: 2px 10px; font-size: var(--text-xs); font-family: var(--font-body);">深度</span>
+                <span class="whitespace-nowrap" style="font-family: var(--font-body); font-size: var(--text-xs); color: var(--color-text-tertiary);">2025-04-18</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Section 4: Newsletter CTA Strip ===== -->
+      <section class="w-full" style="padding: 64px 0 80px 0;">
+        <div class="mx-auto" style="max-width: var(--container-max); padding: 0 var(--content-padding);">
+          <div class="rounded-lg relative overflow-hidden" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm); padding: var(--space-12) var(--space-8);">
+            <!-- Subtle coral accent decoration -->
+            <div class="absolute top-0 right-0 w-32 h-32 rounded-bl-full" style="background: var(--color-primary-tint-1);"></div>
+            <div class="relative z-10">
+              <h2 class="cine-heading" style="font-size: clamp(22px, 2.4vw, 32px); color: var(--color-text-primary); text-wrap: balance; word-break: keep-all;">
+                订阅更新
+              </h2>
+              <p class="mt-2" style="font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-text-secondary);">
+                获取最新 AI 工具评测与影视技术文章
+              </p>
+              <form class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-6" style="max-width: 480px;" onsubmit="event.preventDefault();">
+                <label class="sr-only" for="newsletter-email">邮箱地址</label>
+                <input id="newsletter-email" type="email" placeholder="输入你的邮箱" required
+                       class="flex-1 rounded-lg outline-none transition-shadow duration-150"
+                       style="height: 42px; padding: 0 16px; background: var(--color-bg-base); border: 1px solid var(--color-border-default); color: var(--color-text-primary); font-family: var(--font-body); font-size: var(--text-sm);"
+                       onfocus="this.style.borderColor='var(--color-primary)';this.style.boxShadow='0 0 0 2px var(--color-primary-tint-1)'"
+                       onblur="this.style.borderColor='var(--color-border-default)';this.style.boxShadow='none'">
+                <button type="submit"
+                        class="shrink-0 inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-transform duration-150"
+                        style="background: var(--color-primary); color: var(--color-text-inverse); height: 42px; padding: 0 20px; font-family: var(--font-body); font-size: var(--text-sm);"
+                        onmouseover="this.style.background='var(--color-primary-dark)';this.style.transform='translateY(-1px)'"
+                        onmouseout="this.style.background='var(--color-primary)';this.style.transform='translateY(0)'">
+                  订阅
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Shared Shell: Footer -->
+    <footer style="background: var(--color-bg-surface); border-top: 1px solid var(--color-border-subtle);">
+      <div class="mx-auto" style="max-width: var(--container-max); padding: 32px var(--content-padding);">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span class="cine-display" style="color: var(--color-primary); font-size: var(--text-lg);">CineVerse</span>
+          <p style="font-family: var(--font-body); font-size: var(--text-xs); color: var(--color-text-tertiary);">
+            2025 CineVerse. 影视与技术的交汇。
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

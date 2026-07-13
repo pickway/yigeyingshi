@@ -1,0 +1,25 @@
+# === Root ===
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# === Frontend (yige-ui) ===
+yige-ui/node_modules/
+yige-ui/dist/
+yige-ui/dist-ssr/
+yige-ui/*.log
+yige-ui/npm-debug.log*
+
+# === Backend (yige-server) ===
+yige-server/*.exe
+yige-server/*.dll
+yige-server/*.db
+yige-server/*.sqlite
+yige-server/.env
+yige-server/yige-server
+yige-server/coverage.out
+
+# === Design files ===
+*.design

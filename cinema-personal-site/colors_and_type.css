@@ -1,0 +1,102 @@
+/* Cinema Personal Site - Dark Theater Theme */
+/* Brand prefix: cinema */
+
+:root {
+  /* === Primary Color System === */
+  --color-primary: #D4A853;
+  --color-primary-light: #E8C97A;
+  --color-primary-dark: #B08930;
+  --color-primary-tint-1: rgba(212,168,83,0.12);
+  --color-primary-tint-2: rgba(212,168,83,0.06);
+  --color-primary-tint-3: rgba(212,168,83,0.03);
+
+  /* === Neutral Scale (Dark Theater) === */
+  --color-bg-base: #0C0C0E;
+  --color-bg-elevated: #151518;
+  --color-bg-surface: #1C1C20;
+  --color-bg-muted: #242428;
+  --color-bg-overlay: rgba(12,12,14,0.85);
+  --color-border-default: #2A2A30;
+  --color-border-subtle: #1F1F25;
+  --color-border-strong: #3A3A42;
+
+  --color-text-primary: #F0EDE6;
+  --color-text-secondary: #9A9AA0;
+  --color-text-tertiary: #6A6A72;
+  --color-text-inverse: #0C0C0E;
+  --color-text-link: #D4A853;
+
+  /* === State Colors (Semantic Only) === */
+  --state-success: #3ECF8E;
+  --state-warning: #F5A623;
+  --state-error: #EF4444;
+  --state-info: #60A5FA;
+
+  /* === Shape System === */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* === Typography === */
+  --font-display: 'Playfair Display', Georgia, 'Noto Serif SC', serif;
+  --font-body: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  /* === Spacing Scale === */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.05);
+  --shadow-glow: 0 0 20px rgba(212,168,83,0.15);
+
+  /* === Transitions === */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* === Container === */
+  --container-max: 1200px;
+  --content-padding: 24px;
+}
+
+/* === Typography Classes === */
+.cinema-display { font-family: var(--font-display); font-weight: 700; letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.cinema-display-lg { font-family: var(--font-display); font-weight: 700; font-size: var(--text-4xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.cinema-heading { font-family: var(--font-display); font-weight: 600; font-size: var(--text-2xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-snug); }
+.cinema-subheading { font-family: var(--font-body); font-weight: 500; font-size: var(--text-lg); line-height: var(--leading-snug); color: var(--color-text-secondary); }
+.cinema-body { font-family: var(--font-body); font-size: var(--text-base); line-height: var(--leading-normal); color: var(--color-text-primary); }
+.cinema-body-sm { font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
+.cinema-caption { font-family: var(--font-body); font-size: var(--text-xs); line-height: var(--leading-normal); color: var(--color-text-tertiary); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+.cinema-mono { font-family: var(--font-mono); font-size: var(--text-sm); }

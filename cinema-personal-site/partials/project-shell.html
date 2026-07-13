@@ -1,0 +1,228 @@
+<!-- ===== SHARED PROJECT SHELL — CineVerse ===== -->
+<!-- This fragment is inherited by all leaf pages. Do NOT add <!DOCTYPE>, <html>, or <head>. -->
+
+<!-- ========== 1. FIXED TOP NAVBAR ========== -->
+<nav class="fixed top-0 left-0 w-full z-50 border-b"
+     style="background:var(--color-bg-elevated); border-color:var(--color-border-subtle);">
+  <div class="max-w-[var(--container-max)] mx-auto flex items-center justify-between"
+       style="height:64px; padding-left:var(--content-padding); padding-right:var(--content-padding);">
+
+    <!-- Logo -->
+    <a href="../pages/index.html"
+       class="shrink-0 flex items-center gap-2 no-underline"
+       style="font-family:var(--font-display); font-weight:700; font-size:var(--text-xl); color:var(--color-primary); letter-spacing:var(--tracking-tight);">
+      CineVerse
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <ul class="hidden md:flex items-center gap-1 list-none m-0 p-0">
+      <li>
+        <a href="../pages/index.html"
+           data-nav-key="index"
+           class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
+           style="font-family:var(--font-body); color:var(--color-text-secondary);"
+           onmouseenter="this.style.color='var(--color-text-primary)'; this.style.background='var(--color-bg-muted)'"
+           onmouseleave="this.style.color='var(--color-text-secondary)'; this.style.background='transparent'">
+          首页
+        </a>
+      </li>
+      <li>
+        <a href="../pages/movie-recommend.html"
+           data-nav-key="movie-recommend"
+           class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
+           style="font-family:var(--font-body); color:var(--color-text-secondary);"
+           onmouseenter="this.style.color='var(--color-text-primary)'; this.style.background='var(--color-bg-muted)'"
+           onmouseleave="this.style.color='var(--color-text-secondary)'; this.style.background='transparent'">
+          影视推荐
+        </a>
+      </li>
+      <li>
+        <a href="../pages/learning.html"
+           data-nav-key="learning"
+           class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
+           style="font-family:var(--font-body); color:var(--color-text-secondary);"
+           onmouseenter="this.style.color='var(--color-text-primary)'; this.style.background='var(--color-bg-muted)'"
+           onmouseleave="this.style.color='var(--color-text-secondary)'; this.style.background='transparent'">
+          学习资料
+        </a>
+      </li>
+      <li>
+        <a href="../pages/ai-share.html"
+           data-nav-key="ai-share"
+           class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
+           style="font-family:var(--font-body); color:var(--color-text-secondary);"
+           onmouseenter="this.style.color='var(--color-text-primary)'; this.style.background='var(--color-bg-muted)'"
+           onmouseleave="this.style.color='var(--color-text-secondary)'; this.style.background='transparent'">
+          AI 分享
+        </a>
+      </li>
+      <!-- SLOT: activeNavItem — leaf pages inject active-state marker here -->
+    </ul>
+
+    <!-- Right: Search Icon + Mobile Hamburger -->
+    <div class="flex items-center gap-3">
+      <!-- Search Pill -->
+      <button class="hidden md:inline-flex items-center justify-center shrink-0 rounded-full border transition-colors duration-150"
+              style="width:36px; height:36px; border-color:var(--color-border-default); background:transparent; color:var(--color-text-tertiary);"
+              onmouseenter="this.style.borderColor='var(--color-border-strong)'; this.style.color='var(--color-text-secondary)'"
+              onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.color='var(--color-text-tertiary)'"
+              aria-label="搜索">
+        <i data-lucide="search" style="width:16px; height:16px;"></i>
+      </button>
+
+      <!-- Mobile Hamburger -->
+      <button class="md:hidden inline-flex items-center justify-center shrink-0 rounded-lg transition-colors duration-150"
+              style="width:40px; height:40px; color:var(--color-text-secondary);"
+              aria-label="菜单">
+        <i data-lucide="menu" style="width:22px; height:22px;"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Nav Drawer (hidden by default, toggled via JS) -->
+  <div class="md:hidden hidden border-t"
+       style="background:var(--color-bg-elevated); border-color:var(--color-border-subtle);">
+    <div class="flex flex-col" style="padding:var(--space-4) var(--content-padding);">
+      <a href="../pages/index.html"
+         data-nav-key="index"
+         class="inline-flex items-center px-3 py-3 rounded-lg text-sm font-medium"
+         style="color:var(--color-text-secondary);">
+        首页
+      </a>
+      <a href="../pages/movie-recommend.html"
+         data-nav-key="movie-recommend"
+         class="inline-flex items-center px-3 py-3 rounded-lg text-sm font-medium"
+         style="color:var(--color-text-secondary);">
+        影视推荐
+      </a>
+      <a href="../pages/learning.html"
+         data-nav-key="learning"
+         class="inline-flex items-center px-3 py-3 rounded-lg text-sm font-medium"
+         style="color:var(--color-text-secondary);">
+        学习资料
+      </a>
+      <a href="../pages/ai-share.html"
+         data-nav-key="ai-share"
+         class="inline-flex items-center px-3 py-3 rounded-lg text-sm font-medium"
+         style="color:var(--color-text-secondary);">
+        AI 分享
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ========== 2. PAGE BODY FRAME ========== -->
+<!-- Spacer for fixed navbar -->
+<div style="height:64px;"></div>
+
+<main class="min-h-screen" style="background:var(--color-bg-base);">
+  <div class="max-w-[var(--container-max)] mx-auto"
+       style="padding-left:var(--content-padding); padding-right:var(--content-padding);">
+
+    <!-- SLOT: pageContent — leaf pages inject their private content here -->
+
+  </div>
+</main>
+
+
+<!-- ========== 3. FOOTER ========== -->
+<footer class="border-t" style="background:var(--color-bg-elevated); border-color:var(--color-border-subtle); padding-top:var(--space-12); padding-bottom:var(--space-12);">
+  <div class="max-w-[var(--container-max)] mx-auto"
+       style="padding-left:var(--content-padding); padding-right:var(--content-padding);">
+
+    <!-- 3-Column Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
+
+      <!-- Column 1: Brand Info -->
+      <div>
+        <a href="../pages/index.html"
+           class="inline-block no-underline"
+           style="font-family:var(--font-display); font-weight:700; font-size:var(--text-xl); color:var(--color-primary); letter-spacing:var(--tracking-tight);">
+          CineVerse
+        </a>
+        <p class="mt-3" style="font-family:var(--font-body); font-size:var(--text-sm); color:var(--color-text-tertiary); line-height:var(--leading-normal); max-width:280px;">
+          探索光影世界，分享智慧火花
+        </p>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div>
+        <h3 class="mb-4" style="font-family:var(--font-body); font-weight:600; font-size:var(--text-sm); color:var(--color-text-primary); letter-spacing:var(--tracking-wide); text-transform:uppercase;">
+          快速导航
+        </h3>
+        <ul class="flex flex-col gap-3 list-none m-0 p-0">
+          <li>
+            <a href="../pages/index.html"
+               class="text-sm transition-colors duration-150 no-underline"
+               style="color:var(--color-text-tertiary);"
+               onmouseenter="this.style.color='var(--color-text-link)'"
+               onmouseleave="this.style.color='var(--color-text-tertiary)'">
+              首页
+            </a>
+          </li>
+          <li>
+            <a href="../pages/movie-recommend.html"
+               class="text-sm transition-colors duration-150 no-underline"
+               style="color:var(--color-text-tertiary);"
+               onmouseenter="this.style.color='var(--color-text-link)'"
+               onmouseleave="this.style.color='var(--color-text-tertiary)'">
+              影视推荐
+            </a>
+          </li>
+          <li>
+            <a href="../pages/learning.html"
+               class="text-sm transition-colors duration-150 no-underline"
+               style="color:var(--color-text-tertiary);"
+               onmouseenter="this.style.color='var(--color-text-link)'"
+               onmouseleave="this.style.color='var(--color-text-tertiary)'">
+              学习资料
+            </a>
+          </li>
+          <li>
+            <a href="../pages/ai-share.html"
+               class="text-sm transition-colors duration-150 no-underline"
+               style="color:var(--color-text-tertiary);"
+               onmouseenter="this.style.color='var(--color-text-link)'"
+               onmouseleave="this.style.color='var(--color-text-tertiary)'">
+              AI 分享
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Social / Contact -->
+      <div>
+        <h3 class="mb-4" style="font-family:var(--font-body); font-weight:600; font-size:var(--text-sm); color:var(--color-text-primary); letter-spacing:var(--tracking-wide); text-transform:uppercase;">
+          联系方式
+        </h3>
+        <ul class="flex flex-col gap-3 list-none m-0 p-0">
+          <li class="flex items-center gap-2">
+            <i data-lucide="mail" style="width:16px; height:16px; color:var(--color-text-tertiary);"></i>
+            <span class="text-sm" style="color:var(--color-text-tertiary);">hello@cineverse.site</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <i data-lucide="github" style="width:16px; height:16px; color:var(--color-text-tertiary);"></i>
+            <a href="#" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">GitHub</a>
+          </li>
+          <li class="flex items-center gap-2">
+            <i data-lucide="twitter" style="width:16px; height:16px; color:var(--color-text-tertiary);"></i>
+            <a href="#" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">Twitter</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="mt-10 pt-6 border-t" style="border-color:var(--color-border-subtle);">
+      <p class="text-center" style="font-family:var(--font-body); font-size:var(--text-xs); color:var(--color-text-tertiary);">
+        &copy; 2026 CineVerse. All rights reserved.
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+<!-- Lucide Icons Init -->
+<script>lucide.createIcons();</script>

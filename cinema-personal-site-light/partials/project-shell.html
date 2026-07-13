@@ -1,0 +1,153 @@
+<!-- Fixed Top Navbar -->
+<header class="fixed top-0 left-0 w-full z-50" style="background: var(--color-bg-elevated); border-bottom: 1px solid var(--color-border-subtle);">
+  <nav class="mx-auto flex items-center justify-between" style="max-width: var(--container-max); height: 64px; padding: 0 var(--content-padding);">
+    <!-- Logo -->
+    <a href="#" class="shrink-0 cine-display" style="color: var(--color-primary); font-size: var(--text-xl); text-decoration: none;">
+      CineVerse
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <div class="hidden md:flex items-center gap-1">
+      <a href="#" data-nav-key="index" data-dom-id="nav-index"
+         class="px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 whitespace-nowrap"
+         style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);"
+         onmouseover="this.style.background='var(--color-primary-tint-1)';this.style.color='var(--color-primary)'"
+         onmouseout="this.style.background='transparent';this.style.color='var(--color-text-secondary)'">
+        首页
+      </a>
+      <a href="#" data-nav-key="movie-recommend" data-dom-id="nav-movie-recommend"
+         class="px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 whitespace-nowrap"
+         style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);"
+         onmouseover="this.style.background='var(--color-primary-tint-1)';this.style.color='var(--color-primary)'"
+         onmouseout="this.style.background='transparent';this.style.color='var(--color-text-secondary)'">
+        影视推荐
+      </a>
+      <a href="#" data-nav-key="learning" data-dom-id="nav-learning"
+         class="px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 whitespace-nowrap"
+         style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);"
+         onmouseover="this.style.background='var(--color-primary-tint-1)';this.style.color='var(--color-primary)'"
+         onmouseout="this.style.background='transparent';this.style.color='var(--color-text-secondary)'">
+        学习资料
+      </a>
+      <a href="#" data-nav-key="ai-share" data-dom-id="nav-ai-share"
+         class="px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 whitespace-nowrap"
+         style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);"
+         onmouseover="this.style.background='var(--color-primary-tint-1)';this.style.color='var(--color-primary)'"
+         onmouseout="this.style.background='transparent';this.style.color='var(--color-text-secondary)'">
+        AI 分享
+      </a>
+    </div>
+
+    <!-- Right: Search + Mobile Hamburger -->
+    <div class="flex items-center gap-3">
+      <!-- Search Icon (pill) -->
+      <button class="hidden sm:flex items-center justify-center rounded-full border shrink-0 transition-colors duration-150"
+              style="width: 36px; height: 36px; border-color: var(--color-border-default); background: transparent; color: var(--color-text-secondary);"
+              aria-label="搜索">
+        <i data-lucide="search" style="width: 16px; height: 16px;"></i>
+      </button>
+      <!-- Mobile Hamburger -->
+      <button class="md:hidden flex items-center justify-center rounded-lg shrink-0"
+              style="width: 40px; height: 40px; background: transparent; color: var(--color-text-primary);"
+              aria-label="菜单">
+        <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+      </button>
+    </div>
+    <!-- SLOT: activeNavItem -->
+  </nav>
+
+  <!-- Mobile Nav Drawer -->
+  <div class="md:hidden overflow-hidden transition-all duration-250" style="max-height: 0; background: var(--color-bg-elevated); border-bottom: 1px solid var(--color-border-subtle);" id="mobile-nav">
+    <div class="flex flex-col px-4 py-3 gap-1">
+      <a href="#" data-nav-key="index" data-dom-id="nav-index"
+         class="px-4 py-3 rounded-lg text-sm font-medium whitespace-nowrap"
+         style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);">
+        首页
+      </a>
+      <a href="#" data-nav-key="movie-recommend" data-dom-id="nav-movie-recommend"
+         class="px-4 py-3 rounded-lg text-sm font-medium whitespace-nowrap"
+         style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);">
+        影视推荐
+      </a>
+      <a href="#" data-nav-key="learning" data-dom-id="nav-learning"
+         class="px-4 py-3 rounded-lg text-sm font-medium whitespace-nowrap"
+         style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);">
+        学习资料
+      </a>
+      <a href="#" data-nav-key="ai-share" data-dom-id="nav-ai-share"
+         class="px-4 py-3 rounded-lg text-sm font-medium whitespace-nowrap"
+         style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);">
+        AI 分享
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Page Body Frame -->
+<main class="min-h-screen" style="background: var(--color-bg-base); padding-top: 64px;">
+  <div class="mx-auto" style="max-width: var(--container-max); padding: var(--space-10) var(--content-padding);">
+    <!-- SLOT: pageContent -->
+  </div>
+</main>
+
+<!-- Footer -->
+<footer style="background: var(--color-bg-surface); border-top: 1px solid var(--color-border-subtle);">
+  <div class="mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12" style="max-width: var(--container-max); padding: var(--space-12) var(--content-padding);">
+    <!-- Brand Column -->
+    <div class="flex flex-col gap-3">
+      <span class="cine-display" style="color: var(--color-primary); font-size: var(--text-xl);">CineVerse</span>
+      <p class="text-sm" style="color: var(--color-text-secondary); line-height: var(--leading-normal); font-family: var(--font-body);">
+        探索光影世界，分享智慧火花
+      </p>
+    </div>
+
+    <!-- Quick Links Column -->
+    <div class="flex flex-col gap-3">
+      <span class="text-sm font-medium" style="color: var(--color-text-primary); font-family: var(--font-body);">快速导航</span>
+      <div class="flex flex-col gap-2">
+        <a href="#" data-nav-key="index" class="text-sm transition-colors duration-150 whitespace-nowrap" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);"
+           onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">首页</a>
+        <a href="#" data-nav-key="movie-recommend" class="text-sm transition-colors duration-150 whitespace-nowrap" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);"
+           onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">影视推荐</a>
+        <a href="#" data-nav-key="learning" class="text-sm transition-colors duration-150 whitespace-nowrap" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);"
+           onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">学习资料</a>
+        <a href="#" data-nav-key="ai-share" class="text-sm transition-colors duration-150 whitespace-nowrap" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-body);"
+           onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">AI 分享</a>
+      </div>
+    </div>
+
+    <!-- Social / Contact Column -->
+    <div class="flex flex-col gap-3">
+      <span class="text-sm font-medium" style="color: var(--color-text-primary); font-family: var(--font-body);">联系方式</span>
+      <div class="flex items-center gap-3">
+        <a href="#" class="flex items-center justify-center rounded-lg transition-colors duration-150" style="width: 36px; height: 36px; background: var(--color-primary-tint-2); color: var(--color-text-secondary); text-decoration: none;"
+           onmouseover="this.style.background='var(--color-primary-tint-1)';this.style.color='var(--color-primary)'"
+           onmouseout="this.style.background='var(--color-primary-tint-2)';this.style.color='var(--color-text-secondary)'"
+           aria-label="GitHub">
+          <i data-lucide="github" style="width: 18px; height: 18px;"></i>
+        </a>
+        <a href="#" class="flex items-center justify-center rounded-lg transition-colors duration-150" style="width: 36px; height: 36px; background: var(--color-primary-tint-2); color: var(--color-text-secondary); text-decoration: none;"
+           onmouseover="this.style.background='var(--color-primary-tint-1)';this.style.color='var(--color-primary)'"
+           onmouseout="this.style.background='var(--color-primary-tint-2)';this.style.color='var(--color-text-secondary)'"
+           aria-label="Twitter">
+          <i data-lucide="twitter" style="width: 18px; height: 18px;"></i>
+        </a>
+        <a href="#" class="flex items-center justify-center rounded-lg transition-colors duration-150" style="width: 36px; height: 36px; background: var(--color-primary-tint-2); color: var(--color-text-secondary); text-decoration: none;"
+           onmouseover="this.style.background='var(--color-primary-tint-1)';this.style.color='var(--color-primary)'"
+           onmouseout="this.style.background='var(--color-primary-tint-2)';this.style.color='var(--color-text-secondary)'"
+           aria-label="Email">
+          <i data-lucide="mail" style="width: 18px; height: 18px;"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copyright Bar -->
+  <div class="mx-auto" style="max-width: var(--container-max); padding: 0 var(--content-padding) var(--space-8);">
+    <div class="pb-6" style="border-top: 1px solid var(--color-border-subtle);">
+      <p class="pt-6 text-xs" style="color: var(--color-text-tertiary); font-family: var(--font-body);">
+        &copy; 2026 CineVerse. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>

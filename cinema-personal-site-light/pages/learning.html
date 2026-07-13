@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习资料 - CineHub</title>
+    <style id="theme-vars">
+/* Cinema Personal Site - Bright Editorial Theme */
+/* Brand prefix: cine */
+
+:root {
+  /* === Primary Color System === */
+  --color-primary: #E85D3A;
+  --color-primary-light: #F2845F;
+  --color-primary-dark: #C44A2B;
+  --color-primary-tint-1: rgba(232,93,58,0.10);
+  --color-primary-tint-2: rgba(232,93,58,0.05);
+  --color-primary-tint-3: rgba(232,93,58,0.03);
+
+  /* === Neutral Scale (Warm Light) === */
+  --color-bg-base: #FAFAF8;
+  --color-bg-elevated: #FFFFFF;
+  --color-bg-surface: #F3F2EF;
+  --color-bg-muted: #EAEAE6;
+  --color-bg-overlay: rgba(250,250,248,0.90);
+  --color-border-default: #E0DFDB;
+  --color-border-subtle: #EDECE8;
+  --color-border-strong: #CCCBC6;
+
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #6B6B6B;
+  --color-text-tertiary: #9A9A96;
+  --color-text-inverse: #FFFFFF;
+  --color-text-link: #E85D3A;
+
+  /* === State Colors === */
+  --state-success: #2DA86A;
+  --state-warning: #E8A33A;
+  --state-error: #DC3545;
+  --state-info: #3B82F6;
+
+  /* === Shape System === */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* === Typography === */
+  --font-display: 'Playfair Display', Georgia, 'Noto Serif SC', serif;
+  --font-body: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  /* === Spacing Scale === */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.05);
+  --shadow-glow: 0 0 20px rgba(232,93,58,0.12);
+
+  /* === Transitions === */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* === Container === */
+  --container-max: 1200px;
+  --content-padding: 24px;
+}
+
+/* === Typography Classes === */
+.cine-display { font-family: var(--font-display); font-weight: 700; letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.cine-display-lg { font-family: var(--font-display); font-weight: 700; font-size: var(--text-4xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.cine-heading { font-family: var(--font-display); font-weight: 600; font-size: var(--text-2xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-snug); }
+.cine-subheading { font-family: var(--font-body); font-weight: 500; font-size: var(--text-lg); line-height: var(--leading-snug); color: var(--color-text-secondary); }
+.cine-body { font-family: var(--font-body); font-size: var(--text-base); line-height: var(--leading-normal); color: var(--color-text-primary); }
+.cine-body-sm { font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
+.cine-caption { font-family: var(--font-body); font-size: var(--text-xs); line-height: var(--leading-normal); color: var(--color-text-tertiary); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+.cine-mono { font-family: var(--font-mono); font-size: var(--text-sm); }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--color-bg-base);
+    --color-foreground: var(--color-text-primary);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--color-text-inverse);
+    --color-muted: var(--color-bg-muted);
+    --color-muted-foreground: var(--color-text-secondary);
+    --color-card: var(--color-bg-elevated);
+    --color-card-foreground: var(--color-text-primary);
+    --color-border: var(--color-border-default);
+    --color-ring: var(--color-primary);
+    --color-destructive: var(--state-error);
+    --color-accent: var(--color-primary);
+    --color-accent-foreground: var(--color-text-inverse);
+    --color-popover: var(--color-bg-elevated);
+    --color-popover-foreground: var(--color-text-primary);
+    --color-sidebar: var(--color-bg-surface);
+    --color-sidebar-foreground: var(--color-text-primary);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+    --font-display: var(--font-display);
+    --font-body: var(--font-body);
+    --font-mono: var(--font-mono);
+  }
+
+  @layer base {
+    body { background: var(--color-bg-base); color: var(--color-text-primary); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+
+<!-- Fixed Top Navigation -->
+<nav style="background:var(--color-bg-elevated); border-bottom:1px solid var(--color-border-subtle);" class="fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-[1200px] mx-auto px-6 flex items-center justify-between" style="height:64px;">
+    <a href="#" class="cine-display text-xl shrink-0" style="color:var(--color-primary);">CineHub</a>
+    <div class="flex items-center gap-8">
+      <a href="#" data-dom-id="nav-index" class="hidden sm:inline text-sm font-medium transition-colors duration-150 hover:opacity-80" style="color:var(--color-text-secondary);">首页</a>
+      <a href="#" data-dom-id="nav-movie-recommend" class="hidden sm:inline text-sm font-medium transition-colors duration-150 hover:opacity-80" style="color:var(--color-text-secondary);">影视推荐</a>
+      <a href="#" data-dom-id="nav-learning" class="hidden sm:inline text-sm font-medium" style="color:var(--color-primary); border-bottom:2px solid var(--color-primary); padding-bottom:2px;">学习资料</a>
+      <a href="#" data-dom-id="nav-ai-share" class="hidden sm:inline text-sm font-medium transition-colors duration-150 hover:opacity-80" style="color:var(--color-text-secondary);">AI 分享</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full" style="background:var(--color-bg-surface); border:1px solid var(--color-border-subtle);">
+        <i data-lucide="search" style="width:14px;height:14px;color:var(--color-text-tertiary);"></i>
+        <span class="text-xs" style="color:var(--color-text-tertiary);">搜索</span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="pt-16">
+
+  <!-- ===== Compact Hero ===== -->
+  <section class="py-8 px-6">
+    <div class="max-w-[1200px] mx-auto">
+      <div style="background:var(--color-bg-elevated); border-top:3px solid var(--color-primary); box-shadow:var(--shadow-sm);" class="rounded-[var(--radius-lg)] p-6 md:p-8">
+        <nav class="flex items-center gap-2 text-xs mb-4" style="color:var(--color-text-tertiary);">
+          <a href="#" data-dom-id="nav-index" class="transition-colors duration-150 hover:underline" style="color:var(--color-text-link);">首页</a>
+          <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
+          <span style="color:var(--color-text-secondary);">学习资料</span>
+        </nav>
+        <h1 class="cine-display" style="font-size:clamp(28px,3.5vw,48px); text-wrap:balance; word-break:keep-all; color:var(--color-text-primary);">学习资料</h1>
+        <p class="mt-3" style="color:var(--color-text-secondary); font-size:var(--text-lg); max-width:560px;">影视制作、剪辑技巧、AI创作 — 系统化的学习路径</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Category Tabs ===== -->
+  <section class="px-6 pb-2">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="flex items-center gap-6 overflow-x-auto no-scrollbar" style="border-bottom:1px solid var(--color-border-subtle);">
+        <button class="shrink-0 pb-3 text-sm font-medium transition-colors duration-150" style="color:var(--color-primary); border-bottom:2px solid var(--color-primary);">全部</button>
+        <button class="shrink-0 pb-3 text-sm font-medium transition-colors duration-150 hover:opacity-70" style="color:var(--color-text-secondary); border-bottom:2px solid transparent;">影视制作</button>
+        <button class="shrink-0 pb-3 text-sm font-medium transition-colors duration-150 hover:opacity-70" style="color:var(--color-text-secondary); border-bottom:2px solid transparent;">剪辑教程</button>
+        <button class="shrink-0 pb-3 text-sm font-medium transition-colors duration-150 hover:opacity-70" style="color:var(--color-text-secondary); border-bottom:2px solid transparent;">色彩学</button>
+        <button class="shrink-0 pb-3 text-sm font-medium transition-colors duration-150 hover:opacity-70" style="color:var(--color-text-secondary); border-bottom:2px solid transparent;">音效设计</button>
+        <button class="shrink-0 pb-3 text-sm font-medium transition-colors duration-150 hover:opacity-70" style="color:var(--color-text-secondary); border-bottom:2px solid transparent;">AI创作</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 2-Column Layout ===== -->
+  <section class="py-8 px-6">
+    <div class="max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-8">
+
+      <!-- Left: Resource Grid (2/3) -->
+      <div class="flex-1 min-w-0">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          <!-- Card 1: Premiere Pro 快速入门 -->
+          <article style="background:var(--color-bg-elevated); box-shadow:var(--shadow-sm); border:1px solid var(--color-border-subtle);" class="rounded-[var(--radius-lg)] p-5 flex flex-col transition-shadow duration-250 hover:shadow-[var(--shadow-md)]">
+            <div class="flex items-start gap-3 mb-3">
+              <div class="shrink-0 w-10 h-10 rounded-[var(--radius-md)] flex items-center justify-center" style="background:linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                <i data-lucide="clapperboard" style="width:18px;height:18px;color:var(--color-primary);"></i>
+              </div>
+              <h3 class="cine-heading text-base truncate" style="font-size:var(--text-lg);">Premiere Pro 快速入门</h3>
+            </div>
+            <p class="text-sm line-clamp-2 mb-3" style="color:var(--color-text-secondary);">从零掌握 Premiere Pro 基础操作，包括时间线剪辑、转场应用、字幕添加与导出设置。</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-primary-tint-1); color:var(--color-primary);">剪辑教程</span>
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-bg-surface); color:var(--color-text-secondary);">入门</span>
+            </div>
+            <div class="mt-auto flex items-center justify-between text-xs" style="color:var(--color-text-tertiary); border-top:1px solid var(--color-border-subtle); padding-top:12px;">
+              <span>12 课时</span>
+              <a href="#" class="font-medium transition-colors duration-150 hover:underline" style="color:var(--color-primary);">开始学习</a>
+            </div>
+          </article>
+
+          <!-- Card 2: 电影色彩理论基础 -->
+          <article style="background:var(--color-bg-elevated); box-shadow:var(--shadow-sm); border:1px solid var(--color-border-subtle);" class="rounded-[var(--radius-lg)] p-5 flex flex-col transition-shadow duration-250 hover:shadow-[var(--shadow-md)]">
+            <div class="flex items-start gap-3 mb-3">
+              <div class="shrink-0 w-10 h-10 rounded-[var(--radius-md)] flex items-center justify-center" style="background:linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                <i data-lucide="palette" style="width:18px;height:18px;color:var(--color-primary);"></i>
+              </div>
+              <h3 class="cine-heading text-base truncate" style="font-size:var(--text-lg);">电影色彩理论基础</h3>
+            </div>
+            <p class="text-sm line-clamp-2 mb-3" style="color:var(--color-text-secondary);">理解色彩心理学与色轮原理，掌握冷/暖色调叙事手法和色彩对比在电影中的运用。</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-primary-tint-1); color:var(--color-primary);">色彩学</span>
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-bg-surface); color:var(--color-text-secondary);">入门</span>
+            </div>
+            <div class="mt-auto flex items-center justify-between text-xs" style="color:var(--color-text-tertiary); border-top:1px solid var(--color-border-subtle); padding-top:12px;">
+              <span>8 课时</span>
+              <a href="#" class="font-medium transition-colors duration-150 hover:underline" style="color:var(--color-primary);">开始学习</a>
+            </div>
+          </article>
+
+          <!-- Card 3: DaVinci Resolve 调色实战 -->
+          <article style="background:var(--color-bg-elevated); box-shadow:var(--shadow-sm); border:1px solid var(--color-border-subtle);" class="rounded-[var(--radius-lg)] p-5 flex flex-col transition-shadow duration-250 hover:shadow-[var(--shadow-md)]">
+            <div class="flex items-start gap-3 mb-3">
+              <div class="shrink-0 w-10 h-10 rounded-[var(--radius-md)] flex items-center justify-center" style="background:linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                <i data-lucide="sliders-horizontal" style="width:18px;height:18px;color:var(--color-primary);"></i>
+              </div>
+              <h3 class="cine-heading text-base truncate" style="font-size:var(--text-lg);">DaVinci Resolve 调色实战</h3>
+            </div>
+            <p class="text-sm line-clamp-2 mb-3" style="color:var(--color-text-secondary);">深入 DaVinci Resolve 调色页面，学习节点式调色、LUT 应用和 HDR 流程。</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-primary-tint-1); color:var(--color-primary);">色彩学</span>
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-bg-surface); color:var(--color-text-secondary);">进阶</span>
+            </div>
+            <div class="mt-auto flex items-center justify-between text-xs" style="color:var(--color-text-tertiary); border-top:1px solid var(--color-border-subtle); padding-top:12px;">
+              <span>16 课时</span>
+              <a href="#" class="font-medium transition-colors duration-150 hover:underline" style="color:var(--color-primary);">开始学习</a>
+            </div>
+          </article>
+
+          <!-- Card 4: AI 视频生成入门 -->
+          <article style="background:var(--color-bg-elevated); box-shadow:var(--shadow-sm); border:1px solid var(--color-border-subtle);" class="rounded-[var(--radius-lg)] p-5 flex flex-col transition-shadow duration-250 hover:shadow-[var(--shadow-md)]">
+            <div class="flex items-start gap-3 mb-3">
+              <div class="shrink-0 w-10 h-10 rounded-[var(--radius-md)] flex items-center justify-center" style="background:linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                <i data-lucide="sparkles" style="width:18px;height:18px;color:var(--color-primary);"></i>
+              </div>
+              <h3 class="cine-heading text-base truncate" style="font-size:var(--text-lg);">AI 视频生成入门</h3>
+            </div>
+            <p class="text-sm line-clamp-2 mb-3" style="color:var(--color-text-secondary);">掌握 Runway、Sora 等 AI 视频工具的使用方法，了解文本到视频的生成原理与最佳实践。</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-primary-tint-1); color:var(--color-primary);">AI创作</span>
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-bg-surface); color:var(--color-text-secondary);">入门</span>
+            </div>
+            <div class="mt-auto flex items-center justify-between text-xs" style="color:var(--color-text-tertiary); border-top:1px solid var(--color-border-subtle); padding-top:12px;">
+              <span>10 课时</span>
+              <a href="#" class="font-medium transition-colors duration-150 hover:underline" style="color:var(--color-primary);">开始学习</a>
+            </div>
+          </article>
+
+          <!-- Card 5: 影视音效设计指南 -->
+          <article style="background:var(--color-bg-elevated); box-shadow:var(--shadow-sm); border:1px solid var(--color-border-subtle);" class="rounded-[var(--radius-lg)] p-5 flex flex-col transition-shadow duration-250 hover:shadow-[var(--shadow-md)]">
+            <div class="flex items-start gap-3 mb-3">
+              <div class="shrink-0 w-10 h-10 rounded-[var(--radius-md)] flex items-center justify-center" style="background:linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                <i data-lucide="volume-2" style="width:18px;height:18px;color:var(--color-primary);"></i>
+              </div>
+              <h3 class="cine-heading text-base truncate" style="font-size:var(--text-lg);">影视音效设计指南</h3>
+            </div>
+            <p class="text-sm line-clamp-2 mb-3" style="color:var(--color-text-secondary);">学习环境音、拟音和声音混录技巧，掌握 Audition 与 Pro Tools 核心工作流。</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-primary-tint-1); color:var(--color-primary);">音效设计</span>
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-bg-surface); color:var(--color-text-secondary);">进阶</span>
+            </div>
+            <div class="mt-auto flex items-center justify-between text-xs" style="color:var(--color-text-tertiary); border-top:1px solid var(--color-border-subtle); padding-top:12px;">
+              <span>14 课时</span>
+              <a href="#" class="font-medium transition-colors duration-150 hover:underline" style="color:var(--color-primary);">开始学习</a>
+            </div>
+          </article>
+
+          <!-- Card 6: 短视频拍摄技巧 -->
+          <article style="background:var(--color-bg-elevated); box-shadow:var(--shadow-sm); border:1px solid var(--color-border-subtle);" class="rounded-[var(--radius-lg)] p-5 flex flex-col transition-shadow duration-250 hover:shadow-[var(--shadow-md)]">
+            <div class="flex items-start gap-3 mb-3">
+              <div class="shrink-0 w-10 h-10 rounded-[var(--radius-md)] flex items-center justify-center" style="background:linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                <i data-lucide="video" style="width:18px;height:18px;color:var(--color-primary);"></i>
+              </div>
+              <h3 class="cine-heading text-base truncate" style="font-size:var(--text-lg);">短视频拍摄技巧</h3>
+            </div>
+            <p class="text-sm line-clamp-2 mb-3" style="color:var(--color-text-secondary);">手机与微单拍摄实战，涵盖构图法则、光线运用、稳定器操作和后期快速出片。</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-primary-tint-1); color:var(--color-primary);">影视制作</span>
+              <span class="shrink-0 px-2 py-0.5 rounded-[var(--radius-sm)] text-xs whitespace-nowrap" style="background:var(--color-bg-surface); color:var(--color-text-secondary);">入门</span>
+            </div>
+            <div class="mt-auto flex items-center justify-between text-xs" style="color:var(--color-text-tertiary); border-top:1px solid var(--color-border-subtle); padding-top:12px;">
+              <span>9 课时</span>
+              <a href="#" class="font-medium transition-colors duration-150 hover:underline" style="color:var(--color-primary);">开始学习</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- Right: Sidebar (1/3) -->
+      <aside class="w-full lg:w-[320px] shrink-0 flex flex-col gap-5">
+
+        <!-- My Learning Card -->
+        <div style="background:var(--color-bg-elevated); border-top:3px solid var(--color-primary); box-shadow:var(--shadow-sm); border:1px solid var(--color-border-subtle); border-top:3px solid var(--color-primary);" class="rounded-[var(--radius-lg)] p-5">
+          <h3 class="cine-heading text-base mb-4" style="font-size:var(--text-base);">我的学习</h3>
+          <div class="grid grid-cols-3 gap-3 mb-4">
+            <div class="text-center">
+              <div class="cine-display text-xl" style="color:var(--color-primary);">3</div>
+              <div class="text-xs mt-1" style="color:var(--color-text-tertiary);">进行中</div>
+            </div>
+            <div class="text-center">
+              <div class="cine-display text-xl" style="color:var(--color-text-primary);">12</div>
+              <div class="text-xs mt-1" style="color:var(--color-text-tertiary);">已完成</div>
+            </div>
+            <div class="text-center">
+              <div class="cine-display text-xl" style="color:var(--color-text-primary);">28h</div>
+              <div class="text-xs mt-1" style="color:var(--color-text-tertiary);">总学时</div>
+            </div>
+          </div>
+          <div style="border-top:1px solid var(--color-border-subtle);" class="pt-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-medium truncate" style="color:var(--color-text-primary);">Premiere Pro 快速入门</span>
+              <span class="shrink-0 text-xs" style="color:var(--color-primary);">67%</span>
+            </div>
+            <div class="w-full h-1.5 rounded-full" style="background:var(--color-bg-surface);">
+              <div class="h-full rounded-full" style="width:67%; background:var(--color-primary); transition:width 250ms ease;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommended Path Card -->
+        <div style="background:var(--color-bg-elevated); box-shadow:var(--shadow-sm); border:1px solid var(--color-border-subtle);" class="rounded-[var(--radius-lg)] p-5">
+          <h3 class="cine-heading text-base mb-4" style="font-size:var(--text-base);">推荐路径</h3>
+          <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="route" style="width:16px;height:16px;color:var(--color-primary);"></i>
+            <span class="text-sm font-medium" style="color:var(--color-text-primary);">从零到剪辑师</span>
+          </div>
+          <div class="flex flex-col gap-3">
+            <div class="flex items-start gap-3">
+              <div class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5" style="background:var(--color-primary);">
+                <i data-lucide="check" style="width:12px;height:12px;color:var(--color-text-inverse);"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="text-sm font-medium truncate" style="color:var(--color-text-primary);">短视频拍摄技巧</div>
+                <div class="text-xs" style="color:var(--color-text-tertiary);">掌握基础拍摄</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5" style="background:var(--color-primary);">
+                <i data-lucide="check" style="width:12px;height:12px;color:var(--color-text-inverse);"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="text-sm font-medium truncate" style="color:var(--color-text-primary);">Premiere Pro 快速入门</div>
+                <div class="text-xs" style="color:var(--color-text-tertiary);">学习剪辑软件</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5" style="background:var(--color-bg-surface); border:1px solid var(--color-border-default);">
+                <div class="w-2 h-2 rounded-full" style="background:var(--color-text-tertiary);"></div>
+              </div>
+              <div class="min-w-0">
+                <div class="text-sm font-medium truncate" style="color:var(--color-text-secondary);">电影色彩理论基础</div>
+                <div class="text-xs" style="color:var(--color-text-tertiary);">理解色彩叙事</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5" style="background:var(--color-bg-surface); border:1px solid var(--color-border-default);">
+                <div class="w-2 h-2 rounded-full" style="background:var(--color-text-tertiary);"></div>
+              </div>
+              <div class="min-w-0">
+                <div class="text-sm font-medium truncate" style="color:var(--color-text-secondary);">DaVinci Resolve 调色实战</div>
+                <div class="text-xs" style="color:var(--color-text-tertiary);">进阶调色技能</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===== Bottom CTA Strip ===== -->
+  <section class="px-6 pb-12">
+    <div class="max-w-[1200px] mx-auto">
+      <div style="background:var(--color-bg-surface);" class="rounded-[var(--radius-lg)] p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-sm" style="color:var(--color-text-secondary);">找不到需要的资源？</p>
+        <a href="#" data-dom-id="cta-ai-share" class="shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-md)] text-sm font-medium transition-colors duration-150 hover:opacity-90" style="border:1px solid var(--color-primary); color:var(--color-primary);">
+          <i data-lucide="message-circle-plus" style="width:16px;height:16px;"></i>
+          提交需求
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer style="background:var(--color-bg-surface); border-top:1px solid var(--color-border-subtle);" class="py-8 px-6">
+  <div class="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <span class="cine-display text-sm" style="color:var(--color-primary);">CineHub</span>
+    <div class="flex items-center gap-6">
+      <a href="#" class="text-xs transition-colors duration-150 hover:underline" style="color:var(--color-text-secondary);">关于</a>
+      <a href="#" class="text-xs transition-colors duration-150 hover:underline" style="color:var(--color-text-secondary);">联系</a>
+      <a href="#" class="text-xs transition-colors duration-150 hover:underline" style="color:var(--color-text-secondary);">订阅</a>
+    </div>
+    <span class="text-xs" style="color:var(--color-text-tertiary);">2025 CineHub</span>
+  </div>
+</footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

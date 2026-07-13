@@ -1,0 +1,281 @@
+{
+  "project": {
+    "name": "影视娱乐个人主页（明亮版）",
+    "path": "f:\\workspace\\yigeyingshi\\cinema-personal-site-light",
+    "operation": "create",
+    "deviceType": "desktop",
+    "language": "zh-CN",
+    "dashboardMode": false,
+    "replicationMode": null,
+    "sourceUrl": null,
+    "visualSpecExcerpt": null,
+    "styleDefinitionBrief": "明亮编辑风 — 温暖奶白底色搭配珊瑚红点缀，清爽通透的杂志排版感。Playfair Display 衬线标题增添文艺气质，Inter 正文保持高可读性。整体明亮开朗但不失品质感。",
+    "designRead": "personal entertainment portal / cinephile & tech enthusiasts / bright editorial warmth / medium density / avoid neon glow and cold blue",
+    "designDials": {
+      "layoutVariance": 4,
+      "motionIntensity": 2,
+      "visualDensity": 3
+    },
+    "styleContinuityAnchors": {
+      "colorSystem": {
+        "primaryColorRole": "Coral accent (#E85D3A) for highlights, active states, and decorative warmth",
+        "brandHuePolicy": "Single coral primary hue; categories use text labels, icons, and neutral tints",
+        "stateColors": "semantic success/warning/error/info tokens only"
+      },
+      "shapeSystem": "Restrained radius: sm=4px, md=8px, lg=12px, full=9999px. Max 12px for cards/buttons.",
+      "typographySystem": "Display: Playfair Display (serif) for headings; Body: Inter for text; Mono: JetBrains Mono for tech content. Chinese fallback: PingFang SC, Microsoft YaHei.",
+      "spacingSystem": "4px base grid, 16/24/32/48/64/80px scale",
+      "componentLanguage": "White surface cards with subtle warm borders, soft shadow lift. Hover states use coral warmth.",
+      "surfaceAndDepth": "Shadow-led surface layering on warm white; coral tint for hover/focus accents.",
+      "imageryAndIconography": "Bright editorial photography, warm natural tones. Icons use CSS masks with coral accent on white.",
+      "interactionTone": "Subtle coral transitions (250ms ease). Cards lift slightly on hover with warm shadow."
+    },
+    "specsConstraints": null,
+    "sharedProjectShellContract": {
+      "navigationShell": "Fixed top navbar with white bg-elevated, coral logo text on left, nav links center/right, rounded-full pill search on right. Active nav: coral text + bottom accent line.",
+      "primaryColorSystem": "Coral #E85D3A primary; no secondary or accent brand hue",
+      "typographySystem": "Playfair Display for display/headings; Inter for body; JetBrains Mono for code/tech",
+      "radiusScale": "sm=4px, md=8px, lg=12px, full=9999px",
+      "surfaceDepthModel": "Shadow-led surfaces on warm white; static shadow alpha <= 0.05; coral glow for hover/focus",
+      "ctaStyle": "Coral bg-primary CTA buttons, rounded-lg, white text; secondary CTAs: coral border only",
+      "alignmentRules": "Left-aligned content blocks, centered hero text, responsive grid with consistent gutters"
+    },
+    "generationTree": {
+      "root": {
+        "nodeId": "gen-project-shell",
+        "kind": "project-shell",
+        "pageIds": ["page-index", "page-movie-recommend", "page-learning", "page-ai-share"],
+        "output": "partials/project-shell.html",
+        "sharedRegions": ["fixed-top-navbar", "page-body-frame", "footer"],
+        "privateRegions": [],
+        "mutableSlots": ["activeNavItem", "pageTitle"],
+        "status": "planned",
+        "children": [
+          {
+            "nodeId": "gen-page-index",
+            "kind": "page-leaf",
+            "pageIds": ["page-index"],
+            "output": "pages/index.html",
+            "status": "planned",
+            "children": []
+          },
+          {
+            "nodeId": "gen-page-movie-recommend",
+            "kind": "page-leaf",
+            "pageIds": ["page-movie-recommend"],
+            "output": "pages/movie-recommend.html",
+            "status": "planned",
+            "children": []
+          },
+          {
+            "nodeId": "gen-page-learning",
+            "kind": "page-leaf",
+            "pageIds": ["page-learning"],
+            "output": "pages/learning.html",
+            "status": "planned",
+            "children": []
+          },
+          {
+            "nodeId": "gen-page-ai-share",
+            "kind": "page-leaf",
+            "pageIds": ["page-ai-share"],
+            "output": "pages/ai-share.html",
+            "status": "planned",
+            "children": []
+          }
+        ]
+      }
+    }
+  },
+  "designSource": {
+    "operatingMode": "free-explore",
+    "libraryIdentity": { "name": null, "id": null, "version": null, "scope": null, "path": null, "versionSource": null },
+    "libraryPath": null,
+    "cssFilePath": "f:\\workspace\\yigeyingshi\\cinema-personal-site-light\\colors_and_type.css",
+    "brandPrefix": "cine",
+    "themeMode": "dark",
+    "designDecisionSummary": "Bright editorial theme with coral accent. Playfair Display serif for headings, Inter for body. Shadow-led surface layering on warm white, coral warmth for interactive states.",
+    "componentContractKind": null,
+    "forbiddenInventedComponents": [],
+    "allowedComponents": [],
+    "styleConstraints": {
+      "radiusMax": 12,
+      "spacingBase": 4,
+      "fontSizeBody": 15,
+      "fontSizeMin": 12,
+      "controlHeightDefault": 36,
+      "controlHeightLarge": 42
+    },
+    "productContext": {
+      "kitType": "personal-portal",
+      "productType": "entertainment & knowledge sharing website"
+    },
+    "actualTokenNameReference": [
+      { "semanticPurpose": "Primary accent", "tokenName": "color-primary" },
+      { "semanticPurpose": "Primary light", "tokenName": "color-primary-light" },
+      { "semanticPurpose": "Primary dark", "tokenName": "color-primary-dark" },
+      { "semanticPurpose": "Primary tint bg", "tokenName": "color-primary-tint-1" },
+      { "semanticPurpose": "Base background", "tokenName": "color-bg-base" },
+      { "semanticPurpose": "Elevated background", "tokenName": "color-bg-elevated" },
+      { "semanticPurpose": "Surface background", "tokenName": "color-bg-surface" },
+      { "semanticPurpose": "Muted background", "tokenName": "color-bg-muted" },
+      { "semanticPurpose": "Overlay background", "tokenName": "color-bg-overlay" },
+      { "semanticPurpose": "Default border", "tokenName": "color-border-default" },
+      { "semanticPurpose": "Subtle border", "tokenName": "color-border-subtle" },
+      { "semanticPurpose": "Strong border", "tokenName": "color-border-strong" },
+      { "semanticPurpose": "Primary text", "tokenName": "color-text-primary" },
+      { "semanticPurpose": "Secondary text", "tokenName": "color-text-secondary" },
+      { "semanticPurpose": "Tertiary text", "tokenName": "color-text-tertiary" },
+      { "semanticPurpose": "Link text", "tokenName": "color-text-link" }
+    ]
+  },
+  "pages": [
+    {
+      "nodeId": "page-index",
+      "slug": "index",
+      "title": "首页",
+      "htmlSrc": "pages/index.html",
+      "pageIndex": 1,
+      "stateGroupId": null,
+      "stateRole": null,
+      "baseStatePageId": null,
+      "sharedShellContract": [],
+      "mutableRegions": [],
+      "derivedFromHtmlSrc": null,
+      "derivationType": "original",
+      "sourcePageId": null,
+      "sourceHtmlSrc": null,
+      "pageType": "showcase",
+      "businessScenario": "Landing page showcasing site identity, featured movies, latest posts, and AI highlights",
+      "visualNorthStar": "A sunlit editorial spread — warm white canvas with coral accent lines, like a beautifully typeset culture magazine. Clean yet warm, inviting exploration.",
+      "compositionPattern": "Editorial Hero (centered type on warm white) + Featured Grid + Alternating Content Strips",
+      "continuityAnchors": ["white nav with coral logo", "coral-accent CTA style", "white surface cards with warm shadows", "Playfair Display headings"],
+      "libraryRestraintMode": false,
+      "uiKitPath": null,
+      "componentPlan": [],
+      "imagePlan": ["hero-bright.jpg"],
+      "chartsRequired": false,
+      "miniProgramStyle": false,
+      "qualityRisks": []
+    },
+    {
+      "nodeId": "page-movie-recommend",
+      "slug": "movie-recommend",
+      "title": "影视推荐",
+      "htmlSrc": "pages/movie-recommend.html",
+      "pageIndex": 2,
+      "stateGroupId": null,
+      "stateRole": null,
+      "baseStatePageId": null,
+      "sharedShellContract": [],
+      "mutableRegions": [],
+      "derivedFromHtmlSrc": null,
+      "derivationType": "original",
+      "sourcePageId": null,
+      "sourceHtmlSrc": null,
+      "pageType": "showcase",
+      "businessScenario": "Curated movie recommendation page with genre filtering and cinematic poster cards",
+      "visualNorthStar": "A bright culture magazine's film section — clean white cards, generous whitespace, posters pop against warm neutral surfaces.",
+      "compositionPattern": "Filter Bar + Poster Grid + Editor Pick Strip",
+      "continuityAnchors": ["white nav with coral logo", "coral CTA style", "white cards warm shadows", "Playfair Display headings"],
+      "libraryRestraintMode": false,
+      "uiKitPath": null,
+      "componentPlan": [],
+      "imagePlan": [],
+      "chartsRequired": false,
+      "miniProgramStyle": false,
+      "qualityRisks": []
+    },
+    {
+      "nodeId": "page-learning",
+      "slug": "learning",
+      "title": "学习资料",
+      "htmlSrc": "pages/learning.html",
+      "pageIndex": 3,
+      "stateGroupId": null,
+      "stateRole": null,
+      "baseStatePageId": null,
+      "sharedShellContract": [],
+      "mutableRegions": [],
+      "derivedFromHtmlSrc": null,
+      "derivationType": "original",
+      "sourcePageId": null,
+      "sourceHtmlSrc": null,
+      "pageType": "information-dense",
+      "businessScenario": "Resource library with categorized learning materials, progress tracking, and curated paths",
+      "visualNorthStar": "A bright course catalog — warm white with organized sections, coral accents marking progress and categories. Clean scanability.",
+      "compositionPattern": "Category Navigation + Resource Grid with Sidebar",
+      "continuityAnchors": ["white nav with coral logo", "coral CTA style", "white cards warm shadows", "Playfair Display headings"],
+      "libraryRestraintMode": false,
+      "uiKitPath": null,
+      "componentPlan": [],
+      "imagePlan": [],
+      "chartsRequired": false,
+      "miniProgramStyle": false,
+      "qualityRisks": []
+    },
+    {
+      "nodeId": "page-ai-share",
+      "slug": "ai-share",
+      "title": "AI 分享",
+      "htmlSrc": "pages/ai-share.html",
+      "pageIndex": 4,
+      "stateGroupId": null,
+      "stateRole": null,
+      "baseStatePageId": null,
+      "sharedShellContract": [],
+      "mutableRegions": [],
+      "derivedFromHtmlSrc": null,
+      "derivationType": "original",
+      "sourcePageId": null,
+      "sourceHtmlSrc": null,
+      "pageType": "showcase",
+      "businessScenario": "AI tool showcases, technique articles, and newsletter signup",
+      "visualNorthStar": "A bright tech editorial — clean white canvas with coral circuit-line accents. Warm tech feel, approachable and modern.",
+      "compositionPattern": "Hero with Accent + Tool Cards + Article List + CTA Strip",
+      "continuityAnchors": ["white nav with coral logo", "coral CTA style", "white cards warm shadows", "Playfair Display headings"],
+      "libraryRestraintMode": false,
+      "uiKitPath": null,
+      "componentPlan": [],
+      "imagePlan": ["ai-bright.jpg"],
+      "chartsRequired": false,
+      "miniProgramStyle": false,
+      "qualityRisks": []
+    }
+  ],
+  "assets": [
+    {
+      "filename": "hero-bright.jpg",
+      "role": "critical-hero",
+      "owningPage": "index",
+      "semanticDescription": "Bright editorial hero — warm natural light, cinematic ambiance, film reels",
+      "status": "planned"
+    },
+    {
+      "filename": "ai-bright.jpg",
+      "role": "critical-hero",
+      "owningPage": "ai-share",
+      "semanticDescription": "AI-themed bright visual — warm coral and white, technology meets creativity",
+      "status": "planned"
+    }
+  ],
+  "wiringPlan": [
+    { "sourceNodeId": "page-index", "domId": "cta-movie-recommend", "targetPageId": "page-movie-recommend" },
+    { "sourceNodeId": "page-movie-recommend", "domId": "cta-learning", "targetPageId": "page-learning" },
+    { "sourceNodeId": "page-learning", "domId": "cta-ai-share", "targetPageId": "page-ai-share" }
+  ],
+  "hiddenInteractionPlan": [
+    { "sourceNodeId": "page-index", "domId": "nav-movie-recommend", "targetPageId": "page-movie-recommend", "hideEdge": true, "reason": "global nav" },
+    { "sourceNodeId": "page-index", "domId": "nav-learning", "targetPageId": "page-learning", "hideEdge": true, "reason": "global nav" },
+    { "sourceNodeId": "page-index", "domId": "nav-ai-share", "targetPageId": "page-ai-share", "hideEdge": true, "reason": "global nav" },
+    { "sourceNodeId": "page-movie-recommend", "domId": "nav-index", "targetPageId": "page-index", "hideEdge": true, "reason": "global nav" },
+    { "sourceNodeId": "page-movie-recommend", "domId": "nav-learning", "targetPageId": "page-learning", "hideEdge": true, "reason": "global nav" },
+    { "sourceNodeId": "page-movie-recommend", "domId": "nav-ai-share", "targetPageId": "page-ai-share", "hideEdge": true, "reason": "global nav" },
+    { "sourceNodeId": "page-learning", "domId": "nav-index", "targetPageId": "page-index", "hideEdge": true, "reason": "global nav" },
+    { "sourceNodeId": "page-learning", "domId": "nav-movie-recommend", "targetPageId": "page-movie-recommend", "hideEdge": true, "reason": "global nav" },
+    { "sourceNodeId": "page-learning", "domId": "nav-ai-share", "targetPageId": "page-ai-share", "hideEdge": true, "reason": "global nav" },
+    { "sourceNodeId": "page-ai-share", "domId": "nav-index", "targetPageId": "page-index", "hideEdge": true, "reason": "global nav" },
+    { "sourceNodeId": "page-ai-share", "domId": "nav-movie-recommend", "targetPageId": "page-movie-recommend", "hideEdge": true, "reason": "global nav" },
+    { "sourceNodeId": "page-ai-share", "domId": "nav-learning", "targetPageId": "page-learning", "hideEdge": true, "reason": "global nav" }
+  ]
+}

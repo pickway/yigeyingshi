@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>影视推荐 - CineVerse</title>
+    <style id="theme-vars">
+/* Cinema Personal Site - Dark Theater Theme */
+/* Brand prefix: cinema */
+
+:root {
+  /* === Primary Color System === */
+  --color-primary: #D4A853;
+  --color-primary-light: #E8C97A;
+  --color-primary-dark: #B08930;
+  --color-primary-tint-1: rgba(212,168,83,0.12);
+  --color-primary-tint-2: rgba(212,168,83,0.06);
+  --color-primary-tint-3: rgba(212,168,83,0.03);
+
+  /* === Neutral Scale (Dark Theater) === */
+  --color-bg-base: #0C0C0E;
+  --color-bg-elevated: #151518;
+  --color-bg-surface: #1C1C20;
+  --color-bg-muted: #242428;
+  --color-bg-overlay: rgba(12,12,14,0.85);
+  --color-border-default: #2A2A30;
+  --color-border-subtle: #1F1F25;
+  --color-border-strong: #3A3A42;
+
+  --color-text-primary: #F0EDE6;
+  --color-text-secondary: #9A9AA0;
+  --color-text-tertiary: #6A6A72;
+  --color-text-inverse: #0C0C0E;
+  --color-text-link: #D4A853;
+
+  /* === State Colors (Semantic Only) === */
+  --state-success: #3ECF8E;
+  --state-warning: #F5A623;
+  --state-error: #EF4444;
+  --state-info: #60A5FA;
+
+  /* === Shape System === */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* === Typography === */
+  --font-display: 'Playfair Display', Georgia, 'Noto Serif SC', serif;
+  --font-body: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  /* === Spacing Scale === */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 20px rgba(212,168,83,0.15);
+
+  /* === Transitions === */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* === Container === */
+  --container-max: 1200px;
+  --content-padding: 24px;
+}
+
+/* === Typography Classes === */
+.cinema-display { font-family: var(--font-display); font-weight: 700; letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.cinema-display-lg { font-family: var(--font-display); font-weight: 700; font-size: var(--text-4xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.cinema-heading { font-family: var(--font-display); font-weight: 600; font-size: var(--text-2xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-snug); }
+.cinema-subheading { font-family: var(--font-body); font-weight: 500; font-size: var(--text-lg); line-height: var(--leading-snug); color: var(--color-text-secondary); }
+.cinema-body { font-family: var(--font-body); font-size: var(--text-base); line-height: var(--leading-normal); color: var(--color-text-primary); }
+.cinema-body-sm { font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
+.cinema-caption { font-family: var(--font-body); font-size: var(--text-xs); line-height: var(--leading-normal); color: var(--color-text-tertiary); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+.cinema-mono { font-family: var(--font-mono); font-size: var(--text-sm); }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--color-bg-base);
+    --color-foreground: var(--color-text-primary);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--color-bg-base);
+    --color-muted: var(--color-bg-muted);
+    --color-muted-foreground: var(--color-text-secondary);
+    --color-card: var(--color-bg-surface);
+    --color-card-foreground: var(--color-text-primary);
+    --color-border: var(--color-border-default);
+    --color-ring: var(--color-primary);
+    --color-destructive: var(--state-error);
+    --color-accent: var(--color-primary);
+    --color-accent-foreground: var(--color-bg-base);
+    --color-popover: var(--color-bg-elevated);
+    --color-popover-foreground: var(--color-text-primary);
+    --color-sidebar: var(--color-bg-elevated);
+    --color-sidebar-foreground: var(--color-text-primary);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+    --font-display: var(--font-display);
+    --font-body: var(--font-body);
+    --font-mono: var(--font-mono);
+  }
+  @layer base {
+    body { background: var(--color-bg-base); color: var(--color-text-primary); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+    <!-- ===== SHARED PROJECT SHELL — CineVerse ===== -->
+
+    <!-- ========== 1. FIXED TOP NAVBAR ========== -->
+    <nav class="fixed top-0 left-0 w-full z-50 border-b"
+         style="background:var(--color-bg-elevated); border-color:var(--color-border-subtle);">
+      <div class="max-w-[var(--container-max)] mx-auto flex items-center justify-between"
+           style="height:64px; padding-left:var(--content-padding); padding-right:var(--content-padding);">
+
+        <!-- Logo -->
+        <a href="../pages/index.html"
+           data-dom-id="nav-index"
+           class="shrink-0 flex items-center gap-2 no-underline"
+           style="font-family:var(--font-display); font-weight:700; font-size:var(--text-xl); color:var(--color-primary); letter-spacing:var(--tracking-tight);">
+          CineVerse
+        </a>
+
+        <!-- Desktop Nav Links -->
+        <ul class="hidden md:flex items-center gap-1 list-none m-0 p-0">
+          <li>
+            <a href="../pages/index.html"
+               data-dom-id="nav-index"
+               data-nav-key="index"
+               class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
+               style="font-family:var(--font-body); color:var(--color-text-secondary);"
+               onmouseenter="this.style.color='var(--color-text-primary)'; this.style.background='var(--color-bg-muted)'"
+               onmouseleave="this.style.color='var(--color-text-secondary)'; this.style.background='transparent'">
+              首页
+            </a>
+          </li>
+          <li>
+            <a href="../pages/movie-recommend.html"
+               data-dom-id="nav-movie-recommend"
+               data-nav-key="movie-recommend"
+               data-active="true"
+               class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
+               style="font-family:var(--font-body); color:var(--color-primary); background:var(--color-primary-tint-1);">
+              影视推荐
+            </a>
+          </li>
+          <li>
+            <a href="../pages/learning.html"
+               data-dom-id="nav-learning"
+               data-nav-key="learning"
+               class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
+               style="font-family:var(--font-body); color:var(--color-text-secondary);"
+               onmouseenter="this.style.color='var(--color-text-primary)'; this.style.background='var(--color-bg-muted)'"
+               onmouseleave="this.style.color='var(--color-text-secondary)'; this.style.background='transparent'">
+              学习资料
+            </a>
+          </li>
+          <li>
+            <a href="../pages/ai-share.html"
+               data-dom-id="nav-ai-share"
+               data-nav-key="ai-share"
+               class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
+               style="font-family:var(--font-body); color:var(--color-text-secondary);"
+               onmouseenter="this.style.color='var(--color-text-primary)'; this.style.background='var(--color-bg-muted)'"
+               onmouseleave="this.style.color='var(--color-text-secondary)'; this.style.background='transparent'">
+              AI 分享
+            </a>
+          </li>
+        </ul>
+
+        <!-- Right: Search Icon + Mobile Hamburger -->
+        <div class="flex items-center gap-3">
+          <button class="hidden md:inline-flex items-center justify-center shrink-0 rounded-full border transition-colors duration-150"
+                  style="width:36px; height:36px; border-color:var(--color-border-default); background:transparent; color:var(--color-text-tertiary);"
+                  onmouseenter="this.style.borderColor='var(--color-border-strong)'; this.style.color='var(--color-text-secondary)'"
+                  onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.color='var(--color-text-tertiary)'"
+                  aria-label="搜索">
+            <i data-lucide="search" style="width:16px; height:16px;"></i>
+          </button>
+          <button class="md:hidden inline-flex items-center justify-center shrink-0 rounded-lg transition-colors duration-150"
+                  style="width:40px; height:40px; color:var(--color-text-secondary);"
+                  aria-label="菜单">
+            <i data-lucide="menu" style="width:22px; height:22px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Nav Drawer -->
+      <div class="md:hidden hidden border-t"
+           style="background:var(--color-bg-elevated); border-color:var(--color-border-subtle);">
+        <div class="flex flex-col" style="padding:var(--space-4) var(--content-padding);">
+          <a href="../pages/index.html" data-dom-id="nav-index" data-nav-key="index"
+             class="inline-flex items-center px-3 py-3 rounded-lg text-sm font-medium"
+             style="color:var(--color-text-secondary);">首页</a>
+          <a href="../pages/movie-recommend.html" data-dom-id="nav-movie-recommend" data-nav-key="movie-recommend"
+             class="inline-flex items-center px-3 py-3 rounded-lg text-sm font-medium"
+             style="color:var(--color-primary);">影视推荐</a>
+          <a href="../pages/learning.html" data-dom-id="nav-learning" data-nav-key="learning"
+             class="inline-flex items-center px-3 py-3 rounded-lg text-sm font-medium"
+             style="color:var(--color-text-secondary);">学习资料</a>
+          <a href="../pages/ai-share.html" data-dom-id="nav-ai-share" data-nav-key="ai-share"
+             class="inline-flex items-center px-3 py-3 rounded-lg text-sm font-medium"
+             style="color:var(--color-text-secondary);">AI 分享</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Spacer for fixed navbar -->
+    <div style="height:64px;"></div>
+
+    <main class="min-h-screen" style="background:var(--color-bg-base);">
+      <div class="max-w-[var(--container-max)] mx-auto"
+           style="padding-left:var(--content-padding); padding-right:var(--content-padding);">
+
+        <!-- ========== PRIVATE REGION: movie-filter-bar ========== -->
+        <section class="pt-8 pb-6 border-b" style="border-color:var(--color-border-subtle);">
+          <!-- Page Title -->
+          <h1 class="cinema-heading mb-6"
+              style="font-size:var(--text-3xl); text-wrap:balance; word-break:keep-all; overflow-wrap:break-word;">
+            影视推荐
+          </h1>
+
+          <!-- Filter + Search Row -->
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <!-- Genre Pills -->
+            <div class="flex flex-nowrap overflow-x-auto gap-2 no-scrollbar">
+              <button class="shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors duration-150"
+                      style="background:var(--color-primary); color:var(--color-text-inverse);">
+                全部
+              </button>
+              <button class="shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap border transition-colors duration-150"
+                      style="background:transparent; color:var(--color-text-secondary); border-color:var(--color-border-default);"
+                      onmouseenter="this.style.borderColor='var(--color-border-strong)'; this.style.color='var(--color-text-primary)'"
+                      onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.color='var(--color-text-secondary)'">
+                科幻
+              </button>
+              <button class="shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap border transition-colors duration-150"
+                      style="background:transparent; color:var(--color-text-secondary); border-color:var(--color-border-default);"
+                      onmouseenter="this.style.borderColor='var(--color-border-strong)'; this.style.color='var(--color-text-primary)'"
+                      onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.color='var(--color-text-secondary)'">
+                动画
+              </button>
+              <button class="shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap border transition-colors duration-150"
+                      style="background:transparent; color:var(--color-text-secondary); border-color:var(--color-border-default);"
+                      onmouseenter="this.style.borderColor='var(--color-border-strong)'; this.style.color='var(--color-text-primary)'"
+                      onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.color='var(--color-text-secondary)'">
+                剧情
+              </button>
+              <button class="shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap border transition-colors duration-150"
+                      style="background:transparent; color:var(--color-text-secondary); border-color:var(--color-border-default);"
+                      onmouseenter="this.style.borderColor='var(--color-border-strong)'; this.style.color='var(--color-text-primary)'"
+                      onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.color='var(--color-text-secondary)'">
+                悬疑
+              </button>
+              <button class="shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap border transition-colors duration-150"
+                      style="background:transparent; color:var(--color-text-secondary); border-color:var(--color-border-default);"
+                      onmouseenter="this.style.borderColor='var(--color-border-strong)'; this.style.color='var(--color-text-primary)'"
+                      onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.color='var(--color-text-secondary)'">
+                喜剧
+              </button>
+              <button class="shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap border transition-colors duration-150"
+                      style="background:transparent; color:var(--color-text-secondary); border-color:var(--color-border-default);"
+                      onmouseenter="this.style.borderColor='var(--color-border-strong)'; this.style.color='var(--color-text-primary)'"
+                      onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.color='var(--color-text-secondary)'">
+                纪录片
+              </button>
+            </div>
+
+            <!-- Search + Sort -->
+            <div class="flex items-center gap-3 shrink-0">
+              <div class="relative">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                   style="width:16px; height:16px; color:var(--color-text-tertiary);"></i>
+                <input type="text" placeholder="搜索影片..."
+                       class="pl-9 pr-4 py-2 rounded-lg text-sm outline-none transition-colors duration-150"
+                       style="width:180px; height:36px; background:var(--color-bg-muted); border:1px solid var(--color-border-default); color:var(--color-text-primary); font-family:var(--font-body);"
+                       onfocus="this.style.borderColor='var(--color-primary)'"
+                       onblur="this.style.borderColor='var(--color-border-default)'">
+              </div>
+              <div class="relative">
+                <select class="appearance-none pl-4 pr-8 py-2 rounded-lg text-sm outline-none cursor-pointer transition-colors duration-150"
+                        style="height:36px; background:var(--color-bg-muted); border:1px solid var(--color-border-default); color:var(--color-text-primary); font-family:var(--font-body);">
+                  <option>评分最高</option>
+                  <option>最近上映</option>
+                  <option>最受欢迎</option>
+                </select>
+                <i data-lucide="chevron-down" class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"
+                   style="width:14px; height:14px; color:var(--color-text-tertiary);"></i>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== PRIVATE REGION: movie-grid ========== -->
+        <section class="pt-8 pb-12">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Movie Card 1: 星际穿越 -->
+            <article class="group rounded-lg border transition-all duration-250"
+                     style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;"
+                     onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-glow)'"
+                     onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+              <div class="relative overflow-hidden" style="aspect-ratio:2/3; background:linear-gradient(160deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);">
+                <div class="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                     style="background:radial-gradient(circle at 70% 30%, rgba(212,168,83,0.15) 0%, transparent 60%);"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4"
+                     style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);">
+                  <h3 class="cinema-heading truncate" style="font-size:var(--text-lg); color:var(--color-text-primary);">星际穿越</h3>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">2014</span>
+                  <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                        style="background:var(--color-primary-tint-1); color:var(--color-primary);">科幻</span>
+                </div>
+                <div class="flex items-center gap-1 mb-2">
+                  <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+                  <span class="text-sm font-medium" style="color:var(--color-primary);">9.4</span>
+                </div>
+                <p class="text-xs line-clamp-2" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                  穿越虫洞的父女之约，时间与爱的相对论史诗。
+                </p>
+              </div>
+            </article>
+
+            <!-- Movie Card 2: 千与千寻 -->
+            <article class="group rounded-lg border transition-all duration-250"
+                     style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;"
+                     onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-glow)'"
+                     onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+              <div class="relative overflow-hidden" style="aspect-ratio:2/3; background:linear-gradient(160deg, #2d1b2e 0%, #3b1f3b 40%, #5c2d5c 100%);">
+                <div class="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                      style="background:radial-gradient(circle at 70% 30%, rgba(212,168,83,0.15) 0%, transparent 60%);"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4"
+                     style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);">
+                  <h3 class="cinema-heading truncate" style="font-size:var(--text-lg); color:var(--color-text-primary);">千与千寻</h3>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">2001</span>
+                  <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                        style="background:var(--color-primary-tint-1); color:var(--color-primary);">动画</span>
+                </div>
+                <div class="flex items-center gap-1 mb-2">
+                  <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+                  <span class="text-sm font-medium" style="color:var(--color-primary);">9.3</span>
+                </div>
+                <p class="text-xs line-clamp-2" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                  奇幻浴场中的成长之旅，宫崎骏的童话世界。
+                </p>
+              </div>
+            </article>
+
+            <!-- Movie Card 3: 寄生虫 -->
+            <article class="group rounded-lg border transition-all duration-250"
+                     style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;"
+                     onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-glow)'"
+                     onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+              <div class="relative overflow-hidden" style="aspect-ratio:2/3; background:linear-gradient(160deg, #1a2a1a 0%, #2b3d2b 40%, #3a5a3a 100%);">
+                <div class="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                      style="background:radial-gradient(circle at 70% 30%, rgba(212,168,83,0.15) 0%, transparent 60%);"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4"
+                     style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);">
+                  <h3 class="cinema-heading truncate" style="font-size:var(--text-lg); color:var(--color-text-primary);">寄生虫</h3>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">2019</span>
+                  <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                        style="background:var(--color-primary-tint-1); color:var(--color-primary);">剧情</span>
+                </div>
+                <div class="flex items-center gap-1 mb-2">
+                  <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+                  <span class="text-sm font-medium" style="color:var(--color-primary);">9.1</span>
+                </div>
+                <p class="text-xs line-clamp-2" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                  阶层差异下的黑色寓言，人性与欲望的博弈。
+                </p>
+              </div>
+            </article>
+
+            <!-- Movie Card 4: 盗梦空间 -->
+            <article class="group rounded-lg border transition-all duration-250"
+                     style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;"
+                     onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-glow)'"
+                     onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+              <div class="relative overflow-hidden" style="aspect-ratio:2/3; background:linear-gradient(160deg, #0d1b2a 0%, #1b2838 40%, #2a3f54 100%);">
+                <div class="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                      style="background:radial-gradient(circle at 70% 30%, rgba(212,168,83,0.15) 0%, transparent 60%);"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4"
+                     style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);">
+                  <h3 class="cinema-heading truncate" style="font-size:var(--text-lg); color:var(--color-text-primary);">盗梦空间</h3>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">2010</span>
+                  <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                        style="background:var(--color-primary-tint-1); color:var(--color-primary);">科幻</span>
+                </div>
+                <div class="flex items-center gap-1 mb-2">
+                  <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+                  <span class="text-sm font-medium" style="color:var(--color-primary);">9.3</span>
+                </div>
+                <p class="text-xs line-clamp-2" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                  梦中梦的 labyrinth，意识深处的终极冒险。
+                </p>
+              </div>
+            </article>
+
+            <!-- Movie Card 5: 龙猫 -->
+            <article class="group rounded-lg border transition-all duration-250"
+                     style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;"
+                     onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-glow)'"
+                     onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+              <div class="relative overflow-hidden" style="aspect-ratio:2/3; background:linear-gradient(160deg, #2d2b1a 0%, #4a4528 40%, #6b6335 100%);">
+                <div class="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                      style="background:radial-gradient(circle at 70% 30%, rgba(212,168,83,0.15) 0%, transparent 60%);"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4"
+                     style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);">
+                  <h3 class="cinema-heading truncate" style="font-size:var(--text-lg); color:var(--color-text-primary);">龙猫</h3>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">1988</span>
+                  <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                        style="background:var(--color-primary-tint-1); color:var(--color-primary);">动画</span>
+                </div>
+                <div class="flex items-center gap-1 mb-2">
+                  <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+                  <span class="text-sm font-medium" style="color:var(--color-primary);">9.2</span>
+                </div>
+                <p class="text-xs line-clamp-2" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                  乡间田野的神奇邂逅，童年最温暖的守护。
+                </p>
+              </div>
+            </article>
+
+            <!-- Movie Card 6: 杀人回忆 -->
+            <article class="group rounded-lg border transition-all duration-250"
+                     style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;"
+                     onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-glow)'"
+                     onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+              <div class="relative overflow-hidden" style="aspect-ratio:2/3; background:linear-gradient(160deg, #1a1a1a 0%, #2d2424 40%, #4a3333 100%);">
+                <div class="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                      style="background:radial-gradient(circle at 70% 30%, rgba(212,168,83,0.15) 0%, transparent 60%);"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4"
+                     style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);">
+                  <h3 class="cinema-heading truncate" style="font-size:var(--text-lg); color:var(--color-text-primary);">杀人回忆</h3>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">2003</span>
+                  <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                        style="background:var(--color-primary-tint-1); color:var(--color-primary);">悬疑</span>
+                </div>
+                <div class="flex items-center gap-1 mb-2">
+                  <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+                  <span class="text-sm font-medium" style="color:var(--color-primary);">9.0</span>
+                </div>
+                <p class="text-xs line-clamp-2" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                  韩国小镇的连环悬案，真实事件改编的震撼。
+                </p>
+              </div>
+            </article>
+
+            <!-- Movie Card 7: 你的名字 -->
+            <article class="group rounded-lg border transition-all duration-250"
+                     style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;"
+                     onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-glow)'"
+                     onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+              <div class="relative overflow-hidden" style="aspect-ratio:2/3; background:linear-gradient(160deg, #0d1a2d 0%, #1a2d4a 40%, #2d4a6b 100%);">
+                <div class="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                      style="background:radial-gradient(circle at 70% 30%, rgba(212,168,83,0.15) 0%, transparent 60%);"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4"
+                     style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);">
+                  <h3 class="cinema-heading truncate" style="font-size:var(--text-lg); color:var(--color-text-primary);">你的名字</h3>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">2016</span>
+                  <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                        style="background:var(--color-primary-tint-1); color:var(--color-primary);">动画</span>
+                </div>
+                <div class="flex items-center gap-1 mb-2">
+                  <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+                  <span class="text-sm font-medium" style="color:var(--color-primary);">8.9</span>
+                </div>
+                <p class="text-xs line-clamp-2" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                  跨越时空的灵魂交错，新海诚的视觉盛宴。
+                </p>
+              </div>
+            </article>
+
+            <!-- Movie Card 8: 肖申克的救赎 -->
+            <article class="group rounded-lg border transition-all duration-250"
+                     style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;"
+                     onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-glow)'"
+                     onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+              <div class="relative overflow-hidden" style="aspect-ratio:2/3; background:linear-gradient(160deg, #2b2b1a 0%, #3d3d2a 40%, #5a5a3a 100%);">
+                <div class="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                      style="background:radial-gradient(circle at 70% 30%, rgba(212,168,83,0.15) 0%, transparent 60%);"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4"
+                     style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);">
+                  <h3 class="cinema-heading truncate" style="font-size:var(--text-lg); color:var(--color-text-primary);">肖申克的救赎</h3>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">1994</span>
+                  <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                        style="background:var(--color-primary-tint-1); color:var(--color-primary);">剧情</span>
+                </div>
+                <div class="flex items-center gap-1 mb-2">
+                  <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+                  <span class="text-sm font-medium" style="color:var(--color-primary);">9.7</span>
+                </div>
+                <p class="text-xs line-clamp-2" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                  黑暗牢笼中的希望之光，自由灵魂的永恒颂歌。
+                </p>
+              </div>
+            </article>
+
+            <!-- Movie Card 9: 疯狂动物城 -->
+            <article class="group rounded-lg border transition-all duration-250"
+                     style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;"
+                     onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-glow)'"
+                     onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+              <div class="relative overflow-hidden" style="aspect-ratio:2/3; background:linear-gradient(160deg, #1a2a2d 0%, #2b3d4a 40%, #3a5a6b 100%);">
+                <div class="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                      style="background:radial-gradient(circle at 70% 30%, rgba(212,168,83,0.15) 0%, transparent 60%);"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4"
+                     style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);">
+                  <h3 class="cinema-heading truncate" style="font-size:var(--text-lg); color:var(--color-text-primary);">疯狂动物城</h3>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">2016</span>
+                  <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                        style="background:var(--color-primary-tint-1); color:var(--color-primary);">动画</span>
+                </div>
+                <div class="flex items-center gap-1 mb-2">
+                  <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+                  <span class="text-sm font-medium" style="color:var(--color-primary);">9.2</span>
+                </div>
+                <p class="text-xs line-clamp-2" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                  狐兔搭档破解阴谋，迪士尼的温情讽刺。
+                </p>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- ========== PRIVATE REGION: movie-detail-section ========== -->
+        <section class="pb-16">
+          <div class="rounded-lg border" style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;">
+            <!-- Section heading -->
+            <div class="px-6 pt-6 pb-4">
+              <h2 class="cinema-heading" style="font-size:var(--text-2xl); text-wrap:balance; word-break:keep-all;">编辑推荐</h2>
+            </div>
+            <!-- Featured card: 2/3 poster + 1/3 info -->
+            <div class="flex flex-col md:flex-row">
+              <!-- Poster (2/3) -->
+              <div class="relative w-full md:w-2/3 overflow-hidden" style="min-height:280px; background:linear-gradient(135deg, #1a1a0d 0%, #2a2518 30%, #3a2d12 60%, #1a1508 100%);">
+                <div class="absolute inset-0" style="background:radial-gradient(circle at 60% 40%, rgba(212,168,83,0.2) 0%, transparent 50%);"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 md:hidden"
+                     style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);">
+                  <h3 class="cinema-heading" style="font-size:var(--text-2xl); color:var(--color-text-primary);">奥本海默</h3>
+                </div>
+              </div>
+              <!-- Info (1/3) -->
+              <div class="w-full md:w-1/3 p-6 flex flex-col justify-center border-l"
+                   style="border-color:var(--color-primary); background:var(--color-bg-elevated);">
+                <div class="hidden md:block mb-3">
+                  <h3 class="cinema-heading" style="font-size:var(--text-2xl); color:var(--color-text-primary); text-wrap:balance; word-break:keep-all;">奥本海默</h3>
+                </div>
+                <div class="flex items-center gap-3 mb-4">
+                  <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">2023</span>
+                  <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                        style="background:var(--color-primary-tint-1); color:var(--color-primary);">剧情</span>
+                  <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                        style="background:var(--color-primary-tint-1); color:var(--color-primary);">传记</span>
+                </div>
+                <div class="flex items-center gap-2 mb-4">
+                  <span class="text-xs" style="color:var(--color-text-tertiary);">导演</span>
+                  <span class="text-sm" style="color:var(--color-text-secondary);">克里斯托弗·诺兰</span>
+                </div>
+                <div class="flex items-center gap-1 mb-4">
+                  <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+                  <span class="text-sm font-medium" style="color:var(--color-primary);">9.1</span>
+                </div>
+                <p class="text-sm line-clamp-4 mb-6" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                  原子弹之父的传奇人生，科学与道德的终极拷问。诺兰以非线性叙事再现了曼哈顿计划的宏大历程，基里安·墨菲的精湛表演令人震撼。这不仅是一部传记片，更是对人类文明走向的深刻反思。
+                </p>
+                <a href="../pages/learning.html"
+                   data-dom-id="cta-learning"
+                   class="inline-flex items-center justify-center px-6 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-150 no-underline"
+                   style="background:var(--color-primary); color:var(--color-text-inverse); font-family:var(--font-body);"
+                   onmouseenter="this.style.background='var(--color-primary-light)'; this.style.transform='translateY(-1px)'"
+                   onmouseleave="this.style.background='var(--color-primary)'; this.style.transform='translateY(0)'">
+                  立即观看
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- ========== 3. FOOTER ========== -->
+    <footer class="border-t" style="background:var(--color-bg-elevated); border-color:var(--color-border-subtle); padding-top:var(--space-12); padding-bottom:var(--space-12);">
+      <div class="max-w-[var(--container-max)] mx-auto"
+           style="padding-left:var(--content-padding); padding-right:var(--content-padding);">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
+          <!-- Brand -->
+          <div>
+            <a href="../pages/index.html"
+               class="inline-block no-underline"
+               style="font-family:var(--font-display); font-weight:700; font-size:var(--text-xl); color:var(--color-primary); letter-spacing:var(--tracking-tight);">
+              CineVerse
+            </a>
+            <p class="mt-3" style="font-family:var(--font-body); font-size:var(--text-sm); color:var(--color-text-tertiary); line-height:var(--leading-normal); max-width:280px;">
+              探索光影世界，分享智慧火花
+            </p>
+          </div>
+          <!-- Quick Links -->
+          <div>
+            <h3 class="mb-4" style="font-family:var(--font-body); font-weight:600; font-size:var(--text-sm); color:var(--color-text-primary); letter-spacing:var(--tracking-wide); text-transform:uppercase;">
+              快速导航
+            </h3>
+            <ul class="flex flex-col gap-3 list-none m-0 p-0">
+              <li><a href="../pages/index.html" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);" onmouseenter="this.style.color='var(--color-text-link)'" onmouseleave="this.style.color='var(--color-text-tertiary)'">首页</a></li>
+              <li><a href="../pages/movie-recommend.html" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);" onmouseenter="this.style.color='var(--color-text-link)'" onmouseleave="this.style.color='var(--color-text-tertiary)'">影视推荐</a></li>
+              <li><a href="../pages/learning.html" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);" onmouseenter="this.style.color='var(--color-text-link)'" onmouseleave="this.style.color='var(--color-text-tertiary)'">学习资料</a></li>
+              <li><a href="../pages/ai-share.html" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);" onmouseenter="this.style.color='var(--color-text-link)'" onmouseleave="this.style.color='var(--color-text-tertiary)'">AI 分享</a></li>
+            </ul>
+          </div>
+          <!-- Contact -->
+          <div>
+            <h3 class="mb-4" style="font-family:var(--font-body); font-weight:600; font-size:var(--text-sm); color:var(--color-text-primary); letter-spacing:var(--tracking-wide); text-transform:uppercase;">
+              联系方式
+            </h3>
+            <ul class="flex flex-col gap-3 list-none m-0 p-0">
+              <li class="flex items-center gap-2">
+                <i data-lucide="mail" style="width:16px; height:16px; color:var(--color-text-tertiary);"></i>
+                <span class="text-sm" style="color:var(--color-text-tertiary);">hello@cineverse.site</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="github" style="width:16px; height:16px; color:var(--color-text-tertiary);"></i>
+                <a href="#" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">GitHub</a>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="twitter" style="width:16px; height:16px; color:var(--color-text-tertiary);"></i>
+                <a href="#" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">Twitter</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-10 pt-6 border-t" style="border-color:var(--color-border-subtle);">
+          <p class="text-center" style="font-family:var(--font-body); font-size:var(--text-xs); color:var(--color-text-tertiary);">
+            &copy; 2026 CineVerse. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    </main>
+
+    <style>
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+    </style>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
