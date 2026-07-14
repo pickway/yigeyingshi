@@ -106,13 +106,13 @@
         <div class="ai-grid">
           <div
             v-for="item in aiHighlights"
-            :key="item.title"
+            :key="item.id"
             class="ai-card group"
           >
             <div class="ai-icon-wrapper">
-              <component :is="item.icon" :size="24" class="ai-icon" />
+              <component :is="iconMap[item.icon] || Video" :size="24" class="ai-icon" />
             </div>
-            <h3 class="cine-subheading ai-card-title">{{ item.title }}</h3>
+            <h3 class="cine-subheading ai-card-title">{{ item.name }}</h3>
             <p class="cine-body-sm ai-card-desc">{{ item.description }}</p>
           </div>
         </div>
@@ -123,11 +123,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { movieApi, articleApi } from '@/api'
+import { movieApi, articleApi, aiApi } from '@/api'
 import { ArrowRight, Star, GraduationCap, Video, Subtitles, Brain } from '@lucide/vue'
 
 const featuredMovies = ref([])
 const latestPosts = ref([])
+const aiHighlights = ref([])
 const loading = ref(true)
 
 function posterGradient(color) {
@@ -147,38 +148,28 @@ function primaryGenre(genres) {
   return genres.split(',')[0]
 }
 
+const iconMap = {
+  video: Video,
+  image: Image,
+  'audio-waveform': Brain,
+}
+
 onMounted(async () => {
   try {
-    const [movies, articles] = await Promise.all([
+    const [movies, articles, aiTools] = await Promise.all([
       movieApi.featured(),
       articleApi.latest(2),
+      aiApi.featuredTools(),
     ])
     featuredMovies.value = movies.data || []
     latestPosts.value = articles.data || []
+    aiHighlights.value = (aiTools.data || []).slice(0, 3)
   } catch (e) {
     console.error('加载首页数据失败', e)
   } finally {
     loading.value = false
   }
 })
-
-const aiHighlights = [
-  {
-    title: 'AI视频生成',
-    description: '从文本到视频，探索Sora、Runway等工具如何重塑影像创作流程。',
-    icon: Video,
-  },
-  {
-    title: '智能字幕',
-    description: 'Whisper模型驱动的自动字幕生成，让跨语言观影不再有障碍。',
-    icon: Subtitles,
-  },
-  {
-    title: 'AI影评分析',
-    description: '基于大语言模型的影评辅助分析，从数据维度洞见影片价值。',
-    icon: Brain,
-  },
-]
 </script>
 
 <style scoped>

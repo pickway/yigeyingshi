@@ -108,7 +108,18 @@ const loading = ref(true)
 const activeGenre = ref('全部')
 const sort = ref('rating_desc')
 
-const genres = ['全部', '科幻', '动画', '剧情', '悬疑', '喜剧', '传记', '历史', '纪录片']
+const genres = computed(() => {
+  const set = new Set()
+  allMovies.value.forEach(m => {
+    if (m.genres) {
+      m.genres.split(',').forEach(g => {
+        const trimmed = g.trim()
+        if (trimmed) set.add(trimmed)
+      })
+    }
+  })
+  return ['全部', ...Array.from(set).sort()]
+})
 
 const sortOptions = [
   { value: 'rating_desc', label: '评分优先' },

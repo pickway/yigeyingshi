@@ -1,0 +1,405 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untitled</title>
+    <style id="theme-vars">
+/* Cinema Personal Site - Warm Healing Theme */
+/* Brand prefix: warm */
+
+:root {
+  /* === Primary Color System === */
+  --color-primary: #C8956C;
+  --color-primary-light: #D9AD8A;
+  --color-primary-dark: #A87A55;
+  --color-primary-tint-1: rgba(200,149,108,0.10);
+  --color-primary-tint-2: rgba(200,149,108,0.05);
+  --color-primary-tint-3: rgba(200,149,108,0.03);
+
+  /* === Secondary Warm Accent === */
+  --state-success: #7BAE7F;
+
+  /* === Neutral Scale (Warm Cream) === */
+  --color-bg-base: #FDF8F3;
+  --color-bg-elevated: #FFFFFF;
+  --color-bg-surface: #F7F0E8;
+  --color-bg-muted: #EDE5DC;
+  --color-bg-overlay: rgba(253,248,243,0.90);
+  --color-border-default: #E5DDD4;
+  --color-border-subtle: #F0EAE2;
+  --color-border-strong: #D4C9BE;
+
+  --color-text-primary: #3D3229;
+  --color-text-secondary: #7A6E63;
+  --color-text-tertiary: #A89E94;
+  --color-text-inverse: #FFFFFF;
+  --color-text-link: #C8956C;
+
+  /* === State Colors === */
+  --state-success: #7BAE7F;
+  --state-warning: #D4A853;
+  --state-error: #D4654A;
+  --state-info: #6A9EC8;
+
+  /* === Shape System === */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* === Typography === */
+  --font-display: 'Noto Serif SC', 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  /* === Spacing Scale === */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 3px rgba(61,50,41,0.04);
+  --shadow-md: 0 4px 12px rgba(61,50,41,0.05);
+  --shadow-lg: 0 8px 24px rgba(61,50,41,0.05);
+  --shadow-glow: 0 0 20px rgba(200,149,108,0.12);
+
+  /* === Transitions === */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* === Container === */
+  --container-max: 1200px;
+  --content-padding: 24px;
+}
+
+/* === Typography Classes === */
+.warm-display { font-family: var(--font-display); font-weight: 700; letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.warm-display-lg { font-family: var(--font-display); font-weight: 700; font-size: var(--text-4xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.warm-heading { font-family: var(--font-display); font-weight: 600; font-size: var(--text-2xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-snug); }
+.warm-subheading { font-family: var(--font-body); font-weight: 500; font-size: var(--text-lg); line-height: var(--leading-snug); color: var(--color-text-secondary); }
+.warm-body { font-family: var(--font-body); font-size: var(--text-base); line-height: var(--leading-normal); color: var(--color-text-primary); }
+.warm-body-sm { font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
+.warm-caption { font-family: var(--font-body); font-size: var(--text-xs); line-height: var(--leading-normal); color: var(--color-text-tertiary); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+.warm-mono { font-family: var(--font-mono); font-size: var(--text-sm); }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--color-bg-base);
+    --color-foreground: var(--color-text-primary);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--color-text-inverse);
+    --color-muted: var(--color-bg-muted);
+    --color-muted-foreground: var(--color-text-secondary);
+    --color-card: var(--color-bg-elevated);
+    --color-card-foreground: var(--color-text-primary);
+    --color-border: var(--color-border-default);
+    --color-ring: var(--color-primary);
+    --color-destructive: var(--state-error);
+    --color-accent: var(--color-primary);
+    --color-accent-foreground: var(--color-text-inverse);
+    --color-popover: var(--color-bg-elevated);
+    --color-popover-foreground: var(--color-text-primary);
+    --color-sidebar: var(--color-bg-surface);
+    --color-sidebar-foreground: var(--color-text-primary);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+    --font-display: var(--font-display);
+    --font-body: var(--font-body);
+    --font-mono: var(--font-mono);
+  }
+
+  @layer base {
+    body { background: var(--color-bg-base); color: var(--color-text-primary); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+      <!-- Navigation -->
+      <nav class="w-full border-b" style="border-color: var(--color-border-subtle); background: var(--color-bg-elevated);">
+        <div class="max-w-screen-xl mx-auto flex items-center justify-between px-6 h-16">
+          <a href="index.html" class="warm-display text-lg truncate" style="color: var(--color-primary);">Cinema</a>
+          <div class="flex items-center gap-6">
+            <a href="index.html" data-dom-id="nav-index" class="warm-body-sm whitespace-nowrap transition-colors duration-150" style="color: var(--color-text-secondary);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">首页</a>
+            <a href="movie-recommend.html" data-dom-id="nav-movie-recommend" class="warm-body-sm whitespace-nowrap transition-colors duration-150" style="color: var(--color-text-secondary);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">影视推荐</a>
+            <a href="learning.html" data-dom-id="nav-learning" class="warm-body-sm whitespace-nowrap font-semibold transition-colors duration-150" style="color: var(--color-primary);">学习资料</a>
+            <a href="ai-share.html" data-dom-id="nav-ai-share" class="warm-body-sm whitespace-nowrap transition-colors duration-150" style="color: var(--color-text-secondary);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">AI 分享</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero -->
+      <section class="max-w-screen-xl mx-auto px-6 pt-8 pb-6">
+        <div class="rounded-lg p-6 md:p-8" style="background: var(--color-bg-elevated); border-top: 3px solid var(--state-success); box-shadow: var(--shadow-sm);">
+          <div class="flex items-center gap-2 mb-3">
+            <a href="index.html" class="warm-body-sm whitespace-nowrap transition-colors duration-150" style="color: var(--color-text-tertiary);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-tertiary)'">首页</a>
+            <span class="warm-body-sm" style="color: var(--color-text-tertiary);">&gt;</span>
+            <span class="warm-body-sm font-medium" style="color: var(--color-text-primary);">学习资料</span>
+          </div>
+          <h1 class="warm-display-lg mb-2" style="text-wrap: balance; word-break: keep-all; overflow-wrap: break-word;">学习资料</h1>
+          <p class="warm-body" style="color: var(--color-text-secondary); max-width: 480px;">影视制作、剪辑技巧、AI创作 — 系统化的学习路径</p>
+        </div>
+      </section>
+
+      <!-- Category Tabs -->
+      <section class="max-w-screen-xl mx-auto px-6 pb-6">
+        <div class="flex items-center gap-1 overflow-x-auto no-scrollbar">
+          <button class="whitespace-nowrap px-4 py-2 text-sm font-semibold transition-colors duration-150" style="color: var(--color-primary); border-bottom: 2px solid var(--color-primary); font-family: var(--font-body);">全部</button>
+          <button class="whitespace-nowrap px-4 py-2 text-sm transition-colors duration-150" style="color: var(--color-text-secondary); border-bottom: 2px solid transparent; font-family: var(--font-body);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">影视制作</button>
+          <button class="whitespace-nowrap px-4 py-2 text-sm transition-colors duration-150" style="color: var(--color-text-secondary); border-bottom: 2px solid transparent; font-family: var(--font-body);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">剪辑教程</button>
+          <button class="whitespace-nowrap px-4 py-2 text-sm transition-colors duration-150" style="color: var(--color-text-secondary); border-bottom: 2px solid transparent; font-family: var(--font-body);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">色彩学</button>
+          <button class="whitespace-nowrap px-4 py-2 text-sm transition-colors duration-150" style="color: var(--color-text-secondary); border-bottom: 2px solid transparent; font-family: var(--font-body);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">音效设计</button>
+          <button class="whitespace-nowrap px-4 py-2 text-sm transition-colors duration-150" style="color: var(--color-text-secondary); border-bottom: 2px solid transparent; font-family: var(--font-body);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-secondary)'">AI创作</button>
+        </div>
+      </section>
+
+      <!-- Main Content: 2-Column Layout -->
+      <section class="max-w-screen-xl mx-auto px-6 pb-12">
+        <div class="flex flex-col lg:flex-row gap-6">
+
+          <!-- Left 2/3: Resource Cards Grid -->
+          <div class="flex-1 min-w-0 lg:w-2/3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+              <!-- Card 1: Premiere Pro -->
+              <div class="rounded-lg p-5 transition-shadow duration-250" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm);" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='var(--shadow-sm)'">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background: linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                  <i data-lucide="scissors" style="width:20px;height:20px;color:var(--color-primary);"></i>
+                </div>
+                <h3 class="warm-heading text-base mb-2 truncate" style="font-size: var(--text-lg);">Premiere Pro 快速入门</h3>
+                <p class="warm-body-sm mb-3 line-clamp-2">从零开始掌握 Adobe Premiere Pro，学习时间线操作、基础剪辑与转场效果</p>
+                <div class="flex items-center gap-2 mb-4 flex-wrap">
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-primary-tint-2); color: var(--color-primary); font-family: var(--font-body);">剪辑</span>
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-bg-surface); color: var(--color-text-secondary); font-family: var(--font-body);">入门</span>
+                  <span class="whitespace-nowrap text-xs" style="color: var(--color-text-tertiary); font-family: var(--font-body);">12课时 / 6h</span>
+                </div>
+                <a href="#" class="inline-flex items-center gap-1 text-sm font-medium transition-colors duration-150" style="color: var(--color-primary); font-family: var(--font-body);" onmouseover="this.style.color='var(--color-primary-dark)'" onmouseout="this.style.color='var(--color-primary)'">
+                  开始学习 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+                </a>
+              </div>
+
+              <!-- Card 2: Color Theory -->
+              <div class="rounded-lg p-5 transition-shadow duration-250" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm);" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='var(--shadow-sm)'">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background: linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                  <i data-lucide="palette" style="width:20px;height:20px;color:var(--color-primary);"></i>
+                </div>
+                <h3 class="warm-heading text-base mb-2 truncate" style="font-size: var(--text-lg);">电影色彩理论基础</h3>
+                <p class="warm-body-sm mb-3 line-clamp-2">理解色彩心理学、色温调节与调色技巧，提升画面视觉表现力</p>
+                <div class="flex items-center gap-2 mb-4 flex-wrap">
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-primary-tint-2); color: var(--color-primary); font-family: var(--font-body);">色彩学</span>
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-bg-surface); color: var(--color-text-secondary); font-family: var(--font-body);">进阶</span>
+                  <span class="whitespace-nowrap text-xs" style="color: var(--color-text-tertiary); font-family: var(--font-body);">8课时 / 4h</span>
+                </div>
+                <a href="#" class="inline-flex items-center gap-1 text-sm font-medium transition-colors duration-150" style="color: var(--color-primary); font-family: var(--font-body);" onmouseover="this.style.color='var(--color-primary-dark)'" onmouseout="this.style.color='var(--color-primary)'">
+                  开始学习 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+                </a>
+              </div>
+
+              <!-- Card 3: DaVinci Resolve -->
+              <div class="rounded-lg p-5 transition-shadow duration-250" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm);" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='var(--shadow-sm)'">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background: linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                  <i data-lucide="sliders-horizontal" style="width:20px;height:20px;color:var(--color-primary);"></i>
+                </div>
+                <h3 class="warm-heading text-base mb-2 truncate" style="font-size: var(--text-lg);">DaVinci Resolve 调色实战</h3>
+                <p class="warm-body-sm mb-3 line-clamp-2">专业级调色工作流，从节点操作到 LUT 运用，掌握好莱坞级调色技法</p>
+                <div class="flex items-center gap-2 mb-4 flex-wrap">
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-primary-tint-2); color: var(--color-primary); font-family: var(--font-body);">影视制作</span>
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-bg-surface); color: var(--color-text-secondary); font-family: var(--font-body);">进阶</span>
+                  <span class="whitespace-nowrap text-xs" style="color: var(--color-text-tertiary); font-family: var(--font-body);">15课时 / 8h</span>
+                </div>
+                <a href="#" class="inline-flex items-center gap-1 text-sm font-medium transition-colors duration-150" style="color: var(--color-primary); font-family: var(--font-body);" onmouseover="this.style.color='var(--color-primary-dark)'" onmouseout="this.style.color='var(--color-primary)'">
+                  开始学习 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+                </a>
+              </div>
+
+              <!-- Card 4: AI Video -->
+              <div class="rounded-lg p-5 transition-shadow duration-250" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm);" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='var(--shadow-sm)'">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background: linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                  <i data-lucide="sparkles" style="width:20px;height:20px;color:var(--color-primary);"></i>
+                </div>
+                <h3 class="warm-heading text-base mb-2 truncate" style="font-size: var(--text-lg);">AI 视频生成入门</h3>
+                <p class="warm-body-sm mb-3 line-clamp-2">探索 AI 视频生成工具，从文本到动态画面，释放创作想象力</p>
+                <div class="flex items-center gap-2 mb-4 flex-wrap">
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-primary-tint-2); color: var(--color-primary); font-family: var(--font-body);">AI创作</span>
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-bg-surface); color: var(--color-text-secondary); font-family: var(--font-body);">入门</span>
+                  <span class="whitespace-nowrap text-xs" style="color: var(--color-text-tertiary); font-family: var(--font-body);">10课时 / 5h</span>
+                </div>
+                <a href="#" class="inline-flex items-center gap-1 text-sm font-medium transition-colors duration-150" style="color: var(--color-primary); font-family: var(--font-body);" onmouseover="this.style.color='var(--color-primary-dark)'" onmouseout="this.style.color='var(--color-primary)'">
+                  开始学习 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+                </a>
+              </div>
+
+              <!-- Card 5: Sound Design -->
+              <div class="rounded-lg p-5 transition-shadow duration-250" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm);" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='var(--shadow-sm)'">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background: linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                  <i data-lucide="volume-2" style="width:20px;height:20px;color:var(--color-primary);"></i>
+                </div>
+                <h3 class="warm-heading text-base mb-2 truncate" style="font-size: var(--text-lg);">影视音效设计指南</h3>
+                <p class="warm-body-sm mb-3 line-clamp-2"> Foley 拟音、环境音构建与声音混音，打造沉浸式听觉体验</p>
+                <div class="flex items-center gap-2 mb-4 flex-wrap">
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-primary-tint-2); color: var(--color-primary); font-family: var(--font-body);">音效设计</span>
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-bg-surface); color: var(--color-text-secondary); font-family: var(--font-body);">高级</span>
+                  <span class="whitespace-nowrap text-xs" style="color: var(--color-text-tertiary); font-family: var(--font-body);">9课时 / 6h</span>
+                </div>
+                <a href="#" class="inline-flex items-center gap-1 text-sm font-medium transition-colors duration-150" style="color: var(--color-primary); font-family: var(--font-body);" onmouseover="this.style.color='var(--color-primary-dark)'" onmouseout="this.style.color='var(--color-primary)'">
+                  开始学习 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+                </a>
+              </div>
+
+              <!-- Card 6: Short Video -->
+              <div class="rounded-lg p-5 transition-shadow duration-250" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm);" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='var(--shadow-sm)'">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background: linear-gradient(135deg, var(--color-primary-tint-1), var(--color-primary-tint-2));">
+                  <i data-lucide="smartphone" style="width:20px;height:20px;color:var(--color-primary);"></i>
+                </div>
+                <h3 class="warm-heading text-base mb-2 truncate" style="font-size: var(--text-lg);">短视频拍摄技巧</h3>
+                <p class="warm-body-sm mb-3 line-clamp-2">构图法则、运镜技巧与竖屏叙事，快速提升短视频拍摄水平</p>
+                <div class="flex items-center gap-2 mb-4 flex-wrap">
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-primary-tint-2); color: var(--color-primary); font-family: var(--font-body);">影视制作</span>
+                  <span class="whitespace-nowrap px-2 py-0.5 text-xs rounded-md" style="background: var(--color-bg-surface); color: var(--color-text-secondary); font-family: var(--font-body);">入门</span>
+                  <span class="whitespace-nowrap text-xs" style="color: var(--color-text-tertiary); font-family: var(--font-body);">6课时 / 3h</span>
+                </div>
+                <a href="#" class="inline-flex items-center gap-1 text-sm font-medium transition-colors duration-150" style="color: var(--color-primary); font-family: var(--font-body);" onmouseover="this.style.color='var(--color-primary-dark)'" onmouseout="this.style.color='var(--color-primary)'">
+                  开始学习 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right 1/3: Sidebar -->
+          <div class="w-full lg:w-1/3 shrink-0 flex flex-col gap-5">
+
+            <!-- My Learning Card -->
+            <div class="rounded-lg p-5" style="background: var(--color-bg-elevated); border-top: 3px solid var(--state-success); box-shadow: var(--shadow-sm);">
+              <h3 class="warm-heading text-base mb-4 truncate" style="font-size: var(--text-lg);">我的学习</h3>
+              <div class="flex items-center justify-between mb-4">
+                <div class="text-center">
+                  <span class="block text-xl font-semibold" style="color: var(--color-text-primary); font-family: var(--font-body);">3</span>
+                  <span class="text-xs" style="color: var(--color-text-tertiary); font-family: var(--font-body);">进行中</span>
+                </div>
+                <div class="w-px h-8" style="background: var(--color-border-subtle);"></div>
+                <div class="text-center">
+                  <span class="block text-xl font-semibold" style="color: var(--color-text-primary); font-family: var(--font-body);">12</span>
+                  <span class="text-xs" style="color: var(--color-text-tertiary); font-family: var(--font-body);">已完成</span>
+                </div>
+              </div>
+              <div class="mb-1 flex items-center justify-between">
+                <span class="text-sm truncate" style="color: var(--color-text-primary); font-family: var(--font-body);">Premiere Pro 快速入门</span>
+                <span class="text-xs whitespace-nowrap ml-2" style="color: var(--state-success); font-family: var(--font-body);">65%</span>
+              </div>
+              <div class="w-full h-2 rounded-full overflow-hidden" style="background: var(--color-bg-surface);">
+                <div class="h-full rounded-full" style="width: 65%; background: var(--state-success);"></div>
+              </div>
+            </div>
+
+            <!-- Recommended Path Card -->
+            <div class="rounded-lg p-5" style="background: var(--color-bg-elevated); box-shadow: var(--shadow-sm);">
+              <h3 class="warm-heading text-base mb-4 truncate" style="font-size: var(--text-lg);">推荐路径</h3>
+              <p class="text-sm mb-4" style="color: var(--color-text-secondary); font-family: var(--font-body);">从零到剪辑师</p>
+              <div class="flex flex-col gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background: var(--state-success);">
+                    <i data-lucide="check" style="width:12px;height:12px;color:var(--color-text-inverse);"></i>
+                  </div>
+                  <span class="text-sm line-clamp-1" style="color: var(--color-text-primary); font-family: var(--font-body);">短视频拍摄技巧</span>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background: var(--state-success);">
+                    <i data-lucide="check" style="width:12px;height:12px;color:var(--color-text-inverse);"></i>
+                  </div>
+                  <span class="text-sm line-clamp-1" style="color: var(--color-text-primary); font-family: var(--font-body);">Premiere Pro 快速入门</span>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background: var(--state-success);">
+                    <i data-lucide="check" style="width:12px;height:12px;color:var(--color-text-inverse);"></i>
+                  </div>
+                  <span class="text-sm line-clamp-1" style="color: var(--color-text-primary); font-family: var(--font-body);">电影色彩理论基础</span>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="w-5 h-5 rounded-full border-2 shrink-0 mt-0.5" style="border-color: var(--color-border-default);"></div>
+                  <span class="text-sm line-clamp-1" style="color: var(--color-text-secondary); font-family: var(--font-body);">DaVinci Resolve 调色实战</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom CTA -->
+      <section class="py-12" style="background: var(--color-bg-surface);">
+        <div class="max-w-screen-xl mx-auto px-6 text-center">
+          <p class="warm-subheading mb-4" style="color: var(--color-text-secondary);">找不到需要的资源？</p>
+          <a href="ai-share.html" data-dom-id="cta-ai-share" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-150" style="border: 2px solid var(--color-primary); color: var(--color-primary); font-family: var(--font-body);" onmouseover="this.style.background='var(--color-primary)';this.style.color='var(--color-text-inverse)'" onmouseout="this.style.background='transparent';this.style.color='var(--color-primary)'">
+            提交需求
+          </a>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="py-8 border-t" style="border-color: var(--color-border-subtle); background: var(--color-bg-elevated);">
+        <div class="max-w-screen-xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <span class="warm-body-sm" style="color: var(--color-text-tertiary);">Cinema Personal Site</span>
+          <div class="flex items-center gap-4">
+            <a href="index.html" class="warm-body-sm whitespace-nowrap transition-colors duration-150" style="color: var(--color-text-tertiary);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-tertiary)'">首页</a>
+            <a href="movie-recommend.html" class="warm-body-sm whitespace-nowrap transition-colors duration-150" style="color: var(--color-text-tertiary);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-tertiary)'">影视推荐</a>
+            <a href="learning.html" class="warm-body-sm whitespace-nowrap transition-colors duration-150" style="color: var(--color-text-tertiary);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-tertiary)'">学习资料</a>
+            <a href="ai-share.html" class="warm-body-sm whitespace-nowrap transition-colors duration-150" style="color: var(--color-text-tertiary);" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-text-tertiary)'">AI 分享</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

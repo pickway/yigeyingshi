@@ -144,7 +144,13 @@ const paths = ref([])
 const loading = ref(true)
 const activeTab = ref('全部')
 
-const tabs = ['全部', '影视制作', '剪辑教程', '色彩学', '音效设计', 'AI创作']
+const tabs = computed(() => {
+  const set = new Set()
+  allCourses.value.forEach(c => {
+    if (c.category) set.add(c.category)
+  })
+  return ['全部', ...Array.from(set).sort()]
+})
 
 const iconMap = {
   clapperboard: Clapperboard,

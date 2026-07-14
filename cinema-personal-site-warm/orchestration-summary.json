@@ -1,0 +1,34 @@
+{
+  "project": {
+    "name": "影视娱乐个人主页（治愈版）",
+    "path": "f:\\workspace\\yigeyingshi\\cinema-personal-site-warm",
+    "operation": "create",
+    "deviceType": "desktop",
+    "language": "zh-CN",
+    "styleDefinitionBrief": "温暖治愈风 — 奶油色基底搭配焦糖棕与鼠尾草绿点缀，如午后阳光洒入的舒适书屋。Noto Serif SC 中文衬线标题传递温暖质感，Inter 正文保持清晰可读。圆润边角、柔和阴影，整体柔软亲切但不失品质。",
+    "designRead": "personal entertainment portal / cinephile & tech enthusiasts / warm healing comfort / medium density / avoid cold blue neon and harsh contrast",
+    "designDials": { "layoutVariance": 3, "motionIntensity": 2, "visualDensity": 3 },
+    "styleContinuityAnchors": {
+      "colorSystem": { "primaryColorRole": "Caramel accent (#C8956C) for highlights; sage green (#7BAE7F) as semantic secondary for success/progress", "brandHuePolicy": "Warm caramel primary + sage green secondary; no other brand hues" },
+      "shapeSystem": "Softer radius: sm=6px, md=10px, lg=16px, full=9999px. Max 16px for a rounded, approachable feel.",
+      "typographySystem": "Display: Noto Serif SC (serif) for headings; Body: Inter for text. Chinese-first font stack.",
+      "surfaceAndDepth": "Soft shadow-led surfaces on cream; warm brown-tinted shadows, alpha <= 0.05.",
+      "interactionTone": "Gentle 250ms transitions. Cards lift subtly with warm shadow growth."
+    }
+  },
+  "designSource": {
+    "operatingMode": "free-explore",
+    "cssFilePath": "f:\\workspace\\yigeyingshi\\cinema-personal-site-warm\\colors_and_type.css",
+    "brandPrefix": "warm"
+  },
+  "pages": [
+    { "nodeId": "page-index", "slug": "index", "title": "首页", "htmlSrc": "pages/index.html", "pageType": "showcase", "visualNorthStar": "A cozy afternoon in a sunlit reading nook — cream walls, warm wood accents, soft golden light. Like flipping through a beloved film magazine with a cup of tea.", "compositionPattern": "Warm Hero (centered, rounded card on cream) + Featured Grid + Alternating Content" },
+    { "nodeId": "page-movie-recommend", "slug": "movie-recommend", "title": "影视推荐", "htmlSrc": "pages/movie-recommend.html", "pageType": "showcase", "visualNorthStar": "A warm wooden shelf of beloved films — each card like a well-loved DVD case, soft cream backgrounds, rounded edges, caramel highlights on hover.", "compositionPattern": "Filter Bar + Poster Grid + Editor Pick" },
+    { "nodeId": "page-learning", "slug": "learning", "title": "学习资料", "htmlSrc": "pages/learning.html", "pageType": "information-dense", "visualNorthStar": "A warm study corner — organized notebooks, sage green progress markers, cream card surfaces. Inviting and calm.", "compositionPattern": "Category Tabs + Resource Grid with Sidebar" },
+    { "nodeId": "page-ai-share", "slug": "ai-share", "title": "AI 分享", "htmlSrc": "pages/ai-share.html", "pageType": "showcase", "visualNorthStar": "A warm tech garden — soft cream interface with caramel and sage accents, technology that feels approachable and human.", "compositionPattern": "Hero + Tool Cards + Article List + CTA" }
+  ],
+  "assets": [
+    { "filename": "hero-warm.jpg", "role": "critical-hero", "owningPage": "index", "status": "planned" },
+    { "filename": "ai-warm.jpg", "role": "critical-hero", "owningPage": "ai-share", "status": "planned" }
+  ]
+}

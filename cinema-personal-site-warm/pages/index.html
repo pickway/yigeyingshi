@@ -1,0 +1,398 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineVerse - 光影之间</title>
+    <style id="theme-vars">
+/* Cinema Personal Site - Warm Healing Theme */
+/* Brand prefix: warm */
+
+:root {
+  /* === Primary Color System === */
+  --color-primary: #C8956C;
+  --color-primary-light: #D9AD8A;
+  --color-primary-dark: #A87A55;
+  --color-primary-tint-1: rgba(200,149,108,0.10);
+  --color-primary-tint-2: rgba(200,149,108,0.05);
+  --color-primary-tint-3: rgba(200,149,108,0.03);
+
+  /* === Secondary Warm Accent === */
+  --state-success: #7BAE7F;
+
+  /* === Neutral Scale (Warm Cream) === */
+  --color-bg-base: #FDF8F3;
+  --color-bg-elevated: #FFFFFF;
+  --color-bg-surface: #F7F0E8;
+  --color-bg-muted: #EDE5DC;
+  --color-bg-overlay: rgba(253,248,243,0.90);
+  --color-border-default: #E5DDD4;
+  --color-border-subtle: #F0EAE2;
+  --color-border-strong: #D4C9BE;
+
+  --color-text-primary: #3D3229;
+  --color-text-secondary: #7A6E63;
+  --color-text-tertiary: #A89E94;
+  --color-text-inverse: #FFFFFF;
+  --color-text-link: #C8956C;
+
+  /* === State Colors === */
+  --state-success: #7BAE7F;
+  --state-warning: #D4A853;
+  --state-error: #D4654A;
+  --state-info: #6A9EC8;
+
+  /* === Shape System === */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* === Typography === */
+  --font-display: 'Noto Serif SC', 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  /* === Spacing Scale === */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 3px rgba(61,50,41,0.04);
+  --shadow-md: 0 4px 12px rgba(61,50,41,0.05);
+  --shadow-lg: 0 8px 24px rgba(61,50,41,0.05);
+  --shadow-glow: 0 0 20px rgba(200,149,108,0.12);
+
+  /* === Transitions === */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* === Container === */
+  --container-max: 1200px;
+  --content-padding: 24px;
+}
+
+/* === Typography Classes === */
+.warm-display { font-family: var(--font-display); font-weight: 700; letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.warm-display-lg { font-family: var(--font-display); font-weight: 700; font-size: var(--text-4xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-tight); }
+.warm-heading { font-family: var(--font-display); font-weight: 600; font-size: var(--text-2xl); letter-spacing: var(--tracking-tight); line-height: var(--leading-snug); }
+.warm-subheading { font-family: var(--font-body); font-weight: 500; font-size: var(--text-lg); line-height: var(--leading-snug); color: var(--color-text-secondary); }
+.warm-body { font-family: var(--font-body); font-size: var(--text-base); line-height: var(--leading-normal); color: var(--color-text-primary); }
+.warm-body-sm { font-family: var(--font-body); font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); }
+.warm-caption { font-family: var(--font-body); font-size: var(--text-xs); line-height: var(--leading-normal); color: var(--color-text-tertiary); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+.warm-mono { font-family: var(--font-mono); font-size: var(--text-sm); }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+@theme inline {
+  --color-background: var(--color-bg-base);
+  --color-foreground: var(--color-text-primary);
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-text-inverse);
+  --color-muted: var(--color-bg-muted);
+  --color-muted-foreground: var(--color-text-secondary);
+  --color-card: var(--color-bg-elevated);
+  --color-card-foreground: var(--color-text-primary);
+  --color-border: var(--color-border-default);
+  --color-ring: var(--color-primary);
+  --color-destructive: var(--state-error);
+  --color-accent: var(--color-primary);
+  --color-accent-foreground: var(--color-text-inverse);
+  --color-popover: var(--color-bg-elevated);
+  --color-popover-foreground: var(--color-text-primary);
+  --color-sidebar: var(--color-bg-surface);
+  --color-sidebar-foreground: var(--color-text-primary);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+  @layer base {
+    body { background: var(--color-bg-base); color: var(--color-text-primary); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 z-50 border-b" style="background:var(--color-bg-elevated);border-color:var(--color-border-subtle);">
+            <div class="max-w-[1200px] mx-auto px-6 flex items-center justify-between" style="height:64px;">
+                <a href="index.html" class="warm-display text-xl" style="color:var(--color-primary);">CineVerse</a>
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="index.html" data-nav-key="index" data-dom-id="nav-index" data-active="true" class="text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150" style="color:var(--color-primary);background:var(--color-primary-tint-1);">首页</a>
+                    <a href="movie-recommend.html" data-nav-key="movie-recommend" data-dom-id="nav-movie-recommend" class="text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150" style="color:var(--color-text-secondary);">影视推荐</a>
+                    <a href="learning.html" data-nav-key="learning" data-dom-id="nav-learning" class="text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150" style="color:var(--color-text-secondary);">学习资料</a>
+                    <a href="ai-share.html" data-nav-key="ai-share" data-dom-id="nav-ai-share" class="text-sm font-medium px-3 py-1.5 rounded-lg transition-colors duration-150" style="color:var(--color-text-secondary);">AI 分享</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs" style="background:var(--color-bg-muted);color:var(--color-text-tertiary);">
+                        <i data-lucide="search" class="w-3.5 h-3.5"></i>
+                        <span>搜索...</span>
+                    </div>
+                    <button class="md:hidden p-2 rounded-lg" style="color:var(--color-text-secondary);" aria-label="打开菜单">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="pt-32 pb-20 px-6" style="background:var(--color-bg-base);">
+            <div class="max-w-[1200px] mx-auto">
+                <div class="relative overflow-hidden rounded-2xl" style="background-image:url('../assets/hero-warm.jpg');background-size:cover;background-position:center;min-height:420px;">
+                    <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(61,50,41,0.55) 0%,rgba(61,50,41,0.30) 100%);border-radius:var(--radius-lg);"></div>
+                    <div class="relative z-10 flex flex-col items-center justify-center text-center px-6 py-20">
+                        <h1 class="warm-display text-4xl md:text-5xl font-bold mb-6" style="color:var(--color-text-inverse);text-wrap:balance;word-break:keep-all;overflow-wrap:break-word;">光影之间</h1>
+                        <p class="warm-body text-lg mb-10 max-w-lg" style="color:rgba(255,255,255,0.85);">探索影视世界，分享学习心得，洞见AI未来</p>
+                        <div class="flex flex-wrap gap-4 justify-center">
+                            <a href="movie-recommend.html" data-dom-id="cta-movie-recommend" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-transform duration-150 hover:-translate-y-0.5" style="background:var(--color-primary);color:var(--color-text-inverse);">探索推荐</a>
+                            <a href="#" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-colors duration-150 border" style="border-color:var(--color-primary);color:var(--color-primary);">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Movies -->
+        <section class="py-20 px-6" style="background:var(--color-bg-elevated);">
+            <div class="max-w-[1200px] mx-auto">
+                <div class="mb-10">
+                    <h2 class="warm-heading text-2xl mb-1" style="color:var(--color-text-primary);text-wrap:balance;word-break:keep-all;">本周推荐</h2>
+                    <div class="w-12 h-1 rounded-full" style="background:var(--state-success);"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Movie 1: 星际穿越 -->
+                    <div class="group overflow-hidden rounded-lg transition-shadow duration-150 hover:-translate-y-0.5" style="background:var(--color-bg-elevated);box-shadow:var(--shadow-sm);">
+                        <div class="h-48" style="background:linear-gradient(135deg,var(--color-primary-dark) 0%,var(--color-primary-light) 100%);"></div>
+                        <div class="p-5">
+                            <h3 class="warm-display text-lg font-semibold mb-2" style="color:var(--color-text-primary);">星际穿越</h3>
+                            <span class="inline-block px-2.5 py-0.5 rounded text-xs font-medium mb-3" style="background:var(--color-primary-tint-1);color:var(--color-primary);">科幻</span>
+                            <div class="flex items-center gap-1" style="color:var(--color-primary);">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <span class="text-xs ml-1" style="color:var(--color-text-tertiary);">9.4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Movie 2: 千与千寻 -->
+                    <div class="group overflow-hidden rounded-lg transition-shadow duration-150 hover:-translate-y-0.5" style="background:var(--color-bg-elevated);box-shadow:var(--shadow-sm);">
+                        <div class="h-48" style="background:linear-gradient(135deg,var(--state-success) 0%,var(--state-success) 100%);"></div>
+                        <div class="p-5">
+                            <h3 class="warm-display text-lg font-semibold mb-2" style="color:var(--color-text-primary);">千与千寻</h3>
+                            <span class="inline-block px-2.5 py-0.5 rounded text-xs font-medium mb-3" style="background:var(--color-primary-tint-1);color:var(--color-primary);">动画</span>
+                            <div class="flex items-center gap-1" style="color:var(--color-primary);">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <span class="text-xs ml-1" style="color:var(--color-text-tertiary);">9.3</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Movie 3: 寄生虫 -->
+                    <div class="group overflow-hidden rounded-lg transition-shadow duration-150 hover:-translate-y-0.5" style="background:var(--color-bg-elevated);box-shadow:var(--shadow-sm);">
+                        <div class="h-48" style="background:linear-gradient(135deg,var(--state-warning) 0%,var(--color-primary-light) 100%);"></div>
+                        <div class="p-5">
+                            <h3 class="warm-display text-lg font-semibold mb-2" style="color:var(--color-text-primary);">寄生虫</h3>
+                            <span class="inline-block px-2.5 py-0.5 rounded text-xs font-medium mb-3" style="background:var(--color-primary-tint-1);color:var(--color-primary);">剧情</span>
+                            <div class="flex items-center gap-1" style="color:var(--color-primary);">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <span class="text-xs ml-1" style="color:var(--color-text-tertiary);">8.8</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Posts -->
+        <section class="py-20 px-6" style="background:var(--color-bg-surface);">
+            <div class="max-w-[1200px] mx-auto">
+                <div class="mb-10">
+                    <h2 class="warm-heading text-2xl mb-1" style="color:var(--color-text-primary);text-wrap:balance;word-break:keep-all;">最新动态</h2>
+                    <div class="w-12 h-1 rounded-full" style="background:var(--state-success);"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Article 1 -->
+                    <article class="p-6 rounded-lg transition-shadow duration-150 hover:-translate-y-0.5" style="background:var(--color-bg-elevated);box-shadow:var(--shadow-sm);border-left:3px solid var(--color-primary);">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-xs font-medium" style="color:var(--color-text-tertiary);">2026-07-10</span>
+                            <span class="px-2 py-0.5 rounded text-xs" style="background:var(--color-primary-tint-1);color:var(--color-primary);">影评</span>
+                        </div>
+                        <h3 class="warm-display text-lg font-semibold mb-2" style="color:var(--color-text-primary);">诺兰的时空叙事</h3>
+                        <p class="warm-body-sm line-clamp-2">从《盗梦空间》到《奥本海默》，探索克里斯托弗·诺兰如何用影像语言重新定义时间的边界与叙事的可能性。</p>
+                    </article>
+                    <!-- Article 2 -->
+                    <article class="p-6 rounded-lg transition-shadow duration-150 hover:-translate-y-0.5" style="background:var(--color-bg-elevated);box-shadow:var(--shadow-sm);border-left:3px solid var(--color-primary);">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-xs font-medium" style="color:var(--color-text-tertiary);">2026-07-08</span>
+                            <span class="px-2 py-0.5 rounded text-xs" style="background:var(--color-primary-tint-1);color:var(--color-primary);">随笔</span>
+                        </div>
+                        <h3 class="warm-display text-lg font-semibold mb-2" style="color:var(--color-text-primary);">宫崎骏的色彩哲学</h3>
+                        <p class="warm-body-sm line-clamp-2">每一帧画面都承载着对自然与生命的敬意，宫崎骏如何用色彩构建一个温暖的动画宇宙。</p>
+                    </article>
+                </div>
+                <!-- Learning Highlight -->
+                <div class="mt-6 p-6 rounded-lg" style="background:var(--color-bg-elevated);box-shadow:var(--shadow-sm);border-top:3px solid var(--state-success);">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center justify-center w-8 h-8 rounded-lg" style="background:var(--color-primary-tint-1);">
+                                <i data-lucide="play-circle" class="w-4 h-4" style="color:var(--state-success);"></i>
+                            </div>
+                            <h3 class="warm-display text-lg font-semibold" style="color:var(--color-text-primary);">从零开始的剪辑课</h3>
+                        </div>
+                        <span class="text-xs font-medium" style="color:var(--state-success);">进行中</span>
+                    </div>
+                    <p class="warm-body-sm mb-4">系统学习视频剪辑的核心技法，从剪辑节奏到调色流程，逐步构建专业能力。</p>
+                    <div class="w-full h-2 rounded-full overflow-hidden" style="background:var(--color-bg-muted);">
+                        <div class="h-full rounded-full" style="width:65%;background:var(--state-success);"></div>
+                    </div>
+                    <div class="flex items-center justify-between mt-2">
+                        <span class="text-xs" style="color:var(--color-text-tertiary);">进度 65%</span>
+                        <span class="text-xs" style="color:var(--color-text-tertiary);">13 / 20 课时</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Highlights -->
+        <section class="py-20 px-6" style="background:var(--color-bg-elevated);">
+            <div class="max-w-[1200px] mx-auto">
+                <div class="mb-10">
+                    <h2 class="warm-heading text-2xl mb-1" style="color:var(--color-text-primary);text-wrap:balance;word-break:keep-all;">AI 前沿</h2>
+                    <div class="w-12 h-1 rounded-full" style="background:var(--state-success);"></div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <!-- AI Card 1 -->
+                    <div class="p-6 rounded-lg transition-shadow duration-150 hover:-translate-y-0.5" style="background:var(--color-bg-elevated);box-shadow:var(--shadow-sm);">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg mb-4" style="background:linear-gradient(135deg,var(--color-primary-tint-1),var(--color-primary-tint-2));">
+                            <i data-lucide="video" class="w-5 h-5" style="color:var(--color-primary);"></i>
+                        </div>
+                        <h3 class="warm-display text-base font-semibold mb-2" style="color:var(--color-text-primary);">AI 视频生成</h3>
+                        <p class="warm-body-sm line-clamp-3">从文本到影像，AI 正在重新定义视频创作的门槛与可能性。</p>
+                    </div>
+                    <!-- AI Card 2 -->
+                    <div class="p-6 rounded-lg transition-shadow duration-150 hover:-translate-y-0.5" style="background:var(--color-bg-elevated);box-shadow:var(--shadow-sm);">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg mb-4" style="background:linear-gradient(135deg,var(--color-primary-tint-1),var(--color-primary-tint-2));">
+                            <i data-lucide="subtitles" class="w-5 h-5" style="color:var(--color-primary);"></i>
+                        </div>
+                        <h3 class="warm-display text-base font-semibold mb-2" style="color:var(--color-text-primary);">智能字幕</h3>
+                        <p class="warm-body-sm line-clamp-3">自动生成精准字幕，支持多语言翻译，让内容跨越语言障碍。</p>
+                    </div>
+                    <!-- AI Card 3 -->
+                    <div class="p-6 rounded-lg transition-shadow duration-150 hover:-translate-y-0.5" style="background:var(--color-bg-elevated);box-shadow:var(--shadow-sm);">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg mb-4" style="background:linear-gradient(135deg,var(--color-primary-tint-1),var(--color-primary-tint-2));">
+                            <i data-lucide="brain" class="w-5 h-5" style="color:var(--color-primary);"></i>
+                        </div>
+                        <h3 class="warm-display text-base font-semibold mb-2" style="color:var(--color-text-primary);">AI 影评分析</h3>
+                        <p class="warm-body-sm line-clamp-3">深度解析影片的叙事结构、镜头语言与情感表达，提供多维度的影评视角。</p>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <a href="ai-share.html" data-dom-id="cta-ai-share" class="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-150" style="color:var(--color-primary);">
+                        查看更多
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6" style="background:var(--color-bg-surface);">
+        <div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div>
+                <span class="warm-display text-xl" style="color:var(--color-primary);">CineVerse</span>
+                <p class="warm-body-sm mt-3">探索光影世界，分享智慧火花</p>
+            </div>
+            <div>
+                <h4 class="text-sm font-semibold mb-3" style="color:var(--color-text-primary);">快速导航</h4>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="text-sm transition-colors duration-150" style="color:var(--color-text-secondary);">首页</a></li>
+                    <li><a href="movie-recommend.html" class="text-sm transition-colors duration-150" style="color:var(--color-text-secondary);">影视推荐</a></li>
+                    <li><a href="learning.html" class="text-sm transition-colors duration-150" style="color:var(--color-text-secondary);">学习资料</a></li>
+                    <li><a href="ai-share.html" class="text-sm transition-colors duration-150" style="color:var(--color-text-secondary);">AI 分享</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm font-semibold mb-3" style="color:var(--color-text-primary);">社交平台</h4>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="flex items-center justify-center w-9 h-9 rounded-lg transition-colors duration-150" style="color:var(--color-text-secondary);background:var(--color-bg-elevated);" aria-label="微博">
+                        <i data-lucide="at-sign" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="flex items-center justify-center w-9 h-9 rounded-lg transition-colors duration-150" style="color:var(--color-text-secondary);background:var(--color-bg-elevated);" aria-label="GitHub">
+                        <i data-lucide="github" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="flex items-center justify-center w-9 h-9 rounded-lg transition-colors duration-150" style="color:var(--color-text-secondary);background:var(--color-bg-elevated);" aria-label="邮件">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-[1200px] mx-auto mt-10 pt-6 text-center text-xs" style="border-top:1px solid var(--color-border-subtle);color:var(--color-text-tertiary);">
+            Copyright &copy; 2026 CineVerse
+        </div>
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
