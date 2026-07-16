@@ -1,70 +1,89 @@
 <script setup>
+import { Mail, Globe, MessageCircle } from '@lucide/vue'
+
 const currentYear = new Date().getFullYear()
 </script>
 
 <template>
-  <footer style="background: var(--color-bg-elevated); border-top: 1px solid var(--color-border-subtle)">
-    <div class="mx-auto" style="max-width: var(--container-max); padding: 48px var(--content-padding) 32px">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+  <footer class="border-t" style="background:var(--color-bg-elevated); border-color:var(--color-border-subtle); padding-top:var(--space-12); padding-bottom:var(--space-12);">
+    <div class="max-w-[var(--container-max)] mx-auto"
+         style="padding-left:var(--content-padding); padding-right:var(--content-padding);">
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
         <!-- Brand -->
         <div>
-          <span class="cine-display" style="color: var(--color-primary); font-size: 1.25rem">CineVerse</span>
-          <p class="cine-body-sm mt-3" style="line-height: 1.7; max-width: 280px">
-            探索影视世界，分享学习心得，洞见AI未来。一个关于光影与技术的个人空间。
+          <router-link to="/"
+             class="inline-block no-underline"
+             style="font-family:var(--font-display); font-weight:700; font-size:var(--text-xl); color:var(--color-primary); letter-spacing:var(--tracking-tight);">
+            CineVerse
+          </router-link>
+          <p class="mt-3" style="font-family:var(--font-body); font-size:var(--text-sm); color:var(--color-text-tertiary); line-height:var(--leading-normal); max-width:280px;">
+            探索光影世界，分享智慧火花
           </p>
         </div>
 
         <!-- Quick Links -->
         <div>
-          <h4
-            class="text-sm font-semibold mb-4 whitespace-nowrap"
-            style="color: var(--color-text-primary); font-family: var(--font-body)"
-          >
+          <h3 class="mb-4" style="font-family:var(--font-body); font-weight:600; font-size:var(--text-sm); color:var(--color-text-primary); letter-spacing:var(--tracking-wide); text-transform:uppercase;">
             快速导航
-          </h4>
-          <div class="flex flex-col gap-2">
-            <router-link
-              v-for="item in [
-                { label: '首页', path: '/' },
-                { label: '影视推荐', path: '/movie-recommend' },
-                { label: '学习资料', path: '/learning' },
-                { label: 'AI 分享', path: '/ai-share' },
-              ]"
-              :key="item.path"
-              :to="item.path"
-              class="text-sm whitespace-nowrap transition-colors duration-150 no-underline"
-              style="color: var(--color-text-secondary)"
-            >
-              {{ item.label }}
-            </router-link>
-          </div>
+          </h3>
+          <ul class="flex flex-col gap-3 list-none m-0 p-0">
+            <li>
+              <router-link to="/" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">
+                首页
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/movie-recommend" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">
+                影视推荐
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/learning" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">
+                学习资料
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/ai-share" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">
+                AI 分享
+              </router-link>
+            </li>
+          </ul>
         </div>
 
         <!-- Contact -->
         <div>
-          <h4
-            class="text-sm font-semibold mb-4 whitespace-nowrap"
-            style="color: var(--color-text-primary); font-family: var(--font-body)"
-          >
+          <h3 class="mb-4" style="font-family:var(--font-body); font-weight:600; font-size:var(--text-sm); color:var(--color-text-primary); letter-spacing:var(--tracking-wide); text-transform:uppercase;">
             联系方式
-          </h4>
-          <div class="flex flex-col gap-2">
-            <span class="text-sm whitespace-nowrap" style="color: var(--color-text-secondary); font-family: var(--font-body)">
-              hello@cineverse.example
-            </span>
-            <span class="text-sm whitespace-nowrap" style="color: var(--color-text-secondary); font-family: var(--font-body)">
-              GitHub / Twitter
-            </span>
-          </div>
+          </h3>
+          <ul class="flex flex-col gap-3 list-none m-0 p-0">
+            <li class="flex items-center gap-2">
+              <Mail :size="16" style="color:var(--color-text-tertiary);" />
+              <span class="text-sm" style="color:var(--color-text-tertiary);">hello@cineverse.site</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <Globe :size="16" style="color:var(--color-text-tertiary);" />
+              <a href="#" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">GitHub</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <MessageCircle :size="16" style="color:var(--color-text-tertiary);" />
+              <a href="#" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">Twitter</a>
+            </li>
+          </ul>
         </div>
       </div>
 
-      <!-- Bottom bar -->
-      <div class="pt-6 flex items-center justify-between" style="border-top: 1px solid var(--color-border-subtle)">
-        <span class="text-xs whitespace-nowrap" style="color: var(--color-text-tertiary); font-family: var(--font-body)">
-          {{ currentYear }} CineVerse. All rights reserved.
-        </span>
+      <div class="mt-10 pt-6 border-t" style="border-color:var(--color-border-subtle);">
+        <p class="text-center" style="font-family:var(--font-body); font-size:var(--text-xs); color:var(--color-text-tertiary);">
+          &copy; {{ currentYear }} CineVerse. All rights reserved.
+        </p>
       </div>
     </div>
   </footer>
 </template>
+
+<style scoped>
+a:hover {
+  color: var(--color-primary);
+}
+</style>

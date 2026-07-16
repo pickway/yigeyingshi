@@ -1,37 +1,37 @@
 @import "tailwindcss";
 
-/* === Cinema Personal Site - Bright Editorial Theme === */
+/* === Cinema Personal Site - Dark Theater Theme === */
 
 :root {
   /* === Primary Color System === */
-  --color-primary: #E85D3A;
-  --color-primary-light: #F2845F;
-  --color-primary-dark: #C44A2B;
-  --color-primary-tint-1: rgba(232, 93, 58, 0.10);
-  --color-primary-tint-2: rgba(232, 93, 58, 0.05);
-  --color-primary-tint-3: rgba(232, 93, 58, 0.03);
+  --color-primary: #D4A853;
+  --color-primary-light: #E8C97A;
+  --color-primary-dark: #B08930;
+  --color-primary-tint-1: rgba(212, 168, 83, 0.12);
+  --color-primary-tint-2: rgba(212, 168, 83, 0.06);
+  --color-primary-tint-3: rgba(212, 168, 83, 0.03);
 
-  /* === Neutral Scale (Warm Light) === */
-  --color-bg-base: #FAFAF8;
-  --color-bg-elevated: #FFFFFF;
-  --color-bg-surface: #F3F2EF;
-  --color-bg-muted: #EAEAE6;
-  --color-bg-overlay: rgba(250, 250, 248, 0.90);
-  --color-border-default: #E0DFDB;
-  --color-border-subtle: #EDECE8;
-  --color-border-strong: #CCCBC6;
+  /* === Neutral Scale (Dark Theater) === */
+  --color-bg-base: #0C0C0E;
+  --color-bg-elevated: #151518;
+  --color-bg-surface: #1C1C20;
+  --color-bg-muted: #242428;
+  --color-bg-overlay: rgba(12, 12, 14, 0.85);
+  --color-border-default: #2A2A30;
+  --color-border-subtle: #1F1F25;
+  --color-border-strong: #3A3A42;
 
-  --color-text-primary: #1A1A1A;
-  --color-text-secondary: #6B6B6B;
-  --color-text-tertiary: #9A9A96;
-  --color-text-inverse: #FFFFFF;
-  --color-text-link: #E85D3A;
+  --color-text-primary: #F0EDE6;
+  --color-text-secondary: #9A9AA0;
+  --color-text-tertiary: #6A6A72;
+  --color-text-inverse: #0C0C0E;
+  --color-text-link: #D4A853;
 
   /* === State Colors === */
-  --state-success: #2DA86A;
-  --state-warning: #E8A33A;
-  --state-error: #DC3545;
-  --state-info: #3B82F6;
+  --state-success: #3ECF8E;
+  --state-warning: #F5A623;
+  --state-error: #EF4444;
+  --state-info: #60A5FA;
 
   /* === Shape System === */
   --radius-sm: 4px;
@@ -45,10 +45,10 @@
   --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
 
   /* === Shadows === */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.05);
-  --shadow-glow: 0 0 20px rgba(232, 93, 58, 0.12);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px rgba(212, 168, 83, 0.15);
 
   /* === Transitions === */
   --transition-fast: 150ms ease;
@@ -67,7 +67,7 @@
   --color-primary-foreground: var(--color-text-inverse);
   --color-muted: var(--color-bg-muted);
   --color-muted-foreground: var(--color-text-secondary);
-  --color-card: var(--color-bg-elevated);
+  --color-card: var(--color-bg-surface);
   --color-card-foreground: var(--color-text-primary);
   --color-border: var(--color-border-default);
   --color-ring: var(--color-primary);
@@ -76,7 +76,7 @@
   --color-accent-foreground: var(--color-text-inverse);
   --color-popover: var(--color-bg-elevated);
   --color-popover-foreground: var(--color-text-primary);
-  --color-sidebar: var(--color-bg-surface);
+  --color-sidebar: var(--color-bg-elevated);
   --color-sidebar-foreground: var(--color-text-primary);
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
@@ -95,46 +95,46 @@
 }
 
 /* === Typography Classes === */
-.cine-display {
+.cinema-display {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.25;
 }
-.cine-display-lg {
+.cinema-display-lg {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 2.25rem;
   letter-spacing: -0.02em;
   line-height: 1.25;
 }
-.cine-heading {
+.cinema-heading {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.5rem;
   letter-spacing: -0.02em;
   line-height: 1.35;
 }
-.cine-subheading {
+.cinema-subheading {
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 1.0625rem;
   line-height: 1.35;
   color: var(--color-text-secondary);
 }
-.cine-body {
+.cinema-body {
   font-family: var(--font-body);
   font-size: 0.9375rem;
   line-height: 1.6;
   color: var(--color-text-primary);
 }
-.cine-body-sm {
+.cinema-body-sm {
   font-family: var(--font-body);
   font-size: 0.8125rem;
   line-height: 1.6;
   color: var(--color-text-secondary);
 }
-.cine-caption {
+.cinema-caption {
   font-family: var(--font-body);
   font-size: 0.75rem;
   line-height: 1.6;

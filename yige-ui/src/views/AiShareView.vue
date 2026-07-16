@@ -66,29 +66,27 @@ onMounted(load)
   <div class="ai-share-page">
     <!-- AI Hero -->
     <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-left">
-          <h1 class="cine-display hero-title">智慧光影</h1>
-          <p class="cine-body-sm hero-subtitle">AI 赋能创作，探索影视与技术的交汇点</p>
-          <a href="#tool-showcase" class="cta-button">
-            开始探索
-            <ArrowRight :size="18" />
-          </a>
-        </div>
-        <div class="hero-right">
-          <img src="/ai-bright.jpg" alt="AI Bright" class="hero-image" />
-        </div>
+      <div class="hero-bg">
+        <img src="/ai-bright.jpg" alt="AI abstract visual" class="hero-bg-image" />
+        <div class="hero-bg-overlay"></div>
+      </div>
+      <div class="container hero-content">
+        <h1 class="cinema-display hero-title">智慧光影</h1>
+        <p class="cinema-subheading hero-subtitle">AI 赋能创作，探索影视与技术的交汇点</p>
+        <a href="#tool-showcase" class="cta-button">
+          开始探索
+        </a>
       </div>
     </section>
 
     <!-- Tool Showcase -->
     <section id="tool-showcase" class="tool-showcase">
       <div class="container">
-        <h2 class="cine-heading section-title">推荐工具</h2>
+        <h2 class="cinema-heading section-title">推荐工具</h2>
         <div v-if="loading" class="tool-grid">
           <div v-for="i in 3" :key="i" class="tool-card">
             <div class="tool-icon-box">
-              <Video :size="24" />
+              <Video :size="32" />
             </div>
             <h3 class="tool-title">加载中…</h3>
             <p class="tool-desc">正在获取推荐工具</p>
@@ -101,7 +99,7 @@ onMounted(load)
             class="tool-card"
           >
             <div class="tool-icon-box">
-              <component :is="iconMap[tool.icon] || Video" :size="24" />
+              <component :is="iconMap[tool.icon] || Video" :size="32" />
             </div>
             <h3 class="tool-title">{{ tool.name }}</h3>
             <p class="tool-desc">{{ tool.description }}</p>
@@ -114,7 +112,10 @@ onMounted(load)
                 {{ tag.trim() }}
               </span>
             </div>
-            <a :href="tool.url || '#'" class="tool-link" target="_blank" rel="noopener">查看详情 →</a>
+            <a :href="tool.url || '#'" class="tool-link" target="_blank" rel="noopener">
+              查看详情
+              <ArrowRight :size="14" />
+            </a>
           </div>
         </div>
       </div>
@@ -123,7 +124,7 @@ onMounted(load)
     <!-- Article List -->
     <section class="article-list">
       <div class="container">
-        <h2 class="cine-heading section-title">技术文章</h2>
+        <h2 class="cinema-heading section-title">技术文章</h2>
         <div class="article-card">
           <div v-if="loading" class="article-row">
             <div class="article-number">…</div>
@@ -154,30 +155,28 @@ onMounted(load)
 
     <!-- Newsletter CTA -->
     <section class="newsletter">
-      <div class="container">
-        <div class="newsletter-card">
-          <div class="newsletter-decoration"></div>
-          <h2 class="cine-heading newsletter-title">订阅更新</h2>
-          <p class="cine-body-sm newsletter-subtitle">
-            获取最新的 AI 影视工具资讯与技术文章，直达你的收件箱
-          </p>
-          <form class="newsletter-form" @submit.prevent="subscribe">
-            <input
-              v-model="form.email"
-              type="email"
-              placeholder="输入你的邮箱地址"
-              class="newsletter-input"
-            />
-            <button
-              type="submit"
-              class="newsletter-button"
-              :disabled="subscribing"
-            >
-              {{ subscribing ? '订阅中…' : '订阅' }}
-            </button>
-          </form>
-          <p v-if="subscribeMsg" class="cine-body-sm subscribe-msg">{{ subscribeMsg }}</p>
-        </div>
+      <div class="newsletter-glow"></div>
+      <div class="container newsletter-content">
+        <h2 class="cinema-heading newsletter-title">订阅更新</h2>
+        <p class="cinema-body-sm newsletter-subtitle">
+          每周精选 AI 工具和影视创作技巧，直达你的邮箱
+        </p>
+        <form class="newsletter-form" @submit.prevent="subscribe">
+          <input
+            v-model="form.email"
+            type="email"
+            placeholder="输入你的邮箱"
+            class="newsletter-input"
+          />
+          <button
+            type="submit"
+            class="newsletter-button"
+            :disabled="subscribing"
+          >
+            {{ subscribing ? '订阅中…' : '订阅' }}
+          </button>
+        </form>
+        <p v-if="subscribeMsg" class="cinema-body-sm subscribe-msg">{{ subscribeMsg }}</p>
       </div>
     </section>
   </div>
@@ -185,30 +184,43 @@ onMounted(load)
 
 <style scoped>
 .ai-share-page {
-  --color-primary: #E85D3A;
-  --color-primary-light: #F2845F;
-  --color-primary-dark: #C44A2B;
-  --color-primary-tint-1: rgba(232, 93, 58, 0.10);
-  --color-primary-tint-2: rgba(232, 93, 58, 0.05);
-  --color-bg-base: #FAFAF8;
-  --color-bg-elevated: #FFFFFF;
-  --color-bg-surface: #F3F2EF;
-  --color-border-subtle: #EDECE8;
-  --color-border-default: #E0DFDB;
-  --color-text-primary: #1A1A1A;
-  --color-text-secondary: #6B6B6B;
-  --color-text-tertiary: #9A9A96;
-  --color-text-inverse: #FFFFFF;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
+  /* Cinema Personal Site - Dark Theater Theme */
+  --color-primary: #D4A853;
+  --color-primary-light: #E8C97A;
+  --color-primary-dark: #B08930;
+  --color-primary-tint-1: rgba(212,168,83,0.12);
+  --color-primary-tint-2: rgba(212,168,83,0.06);
+  --color-primary-tint-3: rgba(212,168,83,0.03);
+
+  --color-bg-base: #0C0C0E;
+  --color-bg-elevated: #151518;
+  --color-bg-surface: #1C1C20;
+  --color-bg-muted: #242428;
+
+  --color-border-default: #2A2A30;
+  --color-border-subtle: #1F1F25;
+  --color-border-strong: #3A3A42;
+
+  --color-text-primary: #F0EDE6;
+  --color-text-secondary: #9A9AA0;
+  --color-text-tertiary: #6A6A72;
+  --color-text-inverse: #0C0C0E;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 20px rgba(212,168,83,0.15);
+
   --container-max: 1200px;
   --content-padding: 24px;
-  --font-display: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
-  --font-body: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+
+  --font-display: 'Playfair Display', Georgia, 'Noto Serif SC', serif;
+  --font-body: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
 
   background: var(--color-bg-base);
   color: var(--color-text-primary);
@@ -221,102 +233,114 @@ onMounted(load)
   padding-inline: var(--content-padding);
 }
 
-.cine-display {
+/* === Typography Classes === */
+.cinema-display {
   font-family: var(--font-display);
   font-weight: 700;
-  line-height: 1.1;
   letter-spacing: -0.02em;
+  line-height: 1.25;
 }
 
-.cine-heading {
+.cinema-heading {
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
 }
 
-.cine-body-sm {
+.cinema-subheading {
   font-family: var(--font-body);
-  font-size: 15px;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--color-text-secondary);
+}
+
+.cinema-body-sm {
+  font-family: var(--font-body);
+  font-size: 13px;
   line-height: 1.6;
   color: var(--color-text-secondary);
 }
 
 /* ── Hero ── */
 .hero {
-  padding-block: 80px 60px;
+  position: relative;
+  overflow: hidden;
+  padding-block: 80px;
 }
 
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-  align-items: center;
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+}
+
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--color-bg-base) 0%, rgba(12,12,14,0.6) 40%, rgba(12,12,14,0.85) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
 }
 
 .hero-title {
   font-size: clamp(40px, 6vw, 72px);
   color: var(--color-text-primary);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .hero-subtitle {
-  margin-bottom: 36px;
-  max-width: 480px;
+  font-size: 17px;
+  color: var(--color-text-secondary);
+  max-width: 520px;
+  margin-inline: auto;
+  margin-bottom: 40px;
 }
 
 .cta-button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 14px 32px;
+  padding: 12px 28px;
   background: var(--color-primary);
   color: var(--color-text-inverse);
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   border-radius: var(--radius-md);
   text-decoration: none;
-  transition: background 0.2s;
+  box-shadow: var(--shadow-glow);
+  transition: all 0.25s ease;
 }
 
 .cta-button:hover {
-  background: var(--color-primary-dark);
-}
-
-.hero-right {
-  display: flex;
-  justify-content: center;
-}
-
-.hero-image {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-}
-
-@media (min-width: 1024px) {
-  .hero-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-  .hero-left {
-    grid-column: span 3;
-  }
-  .hero-right {
-    grid-column: span 2;
-  }
+  background: var(--color-primary-light);
+  transform: translateY(-1px);
 }
 
 /* ── Tool Showcase ── */
 .tool-showcase {
-  padding-block: 60px;
+  padding-block: 80px;
 }
 
 .section-title {
-  font-size: 32px;
-  margin-bottom: 36px;
+  font-size: 30px;
+  color: var(--color-text-primary);
+  margin-bottom: 48px;
 }
 
 .tool-grid {
@@ -332,29 +356,31 @@ onMounted(load)
 }
 
 .tool-card {
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-lg);
-  padding: 28px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  transition: box-shadow 0.2s;
+  gap: 12px;
+  transition: all 0.25s ease;
+  cursor: pointer;
 }
 
 .tool-card:hover {
-  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow);
 }
 
 .tool-icon-box {
-  width: 48px;
-  height: 48px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-primary-tint-1);
+  background: linear-gradient(135deg, rgba(212,168,83,0.25) 0%, rgba(212,168,83,0.05) 100%);
+  border-radius: var(--radius-lg);
+  margin-bottom: 8px;
   color: var(--color-primary);
-  border-radius: var(--radius-md);
 }
 
 .tool-title {
@@ -365,7 +391,7 @@ onMounted(load)
 }
 
 .tool-desc {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.6;
   color: var(--color-text-secondary);
   flex: 1;
@@ -375,40 +401,51 @@ onMounted(load)
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-bottom: 4px;
 }
 
 .tool-tag {
-  display: inline-block;
-  padding: 4px 12px;
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 2px 10px;
   font-size: 12px;
   font-weight: 500;
-  background: var(--color-primary-tint-2);
-  color: var(--color-primary);
+  background: var(--color-bg-muted);
+  color: var(--color-text-secondary);
   border-radius: var(--radius-full);
 }
 
+.tool-tag:first-child {
+  background: var(--color-primary-tint-1);
+  color: var(--color-primary);
+}
+
 .tool-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-primary);
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.15s ease;
 }
 
 .tool-link:hover {
-  color: var(--color-primary-dark);
+  color: var(--color-primary-light);
 }
 
 /* ── Article List ── */
 .article-list {
-  padding-block: 60px;
+  padding-block: 80px;
 }
 
 .article-card {
-  background: var(--color-bg-elevated);
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
 
@@ -416,30 +453,32 @@ onMounted(load)
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 20px 28px;
-  transition: background 0.2s;
+  padding: 24px;
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: background 0.15s ease;
+}
+
+.article-row:last-child {
+  border-bottom: none;
 }
 
 .article-row:hover {
   background: var(--color-bg-surface);
 }
 
-.article-row:not(:last-child) {
-  border-bottom: 1px solid var(--color-border-subtle);
-}
-
 .article-number {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
+  background: var(--color-primary-tint-1);
+  color: var(--color-primary);
+  font-family: var(--font-display);
   font-weight: 700;
-  font-size: 14px;
-  border-radius: var(--radius-sm);
+  font-size: 13px;
+  border-radius: var(--radius-full);
 }
 
 .article-content {
@@ -449,33 +488,41 @@ onMounted(load)
 
 .article-title {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--color-text-primary);
   margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .article-desc {
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--color-text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .article-meta {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
 .article-tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
   padding: 2px 10px;
   font-size: 12px;
   font-weight: 500;
-  background: var(--color-primary-tint-2);
-  color: var(--color-primary);
+  background: var(--color-bg-muted);
+  color: var(--color-text-secondary);
   border-radius: var(--radius-full);
 }
 
@@ -493,66 +540,66 @@ onMounted(load)
     flex-direction: row;
     align-items: center;
     width: 100%;
-    padding-left: 56px;
+    padding-left: 60px;
+    gap: 12px;
   }
 }
 
 /* ── Newsletter ── */
 .newsletter {
-  padding-block: 60px 80px;
-}
-
-.newsletter-card {
   position: relative;
+  padding-block: 80px;
   background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 48px 40px;
-  text-align: center;
-  overflow: hidden;
 }
 
-.newsletter-decoration {
+.newsletter-glow {
   position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 160px;
-  height: 160px;
-  background: var(--color-primary-tint-1);
-  border-radius: 50%;
-  pointer-events: none;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-primary-tint-1) 30%, var(--color-primary) 50%, var(--color-primary-tint-1) 70%, transparent 100%);
+}
+
+.newsletter-content {
+  text-align: center;
 }
 
 .newsletter-title {
-  font-size: 28px;
+  font-size: 30px;
   color: var(--color-text-primary);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .newsletter-subtitle {
-  max-width: 420px;
+  max-width: 480px;
   margin-inline: auto;
   margin-bottom: 32px;
 }
 
 .newsletter-form {
   display: flex;
+  align-items: center;
   gap: 12px;
+  justify-content: center;
   max-width: 440px;
   margin-inline: auto;
 }
 
 .newsletter-input {
   flex: 1;
-  padding: 12px 16px;
+  min-width: 0;
+  height: 42px;
+  padding: 0 20px;
   font-size: 14px;
   font-family: var(--font-body);
-  background: var(--color-bg-base);
+  background: var(--color-bg-surface);
   border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   color: var(--color-text-primary);
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.15s ease;
 }
 
 .newsletter-input::placeholder {
@@ -564,20 +611,24 @@ onMounted(load)
 }
 
 .newsletter-button {
-  padding: 12px 28px;
+  flex-shrink: 0;
+  height: 42px;
+  padding: 0 24px;
   font-size: 14px;
   font-weight: 600;
   font-family: var(--font-body);
   background: var(--color-primary);
   color: var(--color-text-inverse);
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   cursor: pointer;
-  transition: background 0.2s;
+  box-shadow: var(--shadow-glow);
+  transition: all 0.25s ease;
 }
 
 .newsletter-button:hover {
-  background: var(--color-primary-dark);
+  background: var(--color-primary-light);
+  transform: translateY(-1px);
 }
 
 .newsletter-button:disabled {
@@ -594,8 +645,9 @@ onMounted(load)
   .newsletter-form {
     flex-direction: column;
   }
-  .newsletter-card {
-    padding: 36px 24px;
+  .newsletter-input,
+  .newsletter-button {
+    width: 100%;
   }
 }
 </style>

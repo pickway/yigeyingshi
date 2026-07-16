@@ -1,9 +1,0 @@
-{
-  "project": {
-    "name": "影视娱乐个人主页（诱惑版）",
-    "path": "f:\\workspace\\yigeyingshi\\cinema-personal-site-seductive",
-    "operation": "create", "deviceType": "desktop", "language": "zh-CN",
-    "styleDefinitionBrief": "诱惑华丽风 — 深邃暗底搭配酒红玫瑰金点缀，神秘性感的视觉张力。Playfair Display 衬线标题传递华丽感，Inter 正文清晰。微光边框、柔和辉光，整体魅惑但不失品质。",
-    "designDials": { "layoutVariance": 4, "motionIntensity": 3, "visualDensity": 3 }
-  }
-}

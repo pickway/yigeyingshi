@@ -1,98 +1,219 @@
 <template>
-  <div class="movie-recommend-page">
-    <!-- Page Title -->
-    <div class="page-header">
-      <div class="container">
-        <h1 class="cine-display-lg">影视推荐</h1>
-        <p class="page-subtitle">精选佳片，从经典到新锐，发现属于你的光影故事</p>
-      </div>
-    </div>
+  <main class="min-h-screen" style="background:var(--color-bg-base);">
+    <div class="max-w-[var(--container-max)] mx-auto" style="padding:var(--content-padding);">
 
-    <!-- Filter Bar -->
-    <div class="container filter-bar-wrapper">
-      <div class="filter-bar">
-        <div class="genre-pills">
-          <button
-            v-for="genre in genres"
-            :key="genre"
-            class="genre-pill"
-            :class="{ active: activeGenre === genre }"
-            @click="activeGenre = genre"
+      <!-- Page Header -->
+      <section class="pt-8 pb-6 border-b" style="border-color:var(--color-border-subtle);">
+        <h1 class="cinema-heading" style="font-size:var(--text-3xl); text-wrap:balance; word-break:keep-all; overflow-wrap:break-word;">
+          影视推荐
+        </h1>
+      </section>
+
+      <!-- Filter Bar -->
+      <section class="pt-8 pb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <!-- Genre Pills -->
+          <div class="flex flex-nowrap overflow-x-auto gap-2 no-scrollbar">
+            <button
+              v-for="genre in genres"
+              :key="genre"
+              class="shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors duration-150"
+              :style="activeGenre === genre
+                ? { background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }
+                : { background: 'transparent', color: 'var(--color-text-secondary)', border: '1px solid var(--color-border-default)' }"
+              @click="activeGenre = genre"
+            >
+              {{ genre }}
+            </button>
+          </div>
+
+          <!-- Search + Sort -->
+          <div class="flex items-center gap-3 shrink-0">
+            <div class="relative">
+              <Search class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style="width:16px; height:16px; color:var(--color-text-tertiary);" />
+              <input
+                v-model="searchQuery"
+                type="text"
+                placeholder="搜索影片..."
+                class="pl-9 pr-4 py-2 rounded-lg text-sm outline-none transition-colors duration-150"
+                style="width:180px; height:36px; background:var(--color-bg-muted); border:1px solid var(--color-border-default); color:var(--color-text-primary); font-family:var(--font-body);"
+                @focus="$event.target.style.borderColor='var(--color-primary)'"
+                @blur="$event.target.style.borderColor='var(--color-border-default)'"
+              />
+            </div>
+            <div class="relative">
+              <select
+                v-model="sort"
+                class="appearance-none pl-4 pr-8 py-2 rounded-lg text-sm outline-none cursor-pointer transition-colors duration-150"
+                style="height:36px; background:var(--color-bg-muted); border:1px solid var(--color-border-default); color:var(--color-text-primary); font-family:var(--font-body);"
+              >
+                <option v-for="opt in sortOptions" :key="opt.value" :value="opt.value">
+                  {{ opt.label }}
+                </option>
+              </select>
+              <ChevronDown class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" style="width:14px; height:14px; color:var(--color-text-tertiary);" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Movie Grid -->
+      <section class="pt-8 pb-12">
+        <div v-if="loading" class="loading-state">加载中...</div>
+        <div v-else-if="allMovies.length === 0" class="loading-state">暂无数据</div>
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <article
+            v-for="movie in allMovies"
+            :key="movie.id"
+            class="group rounded-lg border transition-all duration-250 movie-card"
+            style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;"
           >
-            {{ genre }}
-          </button>
-        </div>
-        <div class="sort-select-wrapper">
-          <select v-model="sort" class="sort-select">
-            <option v-for="opt in sortOptions" :key="opt.value" :value="opt.value">
-              {{ opt.label }}
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
+            <!-- Poster Area -->
+            <div
+              class="relative overflow-hidden"
+              style="aspect-ratio:2/3;"
+              :style="{ background: movie.gradient || posterGradient(getMovieColor(movie)) }"
+            >
+              <div
+                class="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                style="background:radial-gradient(circle at 70% 30%, rgba(212,168,83,0.15) 0%, transparent 60%);"
+              ></div>
+              <component :is="getIcon(movie)" class="poster-icon" />
+              <div
+                class="absolute bottom-0 left-0 right-0 p-4"
+                style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);"
+              >
+                <h3 class="cinema-heading truncate" style="font-size:var(--text-lg); color:var(--color-text-primary);">
+                  {{ movie.title }}
+                </h3>
+              </div>
+            </div>
 
-    <!-- Movie Poster Grid -->
-    <div class="container movie-grid-section">
-      <div v-if="loading" class="loading-state">加载中...</div>
-      <div v-else-if="allMovies.length === 0" class="loading-state">暂无数据</div>
-      <div v-else class="movie-grid">
+            <!-- Info Section -->
+            <div class="p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">{{ movie.year }}</span>
+                <span
+                  v-for="g in splitGenres(movie.genres).slice(0, 2)"
+                  :key="g"
+                  class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                  style="background:var(--color-primary-tint-1); color:var(--color-primary);"
+                >
+                  {{ g }}
+                </span>
+              </div>
+              <div class="flex items-center gap-1">
+                <Star class="star-icon" :size="14" />
+                <span class="text-sm font-medium" style="color:var(--color-primary);">{{ movie.rating }}</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Pagination -->
         <div
-          v-for="movie in allMovies"
-          :key="movie.id"
-          class="movie-card"
+          v-if="!loading && totalPages > 1"
+          class="flex items-center justify-between mt-8 pt-6 border-t"
+          style="border-color:var(--color-border-subtle);"
         >
-          <div class="poster-area" :style="{ background: movie.gradient || posterGradient(getMovieColor(movie)) }">
-            <component :is="getIcon(movie)" class="poster-icon" />
-          </div>
-          <div class="movie-info">
-            <h3 class="movie-title">{{ movie.title }}</h3>
-            <span class="movie-year">{{ movie.year }}</span>
-            <div class="movie-genres">
-              <span v-for="g in splitGenres(movie.genres)" :key="g" class="genre-tag">{{ g }}</span>
+          <span class="cinema-body-sm" style="color:var(--color-text-tertiary);">
+            第 {{ page }} 页 / 共 {{ totalPages }} 页，共 {{ total }} 部影片
+          </span>
+          <div class="flex items-center gap-3">
+            <button
+              class="page-btn"
+              :disabled="page === 1"
+              @click="goToPage(page - 1)"
+            >
+              <ChevronLeft :size="16" />
+              上一页
+            </button>
+            <div class="flex gap-2 items-center">
+              <button
+                v-for="p in totalPages"
+                :key="p"
+                class="page-dot"
+                :class="{ active: p === page }"
+                @click="goToPage(p)"
+              />
             </div>
-            <div class="movie-rating">
-              <Star class="star-icon" :size="14" />
-              <span class="rating-value">{{ movie.rating }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Editor Pick Section -->
-    <div v-if="editorPick" class="container editor-pick-section">
-      <div class="editor-pick-container">
-        <h2 class="cine-heading editor-pick-title">编辑推荐</h2>
-        <div class="editor-pick-content">
-          <div class="editor-pick-poster" :style="{ background: editorPick.gradient || posterGradient('#5A4A6B') }">
-            <Sparkles class="poster-icon" />
-          </div>
-          <div class="editor-pick-info">
-            <div class="editor-pick-meta">
-              <span class="editor-pick-year">{{ editorPick.year }}</span>
-              <span class="meta-divider">/</span>
-              <span v-for="(g, i) in splitGenres(editorPick.genres)" :key="g" class="editor-pick-genre">
-                {{ g }}<span v-if="i < splitGenres(editorPick.genres).length - 1" class="meta-divider"> /</span>
-              </span>
-            </div>
-            <h3 class="editor-pick-name cine-subheading">{{ editorPick.title }}</h3>
-            <div class="editor-pick-rating">
-              <Star class="star-icon" :size="16" />
-              <span class="rating-value">{{ editorPick.rating }}</span>
-            </div>
-            <p class="editor-pick-desc">
-              {{ editorPick.description || '诺兰以独特的叙事结构，将"原子弹之父"奥本海默的生平编织成一部震撼人心的传记史诗。影片在科学与道德的交汇处，探寻人类文明的终极困境。' }}
-            </p>
-            <button class="cta-button">
-              <Play :size="16" />
-              <span>立即观看</span>
+            <button
+              class="page-btn"
+              :disabled="page === totalPages"
+              @click="goToPage(page + 1)"
+            >
+              下一页
+              <ChevronRight :size="16" />
             </button>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- Editor Pick Section -->
+      <section v-if="editorPick" class="pb-16">
+        <div class="rounded-lg border" style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;">
+          <!-- Section heading -->
+          <div class="px-6 pt-6 pb-4">
+            <h2 class="cinema-heading" style="font-size:var(--text-2xl); text-wrap:balance; word-break:keep-all;">编辑推荐</h2>
+          </div>
+
+          <!-- Featured card -->
+          <div class="flex flex-col md:flex-row">
+            <!-- Poster -->
+            <div
+              class="relative w-full md:w-2/3 overflow-hidden"
+              style="min-height:280px;"
+              :style="{ background: editorPick.gradient || posterGradient('#5A4A6B') }"
+            >
+              <div class="absolute inset-0" style="background:radial-gradient(circle at 60% 40%, rgba(212,168,83,0.2) 0%, transparent 50%);"></div>
+              <Sparkles class="poster-icon" style="width:80px; height:80px;" />
+              <div
+                class="absolute bottom-0 left-0 right-0 p-6 md:hidden"
+                style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);"
+              >
+                <h3 class="cinema-heading" style="font-size:var(--text-2xl); color:var(--color-text-primary);">{{ editorPick.title }}</h3>
+              </div>
+            </div>
+
+            <!-- Info -->
+            <div
+              class="w-full md:w-1/3 p-6 flex flex-col justify-center border-l"
+              style="border-color:var(--color-primary); background:var(--color-bg-elevated);"
+            >
+              <div class="hidden md:block mb-3">
+                <h3 class="cinema-heading" style="font-size:var(--text-2xl); color:var(--color-text-primary); text-wrap:balance; word-break:keep-all;">
+                  {{ editorPick.title }}
+                </h3>
+              </div>
+              <div class="flex items-center gap-3 mb-4 flex-wrap">
+                <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">{{ editorPick.year }}</span>
+                <span
+                  v-for="g in splitGenres(editorPick.genres)"
+                  :key="g"
+                  class="inline-flex items-center justify-center px-2 py-0.5 rounded-lg text-xs whitespace-nowrap"
+                  style="background:var(--color-primary-tint-1); color:var(--color-primary);"
+                >
+                  {{ g }}
+                </span>
+              </div>
+              <div class="flex items-center gap-2 mb-4">
+                <Star class="star-icon" :size="14" />
+                <span class="text-sm font-medium" style="color:var(--color-primary);">{{ editorPick.rating }}</span>
+              </div>
+              <p class="text-sm line-clamp-4 mb-6" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                {{ editorPick.description || '诺兰以独特的叙事结构，将"原子弹之父"奥本海默的生平编织成一部震撼人心的传记史诗。影片在科学与道德的交汇处，探寻人类文明的终极困境。' }}
+              </p>
+              <button class="cta-button">
+                <Play :size="16" />
+                <span>立即观看</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
-  </div>
+  </main>
 </template>
 
 <script setup>
@@ -100,13 +221,19 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { movieApi } from '@/api'
 import {
   Star, Play, Orbit, Sparkles, Home, Layers, Trees, Search,
-  Flame, Bird, Rabbit, Zap
+  Flame, Bird, Rabbit, Zap, ChevronLeft, ChevronRight, ChevronDown
 } from '@lucide/vue'
 
 const allMovies = ref([])
 const loading = ref(true)
 const activeGenre = ref('全部')
 const sort = ref('rating_desc')
+const page = ref(1)
+const pageSize = ref(6)
+const total = ref(0)
+
+// Local state for search input (no backend integration yet)
+const searchQuery = ref('')
 
 const genres = computed(() => {
   const set = new Set()
@@ -122,16 +249,16 @@ const genres = computed(() => {
 })
 
 const sortOptions = [
-  { value: 'rating_desc', label: '评分优先' },
-  { value: 'year_desc', label: '年份最新' },
-  { value: 'year_asc', label: '年份最早' },
+  { value: 'rating_desc', label: '评分最高' },
+  { value: 'year_desc', label: '最近上映' },
+  { value: 'rating_asc', label: '评分最低' },
 ]
 
-const iconMap = { orbit, sparkles, home, layers, trees, search, flame, bird, rabbit, zap }
+const iconMap = { Orbit, Sparkles, Home, Layers, Trees, Search, Flame, Bird, Rabbit, Zap }
 const iconKeys = Object.keys(iconMap)
 const colorPalette = [
-  '#2C3E6B', '#6B4E8B', '#4A6741', '#3A5A8C', '#6B8E5A',
-  '#8B6F4E', '#E87D6B', '#5A6E82', '#D4853A', '#5A4A6B'
+  '#1a1a2e', '#16213e', '#0f3460', '#2d1b2e', '#3b1f3b',
+  '#5c2d5c', '#1a2a1a', '#2b3d2b', '#3a5a3a', '#0d1b2a'
 ]
 
 function getMovieColor(movie) {
@@ -150,18 +277,13 @@ function splitGenres(genres) {
 }
 
 function posterGradient(color) {
-  return `linear-gradient(135deg, ${color} 0%, ${color}aa 60%, ${color}55 100%)`
-}
-
-function primaryGenre(genres) {
-  if (!genres) return ''
-  return String(genres).split(',')[0]
+  return `linear-gradient(160deg, ${color} 0%, ${color}cc 40%, ${color}88 100%)`
 }
 
 async function loadMovies() {
   loading.value = true
   try {
-    const params = { pageSize: 50 }
+    const params = { page: page.value, pageSize: pageSize.value }
     if (activeGenre.value !== '全部') params.genre = activeGenre.value
     params.sort = sort.value
     const res = await movieApi.list(params)
@@ -169,16 +291,31 @@ async function loadMovies() {
       ...m,
       gradient: posterGradient(getMovieColor(m)),
     }))
+    total.value = res.total || 0
   } catch (e) {
     console.error('加载电影失败', e)
     allMovies.value = []
+    total.value = 0
   } finally {
     loading.value = false
   }
 }
 
+const totalPages = computed(() => Math.ceil(total.value / pageSize.value) || 1)
+
+function goToPage(p) {
+  if (p < 1 || p > totalPages.value || p === page.value) return
+  page.value = p
+}
+
+watch([activeGenre, sort], () => {
+  page.value = 1
+  loadMovies()
+})
+
+watch(page, loadMovies)
+
 onMounted(loadMovies)
-watch([activeGenre, sort], loadMovies)
 
 const editorPick = computed(() => {
   if (!allMovies.value.length) return null
@@ -187,369 +324,174 @@ const editorPick = computed(() => {
 </script>
 
 <style scoped>
+/* Cinema Personal Site - Dark Theater Theme */
 :root {
-  --color-primary: #E85D3A;
-  --color-primary-light: #F2845F;
-  --color-primary-dark: #C44A2B;
-  --color-primary-tint-1: rgba(232, 93, 58, 0.10);
-  --color-bg-base: #FAFAF8;
-  --color-bg-elevated: #FFFFFF;
-  --color-bg-surface: #F3F2EF;
-  --color-bg-muted: #EAEAE6;
-  --color-border-subtle: #EDECE8;
-  --color-border-default: #E0DFDB;
-  --color-text-primary: #1A1A1A;
-  --color-text-secondary: #6B6B6B;
-  --color-text-tertiary: #9A9A96;
-  --color-text-inverse: #FFFFFF;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --radius-sm: 6px;
+  /* === Primary Color System === */
+  --color-primary: #D4A853;
+  --color-primary-light: #E8C97A;
+  --color-primary-dark: #B08930;
+  --color-primary-tint-1: rgba(212,168,83,0.12);
+  --color-primary-tint-2: rgba(212,168,83,0.06);
+  --color-primary-tint-3: rgba(212,168,83,0.03);
+
+  /* === Neutral Scale (Dark Theater) === */
+  --color-bg-base: #0C0C0E;
+  --color-bg-elevated: #151518;
+  --color-bg-surface: #1C1C20;
+  --color-bg-muted: #242428;
+  --color-bg-overlay: rgba(12,12,14,0.85);
+  --color-border-default: #2A2A30;
+  --color-border-subtle: #1F1F25;
+  --color-border-strong: #3A3A42;
+
+  --color-text-primary: #F0EDE6;
+  --color-text-secondary: #9A9AA0;
+  --color-text-tertiary: #6A6A72;
+  --color-text-inverse: #0C0C0E;
+  --color-text-link: #D4A853;
+
+  /* === Shape System === */
+  --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-full: 9999px;
-  --container-max: 1200px;
-  --content-padding: 24px;
-  --font-display: 'Georgia', 'Noto Serif SC', serif;
-  --font-body: 'Inter', 'Noto Sans SC', sans-serif;
+
+  /* === Typography === */
+  --font-display: 'Playfair Display', Georgia, 'Noto Serif SC', serif;
+  --font-body: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  /* === Spacing Scale === */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 20px rgba(212,168,83,0.15);
+
+  /* === Transitions === */
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* === Container === */
+  --container-max: 1200px;
+  --content-padding: 24px;
 }
 
-.movie-recommend-page {
-  background-color: var(--color-bg-base);
-  font-family: var(--font-body);
-  color: var(--color-text-primary);
-  min-height: 100vh;
-}
-
-.container {
-  max-width: var(--container-max);
-  margin-inline: auto;
-  padding-inline: 24px;
-}
-
-/* Page Header */
-.page-header {
-  padding-top: 40px;
-  padding-bottom: 16px;
-}
-
-.cine-display-lg {
+/* === Typography Classes === */
+.cinema-display {
   font-family: var(--font-display);
-  font-size: 2.5rem;
   font-weight: 700;
-  color: var(--color-text-primary);
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
 }
-
-.page-subtitle {
-  margin-top: 8px;
-  font-size: 1rem;
-  color: var(--color-text-secondary);
-  line-height: 1.6;
+.cinema-display-lg {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-4xl);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
 }
-
-/* Filter Bar */
-.filter-bar-wrapper {
-  margin-top: 8px;
+.cinema-heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-2xl);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-snug);
 }
-
-.filter-bar {
-  background: var(--color-bg-elevated);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border-bottom: 2px solid var(--color-primary);
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.genre-pills {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.genre-pill {
-  padding: 6px 16px;
-  border-radius: var(--radius-full);
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all var(--transition-fast);
-  background: var(--color-bg-muted);
-  color: var(--color-text-secondary);
-  border-color: var(--color-border-default);
-}
-
-.genre-pill.active {
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-  border-color: var(--color-primary);
-}
-
-.genre-pill:not(.active):hover {
-  background: var(--color-primary-tint-1);
-  color: var(--color-primary);
-  border-color: var(--color-primary-light);
-}
-
-.sort-select-wrapper {
-  flex-shrink: 0;
-}
-
-.sort-select {
-  appearance: none;
-  background: var(--color-bg-muted);
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-md);
-  padding: 6px 36px 6px 12px;
-  font-size: 0.875rem;
+.cinema-subheading {
   font-family: var(--font-body);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6B6B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
+  font-weight: 500;
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  color: var(--color-text-secondary);
+}
+.cinema-body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+}
+.cinema-body-sm {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+.cinema-caption {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--color-text-tertiary);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
 }
 
-.sort-select:focus {
-  outline: 2px solid var(--color-primary-light);
-  outline-offset: 2px;
+/* === Component Styles === */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* Movie Grid */
-.movie-grid-section {
-  padding-top: 40px;
-  padding-bottom: 80px;
-}
-
-.movie-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
-
-@media (min-width: 640px) {
-  .movie-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .movie-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Movie Card */
+/* Movie Card Hover Effects */
 .movie-card {
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--color-bg-elevated);
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
   cursor: pointer;
 }
-
 .movie-card:hover {
+  border-color: var(--color-primary) !important;
   transform: translateY(-4px);
-  box-shadow:
-    0 8px 16px -4px rgba(232, 93, 58, 0.15),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-glow);
 }
 
-.poster-area {
-  aspect-ratio: 2 / 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-
+/* Poster Icon */
 .poster-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 64px;
   height: 64px;
-  opacity: 0.15;
+  opacity: 0.12;
   color: #FFFFFF;
 }
 
-.movie-info {
-  padding: 12px 16px 16px;
-}
-
-.movie-title {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin: 0;
-  line-height: 1.3;
-}
-
-.movie-year {
-  font-size: 0.8rem;
-  color: var(--color-text-tertiary);
-  margin-top: 2px;
-  display: inline-block;
-}
-
-.movie-genres {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
-  flex-wrap: wrap;
-}
-
-.genre-tag {
-  font-size: 0.7rem;
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
-  background: var(--color-primary-tint-1);
-  color: var(--color-primary);
-  font-weight: 500;
-}
-
-.movie-rating {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 8px;
-}
-
+/* Star Icon */
 .star-icon {
   color: var(--color-primary);
   fill: var(--color-primary);
-}
-
-.rating-value {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-/* Editor Pick Section */
-.editor-pick-section {
-  padding-bottom: 80px;
-}
-
-.editor-pick-container {
-  background: var(--color-bg-surface);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-}
-
-.cine-heading {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-}
-
-.cine-subheading {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  line-height: 1.4;
-}
-
-.editor-pick-title {
-  margin-bottom: 24px;
-}
-
-.editor-pick-content {
-  display: flex;
-  gap: 32px;
-  align-items: flex-start;
-}
-
-.editor-pick-poster {
-  max-width: 200px;
-  width: 100%;
-  aspect-ratio: 2 / 3;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.editor-pick-poster .poster-icon {
-  width: 56px;
-  height: 56px;
-  opacity: 0.15;
-  color: #FFFFFF;
-}
-
-.editor-pick-info {
-  flex: 1;
-  padding-left: 24px;
-  border-left: 3px solid var(--color-primary);
-}
-
-.editor-pick-meta {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.85rem;
-  color: var(--color-text-secondary);
-  margin-bottom: 8px;
-}
-
-.meta-divider {
-  color: var(--color-text-tertiary);
-}
-
-.editor-pick-name {
-  margin: 0 0 8px;
-}
-
-.editor-pick-rating {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-bottom: 16px;
-}
-
-.editor-pick-desc {
-  font-size: 0.95rem;
-  color: var(--color-text-secondary);
-  line-height: 1.7;
-  margin: 0 0 24px;
-}
-
-.cta-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 24px;
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-  border: none;
-  border-radius: var(--radius-full);
-  font-size: 0.9rem;
-  font-weight: 600;
-  font-family: var(--font-body);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.cta-button:hover {
-  background: var(--color-primary-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(232, 93, 58, 0.3);
 }
 
 /* Loading State */
@@ -557,32 +499,95 @@ const editorPick = computed(() => {
   text-align: center;
   padding: 60px 0;
   color: var(--color-text-secondary);
-  font-size: 0.95rem;
+  font-size: var(--text-base);
+  font-family: var(--font-body);
 }
 
-@media (max-width: 640px) {
-  .editor-pick-content {
-    flex-direction: column;
-  }
+/* Page Button */
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-default);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.page-btn:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 
-  .editor-pick-poster {
-    max-width: 160px;
-  }
+/* Page Dot */
+.page-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-bg-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.page-dot:hover {
+  background: var(--color-primary-tint-2);
+}
+.page-dot.active {
+  width: 24px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+}
 
-  .editor-pick-info {
-    padding-left: 0;
-    padding-top: 16px;
-    border-left: none;
-    border-top: 3px solid var(--color-primary);
-  }
+/* CTA Button */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 10px 24px;
+  border-radius: var(--radius-lg);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: none;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.cta-button:hover {
+  background: var(--color-primary-light);
+  transform: translateY(-1px);
+}
 
-  .filter-bar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+/* Select Dropdown */
+select {
+  background-image: none;
+}
 
-  .cine-display-lg {
-    font-size: 1.75rem;
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .page-btn {
+    padding: 6px 12px;
+    font-size: var(--text-xs);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
 </style>

@@ -4,8 +4,8 @@
     <section class="hero-section">
       <div class="container hero-inner">
         <div class="hero-text">
-          <h1 class="cine-display hero-title">光影之间</h1>
-          <p class="cine-subheading hero-subtitle">探索影视世界，分享学习心得，洞见AI未来</p>
+          <h1 class="cinema-display hero-title">光影之间</h1>
+          <p class="cinema-subheading hero-subtitle">探索影视世界，分享学习心得，洞见AI未来</p>
           <div class="hero-actions">
             <router-link to="/movie-recommend" class="btn-primary">
               探索推荐
@@ -24,10 +24,10 @@
     <section class="featured-section">
       <div class="container">
         <div class="section-header">
-          <h2 class="cine-heading section-title">本周推荐</h2>
+          <h2 class="cinema-heading section-title">本周推荐</h2>
           <span class="title-accent"></span>
         </div>
-        <div v-if="loading" class="cine-body-sm loading-text">加载中...</div>
+        <div v-if="loading" class="cinema-body-sm loading-text">加载中...</div>
         <div v-else class="movies-grid">
           <div
             v-for="movie in featuredMovies"
@@ -38,10 +38,10 @@
               <span class="genre-pill">{{ primaryGenre(movie.genres) }}</span>
             </div>
             <div class="movie-info">
-              <h3 class="cine-subheading movie-title">{{ movie.title }}</h3>
+              <h3 class="cinema-subheading movie-title">{{ movie.title }}</h3>
               <div class="movie-rating">
                 <Star :size="14" class="star-icon" />
-                <span class="cine-body-sm">{{ movie.rating }}</span>
+                <span class="cinema-body-sm">{{ movie.rating }}</span>
               </div>
             </div>
           </div>
@@ -53,12 +53,12 @@
     <section class="posts-section">
       <div class="container">
         <div class="section-header">
-          <h2 class="cine-heading section-title">最新动态</h2>
+          <h2 class="cinema-heading section-title">最新动态</h2>
           <span class="title-accent"></span>
         </div>
         <div class="posts-layout">
           <div class="posts-articles">
-            <div v-if="loading" class="cine-body-sm loading-text">加载中...</div>
+            <div v-if="loading" class="cinema-body-sm loading-text">加载中...</div>
             <div
               v-else
               v-for="post in latestPosts"
@@ -66,11 +66,11 @@
               class="article-card group"
             >
               <div class="article-meta">
-                <span class="cine-caption article-date">{{ formatDate(post.publishedAt) }}</span>
+                <span class="cinema-caption article-date">{{ formatDate(post.publishedAt) }}</span>
                 <span class="article-tag">{{ post.tag }}</span>
               </div>
-              <h3 class="cine-subheading article-title">{{ post.title }}</h3>
-              <p class="cine-body-sm article-desc">{{ post.summary }}</p>
+              <h3 class="cinema-subheading article-title">{{ post.title }}</h3>
+              <p class="cinema-body-sm article-desc">{{ post.summary }}</p>
             </div>
           </div>
           <div class="posts-sidebar">
@@ -78,11 +78,11 @@
               <div class="learning-top-accent"></div>
               <div class="learning-content">
                 <GraduationCap :size="24" class="learning-icon" />
-                <h3 class="cine-subheading">从零开始的剪辑课</h3>
+                <h3 class="cinema-subheading">从零开始的剪辑课</h3>
                 <div class="progress-bar-track">
                   <div class="progress-bar-fill" style="width: 35%"></div>
                 </div>
-                <span class="cine-caption progress-label">已完成 35%</span>
+                <span class="cinema-caption progress-label">已完成 35%</span>
               </div>
             </div>
           </div>
@@ -95,7 +95,7 @@
       <div class="container">
         <div class="section-header-row">
           <div class="section-header-left">
-            <h2 class="cine-heading section-title">AI 前沿</h2>
+            <h2 class="cinema-heading section-title">AI 前沿</h2>
             <span class="title-accent"></span>
           </div>
           <router-link to="/ai-share" class="view-more-link">
@@ -112,8 +112,8 @@
             <div class="ai-icon-wrapper">
               <component :is="iconMap[item.icon] || Video" :size="24" class="ai-icon" />
             </div>
-            <h3 class="cine-subheading ai-card-title">{{ item.name }}</h3>
-            <p class="cine-body-sm ai-card-desc">{{ item.description }}</p>
+            <h3 class="cinema-subheading ai-card-title">{{ item.name }}</h3>
+            <p class="cinema-body-sm ai-card-desc">{{ item.description }}</p>
           </div>
         </div>
       </div>
@@ -124,7 +124,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { movieApi, articleApi, aiApi } from '@/api'
-import { ArrowRight, Star, GraduationCap, Video, Subtitles, Brain } from '@lucide/vue'
+import { ArrowRight, Star, GraduationCap, Video, Subtitles, Brain, Image } from '@lucide/vue'
 
 const featuredMovies = ref([])
 const latestPosts = ref([])
@@ -187,6 +187,7 @@ onMounted(async () => {
 /* ===== Hero Section ===== */
 .hero-section {
   padding: 80px 0;
+  background-color: var(--color-bg-base);
 }
 
 .hero-inner {
@@ -379,6 +380,7 @@ onMounted(async () => {
 /* ===== Latest Posts ===== */
 .posts-section {
   padding: 80px 0;
+  background-color: var(--color-bg-base);
 }
 
 .posts-layout {

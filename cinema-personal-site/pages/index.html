@@ -324,18 +324,26 @@
 
     <!-- ===== PRIVATE REGION: featured-movies ===== -->
     <section id="featured-movies" style="padding-top:var(--space-20); padding-bottom:var(--space-20);">
-      <h2 class="cinema-heading" style="font-size:var(--text-3xl); color:var(--color-text-primary); margin-bottom:var(--space-8); text-wrap:balance; word-break:keep-all;">
-        本周推荐
-      </h2>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-8);">
+        <h2 class="cinema-heading" style="font-size:var(--text-3xl); color:var(--color-text-primary); text-wrap:balance; word-break:keep-all; margin:0;">
+          本周推荐
+        </h2>
+        <div style="display:flex; gap:var(--space-2);">
+          <button id="scroll-left-btn" onclick="document.getElementById('movie-scroll').scrollBy({left:-340,behavior:'smooth'})" style="width:36px; height:36px; border-radius:50%; border:1px solid var(--color-border-default); background:var(--color-bg-elevated); color:var(--color-text-secondary); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all var(--transition-fast);" onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.color='var(--color-primary)'" onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.color='var(--color-text-secondary)'" aria-label="向左滚动">
+            <i data-lucide="chevron-left" style="width:16px; height:16px;"></i>
+          </button>
+          <button id="scroll-right-btn" onclick="document.getElementById('movie-scroll').scrollBy({left:340,behavior:'smooth'})" style="width:36px; height:36px; border-radius:50%; border:1px solid var(--color-border-default); background:var(--color-bg-elevated); color:var(--color-text-secondary); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all var(--transition-fast);" onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.color='var(--color-primary)'" onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.color='var(--color-text-secondary)'" aria-label="向右滚动">
+            <i data-lucide="chevron-right" style="width:16px; height:16px;"></i>
+          </button>
+        </div>
+      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div id="movie-scroll" class="no-scrollbar" style="display:flex; gap:var(--space-6); overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x mandatory; padding-bottom:var(--space-4);">
 
         <!-- Movie Card 1 -->
-        <article class="border overflow-hidden transition-all duration-250"
-                 style="background:var(--color-bg-surface); border-color:var(--color-border-default); border-radius:var(--radius-lg);"
+        <article class="border overflow-hidden transition-all duration-250 shrink-0" style="width:280px; scroll-snap-align:start; background:var(--color-bg-surface); border-color:var(--color-border-default); border-radius:var(--radius-lg);"
                  onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-glow)'"
                  onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-          <!-- Poster Placeholder -->
           <div class="w-full" style="height:200px; background:linear-gradient(135deg, var(--color-bg-muted) 0%, var(--color-primary-tint-1) 100%);"></div>
           <div style="padding:var(--space-5);">
             <div class="flex items-center gap-2 mb-2">
@@ -354,8 +362,7 @@
         </article>
 
         <!-- Movie Card 2 -->
-        <article class="border overflow-hidden transition-all duration-250"
-                 style="background:var(--color-bg-surface); border-color:var(--color-border-default); border-radius:var(--radius-lg);"
+        <article class="border overflow-hidden transition-all duration-250 shrink-0" style="width:280px; scroll-snap-align:start; background:var(--color-bg-surface); border-color:var(--color-border-default); border-radius:var(--radius-lg);"
                  onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-glow)'"
                  onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
           <div class="w-full" style="height:200px; background:linear-gradient(135deg, var(--color-bg-muted) 0%, var(--color-primary-tint-2) 100%);"></div>
@@ -376,8 +383,7 @@
         </article>
 
         <!-- Movie Card 3 -->
-        <article class="border overflow-hidden transition-all duration-250"
-                 style="background:var(--color-bg-surface); border-color:var(--color-border-default); border-radius:var(--radius-lg);"
+        <article class="border overflow-hidden transition-all duration-250 shrink-0" style="width:280px; scroll-snap-align:start; background:var(--color-bg-surface); border-color:var(--color-border-default); border-radius:var(--radius-lg);"
                  onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-glow)'"
                  onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
           <div class="w-full" style="height:200px; background:linear-gradient(135deg, var(--color-bg-muted) 0%, var(--color-primary-tint-1) 60%, var(--color-bg-surface) 100%);"></div>
@@ -393,6 +399,69 @@
               <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
               <i data-lucide="star" style="width:14px; height:14px; color:var(--color-text-tertiary); fill:none;"></i>
               <span class="ml-1" style="font-size:var(--text-sm); color:var(--color-text-secondary); font-variant-numeric:tabular-nums;">9.1</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Movie Card 4 -->
+        <article class="border overflow-hidden transition-all duration-250 shrink-0" style="width:280px; scroll-snap-align:start; background:var(--color-bg-surface); border-color:var(--color-border-default); border-radius:var(--radius-lg);"
+                 onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-glow)'"
+                 onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+          <div class="w-full" style="height:200px; background:linear-gradient(135deg, var(--color-primary-tint-1) 0%, var(--color-bg-muted) 100%);"></div>
+          <div style="padding:var(--space-5);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="inline-flex items-center justify-center whitespace-nowrap rounded-lg" style="padding:2px 8px; background:var(--color-primary-tint-1); color:var(--color-primary); font-size:var(--text-xs); font-weight:500;">悬疑</span>
+            </div>
+            <h3 class="cinema-subheading" style="font-size:var(--text-lg); color:var(--color-text-primary); margin-bottom:var(--space-2);">消失的她</h3>
+            <div class="flex items-center gap-1">
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-text-tertiary); fill:none;"></i>
+              <span class="ml-1" style="font-size:var(--text-sm); color:var(--color-text-secondary); font-variant-numeric:tabular-nums;">8.6</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Movie Card 5 -->
+        <article class="border overflow-hidden transition-all duration-250 shrink-0" style="width:280px; scroll-snap-align:start; background:var(--color-bg-surface); border-color:var(--color-border-default); border-radius:var(--radius-lg);"
+                 onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-glow)'"
+                 onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+          <div class="w-full" style="height:200px; background:linear-gradient(135deg, var(--color-bg-surface) 0%, var(--color-primary-tint-1) 50%, var(--color-bg-muted) 100%);"></div>
+          <div style="padding:var(--space-5);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="inline-flex items-center justify-center whitespace-nowrap rounded-lg" style="padding:2px 8px; background:var(--color-primary-tint-1); color:var(--color-primary); font-size:var(--text-xs); font-weight:500;">犯罪</span>
+            </div>
+            <h3 class="cinema-subheading" style="font-size:var(--text-lg); color:var(--color-text-primary); margin-bottom:var(--space-2);">肖申克的救赎</h3>
+            <div class="flex items-center gap-1">
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <span class="ml-1" style="font-size:var(--text-sm); color:var(--color-text-secondary); font-variant-numeric:tabular-nums;">9.7</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Movie Card 6 -->
+        <article class="border overflow-hidden transition-all duration-250 shrink-0" style="width:280px; scroll-snap-align:start; background:var(--color-bg-surface); border-color:var(--color-border-default); border-radius:var(--radius-lg);"
+                 onmouseenter="this.style.borderColor='var(--color-primary)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-glow)'"
+                 onmouseleave="this.style.borderColor='var(--color-border-default)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+          <div class="w-full" style="height:200px; background:linear-gradient(135deg, var(--color-primary-tint-2) 0%, var(--color-primary-tint-1) 100%);"></div>
+          <div style="padding:var(--space-5);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="inline-flex items-center justify-center whitespace-nowrap rounded-lg" style="padding:2px 8px; background:var(--color-primary-tint-1); color:var(--color-primary); font-size:var(--text-xs); font-weight:500;">动作</span>
+            </div>
+            <h3 class="cinema-subheading" style="font-size:var(--text-lg); color:var(--color-text-primary); margin-bottom:var(--space-2);">疯狂的麦克斯</h3>
+            <div class="flex items-center gap-1">
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-primary); fill:var(--color-primary);"></i>
+              <i data-lucide="star" style="width:14px; height:14px; color:var(--color-text-tertiary); fill:none;"></i>
+              <span class="ml-1" style="font-size:var(--text-sm); color:var(--color-text-secondary); font-variant-numeric:tabular-nums;">8.8</span>
             </div>
           </div>
         </article>

@@ -30,6 +30,18 @@ func Seed(db *gorm.DB) {
 		{Title: "肖申克的救赎", Year: 1994, Genres: "剧情", Rating: 9.7, Description: "银行家安迪在冤狱之中用二十年凿出自由之路，关于希望与友情的经典。", PosterColor: "#5A6E82", PosterIcon: "bird", Director: "弗兰克·德拉邦特", CreatedAt: now, UpdatedAt: now},
 		{Title: "疯狂动物城", Year: 2016, Genres: "动画,喜剧", Rating: 9.2, Description: "兔子警官朱迪与狐狸尼克联手破获动物城失踪案的爆笑冒险。", PosterColor: "#D4853A", PosterIcon: "rabbit", Director: "拜恩·霍华德", CreatedAt: now, UpdatedAt: now},
 		{Title: "奥本海默", Year: 2023, Genres: "传记,历史", Rating: 8.9, Description: "原子弹之父罗伯特·奥本海默的一生，科学与道德的永恒拷问。", PosterColor: "#2A1F1A", PosterIcon: "zap", Director: "克里斯托弗·诺兰", IsFeatured: true, CreatedAt: now, UpdatedAt: now},
+		{Title: "沙丘", Year: 2021, Genres: "科幻,冒险", Rating: 8.8, Description: "沙漠星球上的权力更迭，维伦纽瓦的史诗巨制。", PosterColor: "#2A1F0D", PosterIcon: "sun", Director: "丹尼斯·维伦纽瓦", CreatedAt: now, UpdatedAt: now},
+		{Title: "布达佩斯大饭店", Year: 2014, Genres: "喜剧,剧情", Rating: 8.9, Description: "韦斯·安德森的色彩童话，欧洲旧时光的挽歌。", PosterColor: "#2D2D1A", PosterIcon: "hotel", Director: "韦斯·安德森", CreatedAt: now, UpdatedAt: now},
+		{Title: "燃烧女子的肖像", Year: 2019, Genres: "剧情,爱情", Rating: 8.7, Description: "海边悬崖上的凝视与爱，女性视角的古典浪漫。", PosterColor: "#2A1A1A", PosterIcon: "flame", Director: "瑟琳·席安玛", CreatedAt: now, UpdatedAt: now},
+		{Title: "银翼杀手2049", Year: 2017, Genres: "科幻,悬疑", Rating: 8.6, Description: "赛博朋克的视觉巅峰，孤独与存在的深邃冥想。", PosterColor: "#0D0D1A", PosterIcon: "cpu", Director: "丹尼斯·维伦纽瓦", CreatedAt: now, UpdatedAt: now},
+		{Title: "小偷家族", Year: 2018, Genres: "剧情,家庭", Rating: 9.0, Description: "是枝裕和的温情凝视，非血缘家庭的羁绊与告别。", PosterColor: "#1A1A1A", PosterIcon: "heart", Director: "是枝裕和", CreatedAt: now, UpdatedAt: now},
+		{Title: "爱乐之城", Year: 2016, Genres: "剧情,爱情,音乐", Rating: 8.8, Description: "洛杉矶的星光与爵士，梦想与爱情的浪漫交响。", PosterColor: "#0D1A2A", PosterIcon: "music", Director: "达米恩·查泽雷", CreatedAt: now, UpdatedAt: now},
+		{Title: "降临", Year: 2016, Genres: "科幻,剧情", Rating: 8.7, Description: "语言的尽头是时间，维伦纽瓦的科幻诗意之作。", PosterColor: "#1A1A0D", PosterIcon: "message-circle", Director: "丹尼斯·维伦纽瓦", CreatedAt: now, UpdatedAt: now},
+		{Title: "楚门的世界", Year: 1998, Genres: "剧情,科幻", Rating: 9.3, Description: "如果你无法在现实世界找到他，那就去他心里找。", PosterColor: "#1A2A1A", PosterIcon: "tv", Director: "彼得·威尔", CreatedAt: now, UpdatedAt: now},
+		{Title: "黑暗骑士", Year: 2008, Genres: "动作,犯罪", Rating: 9.2, Description: "希斯·莱杰的绝唱，秩序与混沌的终极对决。", PosterColor: "#0D0D0D", PosterIcon: "moon", Director: "克里斯托弗·诺兰", CreatedAt: now, UpdatedAt: now},
+		{Title: "摔跤吧！爸爸", Year: 2016, Genres: "剧情,运动", Rating: 9.0, Description: "父亲的摔跤梦，女儿的自由之路，印度励志经典。", PosterColor: "#2A1A0D", PosterIcon: "trophy", Director: "尼特什·提瓦瑞", CreatedAt: now, UpdatedAt: now},
+		{Title: "霸王别姬", Year: 1993, Genres: "剧情,爱情", Rating: 9.6, Description: "不疯魔不成活，程蝶衣的一生就是一出戏。", PosterColor: "#2A0D0D", PosterIcon: "drama", Director: "陈凯歌", CreatedAt: now, UpdatedAt: now},
+		{Title: "头号玩家", Year: 2018, Genres: "科幻,冒险", Rating: 8.7, Description: "斯皮尔伯格的彩蛋狂欢，致敬流行文化的冒险之旅。", PosterColor: "#0D1A1A", PosterIcon: "gamepad-2", Director: "史蒂文·斯皮尔伯格", CreatedAt: now, UpdatedAt: now},
 	}
 	db.Create(&movies)
 
