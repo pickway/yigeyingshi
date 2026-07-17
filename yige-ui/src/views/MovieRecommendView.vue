@@ -1,21 +1,20 @@
 <template>
   <main class="min-h-screen" style="background:var(--color-bg-base);">
-    <div class="max-w-[var(--container-max)] mx-auto" style="padding:var(--content-padding);">
+    <div class="max-w-[var(--container-max)] mx-auto" style="padding-left:var(--content-padding); padding-right:var(--content-padding);">
 
-      <!-- Page Header -->
+      <!-- Page Header + Filter Bar -->
       <section class="pt-8 pb-6 border-b" style="border-color:var(--color-border-subtle);">
-        <h1 class="cinema-heading" style="font-size:var(--text-3xl); text-wrap:balance; word-break:keep-all; overflow-wrap:break-word;">
+        <h1 class="cinema-heading mb-6"
+            style="font-size:var(--text-3xl); text-wrap:balance; word-break:keep-all; overflow-wrap:break-word;">
           影视推荐
         </h1>
-      </section>
 
-      <!-- Filter Bar -->
-      <section class="pt-8 pb-6">
+        <!-- Filter + Search Row -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <!-- Genre Pills -->
           <div class="flex flex-nowrap overflow-x-auto gap-2 no-scrollbar">
             <button
-              v-for="genre in genres"
+              v-for="genre in genreList"
               :key="genre"
               class="shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors duration-150"
               :style="activeGenre === genre
@@ -78,7 +77,6 @@
                 class="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
                 style="background:radial-gradient(circle at 70% 30%, rgba(212,168,83,0.15) 0%, transparent 60%);"
               ></div>
-              <component :is="getIcon(movie)" class="poster-icon" />
               <div
                 class="absolute bottom-0 left-0 right-0 p-4"
                 style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);"
@@ -102,10 +100,13 @@
                   {{ g }}
                 </span>
               </div>
-              <div class="flex items-center gap-1">
+              <div class="flex items-center gap-1 mb-2">
                 <Star class="star-icon" :size="14" />
                 <span class="text-sm font-medium" style="color:var(--color-primary);">{{ movie.rating }}</span>
               </div>
+              <p class="text-xs line-clamp-2" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
+                {{ movie.description }}
+              </p>
             </div>
           </article>
         </div>
@@ -120,6 +121,30 @@
             第 {{ page }} 页 / 共 {{ totalPages }} 页，共 {{ total }} 部影片
           </span>
           <div class="flex items-center gap-3">
+            <!-- Jump to page -->
+            <div class="flex items-center gap-2" style="padding-right:12px; border-right:1px solid var(--color-border-subtle);">
+              <span class="cinema-body-sm" style="color:var(--color-text-tertiary); white-space:nowrap;">跳至</span>
+              <input
+                v-model.number="jumpPage"
+                type="number"
+                min="1"
+                :max="totalPages"
+                class="text-center outline-none transition-colors duration-150"
+                style="width:40px; height:28px; border-radius:var(--radius-sm); border:1px solid var(--color-border-default); background:var(--color-bg-base); color:var(--color-text-primary); font-family:var(--font-body); font-size:var(--text-sm); -moz-appearance:textfield;"
+                @focus="$event.target.style.borderColor='var(--color-primary)'"
+                @blur="$event.target.style.borderColor='var(--color-border-default)'"
+                @keydown.enter="doJump"
+              />
+              <span class="cinema-body-sm" style="color:var(--color-text-tertiary); white-space:nowrap;">页</span>
+              <button
+                class="jump-btn"
+                aria-label="跳转"
+                @click="doJump"
+              >
+                <ArrowRight :size="14" />
+              </button>
+            </div>
+
             <button
               class="page-btn"
               :disabled="page === 1"
@@ -166,7 +191,6 @@
               :style="{ background: editorPick.gradient || posterGradient('#5A4A6B') }"
             >
               <div class="absolute inset-0" style="background:radial-gradient(circle at 60% 40%, rgba(212,168,83,0.2) 0%, transparent 50%);"></div>
-              <Sparkles class="poster-icon" style="width:80px; height:80px;" />
               <div
                 class="absolute bottom-0 left-0 right-0 p-6 md:hidden"
                 style="background:linear-gradient(to top, rgba(12,12,14,0.9) 0%, transparent 100%);"
@@ -185,7 +209,7 @@
                   {{ editorPick.title }}
                 </h3>
               </div>
-              <div class="flex items-center gap-3 mb-4 flex-wrap">
+              <div class="flex items-center gap-3 mb-4">
                 <span class="text-xs whitespace-nowrap" style="color:var(--color-text-tertiary);">{{ editorPick.year }}</span>
                 <span
                   v-for="g in splitGenres(editorPick.genres)"
@@ -197,16 +221,23 @@
                 </span>
               </div>
               <div class="flex items-center gap-2 mb-4">
+                <span class="text-xs" style="color:var(--color-text-tertiary);">导演</span>
+                <span class="text-sm" style="color:var(--color-text-secondary);">{{ editorPick.director }}</span>
+              </div>
+              <div class="flex items-center gap-1 mb-4">
                 <Star class="star-icon" :size="14" />
                 <span class="text-sm font-medium" style="color:var(--color-primary);">{{ editorPick.rating }}</span>
               </div>
               <p class="text-sm line-clamp-4 mb-6" style="color:var(--color-text-secondary); line-height:var(--leading-normal);">
                 {{ editorPick.description || '诺兰以独特的叙事结构，将"原子弹之父"奥本海默的生平编织成一部震撼人心的传记史诗。影片在科学与道德的交汇处，探寻人类文明的终极困境。' }}
               </p>
-              <button class="cta-button">
-                <Play :size="16" />
-                <span>立即观看</span>
-              </button>
+              <router-link
+                to="/learning"
+                class="inline-flex items-center justify-center px-6 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-150 no-underline cta-link"
+                style="background:var(--color-primary); color:var(--color-text-inverse); font-family:var(--font-body);"
+              >
+                立即观看
+              </router-link>
             </div>
           </div>
         </div>
@@ -220,8 +251,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { movieApi } from '@/api'
 import {
-  Star, Play, Orbit, Sparkles, Home, Layers, Trees, Search,
-  Flame, Bird, Rabbit, Zap, ChevronLeft, ChevronRight, ChevronDown
+  Star, Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight
 } from '@lucide/vue'
 
 const allMovies = ref([])
@@ -231,31 +261,20 @@ const sort = ref('rating_desc')
 const page = ref(1)
 const pageSize = ref(6)
 const total = ref(0)
+const jumpPage = ref(1)
 
 // Local state for search input (no backend integration yet)
 const searchQuery = ref('')
 
-const genres = computed(() => {
-  const set = new Set()
-  allMovies.value.forEach(m => {
-    if (m.genres) {
-      m.genres.split(',').forEach(g => {
-        const trimmed = g.trim()
-        if (trimmed) set.add(trimmed)
-      })
-    }
-  })
-  return ['全部', ...Array.from(set).sort()]
-})
+// Hard-coded genre list aligned with design
+const genreList = ['全部', '科幻', '动画', '剧情', '悬疑', '喜剧', '纪录片']
 
 const sortOptions = [
   { value: 'rating_desc', label: '评分最高' },
   { value: 'year_desc', label: '最近上映' },
-  { value: 'rating_asc', label: '评分最低' },
+  { value: 'popular', label: '最受欢迎' },
 ]
 
-const iconMap = { Orbit, Sparkles, Home, Layers, Trees, Search, Flame, Bird, Rabbit, Zap }
-const iconKeys = Object.keys(iconMap)
 const colorPalette = [
   '#1a1a2e', '#16213e', '#0f3460', '#2d1b2e', '#3b1f3b',
   '#5c2d5c', '#1a2a1a', '#2b3d2b', '#3a5a3a', '#0d1b2a'
@@ -264,11 +283,6 @@ const colorPalette = [
 function getMovieColor(movie) {
   const idx = movie.id ? Number(movie.id) % colorPalette.length : 0
   return colorPalette[idx]
-}
-
-function getIcon(movie) {
-  const idx = movie.id ? Number(movie.id) % iconKeys.length : 0
-  return iconMap[iconKeys[idx]] || Sparkles
 }
 
 function splitGenres(genres) {
@@ -306,10 +320,19 @@ const totalPages = computed(() => Math.ceil(total.value / pageSize.value) || 1)
 function goToPage(p) {
   if (p < 1 || p > totalPages.value || p === page.value) return
   page.value = p
+  jumpPage.value = p
+}
+
+function doJump() {
+  const p = parseInt(jumpPage.value)
+  if (p >= 1 && p <= totalPages.value) {
+    goToPage(p)
+  }
 }
 
 watch([activeGenre, sort], () => {
   page.value = 1
+  jumpPage.value = 1
   loadMovies()
 })
 
@@ -326,7 +349,6 @@ const editorPick = computed(() => {
 <style scoped>
 /* Cinema Personal Site - Dark Theater Theme */
 :root {
-  /* === Primary Color System === */
   --color-primary: #D4A853;
   --color-primary-light: #E8C97A;
   --color-primary-dark: #B08930;
@@ -334,7 +356,6 @@ const editorPick = computed(() => {
   --color-primary-tint-2: rgba(212,168,83,0.06);
   --color-primary-tint-3: rgba(212,168,83,0.03);
 
-  /* === Neutral Scale (Dark Theater) === */
   --color-bg-base: #0C0C0E;
   --color-bg-elevated: #151518;
   --color-bg-surface: #1C1C20;
@@ -350,16 +371,22 @@ const editorPick = computed(() => {
   --color-text-inverse: #0C0C0E;
   --color-text-link: #D4A853;
 
-  /* === Shape System === */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-full: 9999px;
 
-  /* === Typography === */
-  --font-display: 'Playfair Display', Georgia, 'Noto Serif SC', serif;
-  --font-body: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 20px rgba(212,168,83,0.15);
+
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  --container-max: 1200px;
+  --content-padding: 24px;
 
   --text-xs: 0.75rem;
   --text-sm: 0.8125rem;
@@ -369,7 +396,6 @@ const editorPick = computed(() => {
   --text-2xl: 1.5rem;
   --text-3xl: 1.875rem;
   --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
 
   --leading-tight: 1.25;
   --leading-snug: 1.35;
@@ -380,48 +406,10 @@ const editorPick = computed(() => {
   --tracking-normal: 0;
   --tracking-wide: 0.04em;
 
-  /* === Spacing Scale === */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-10: 40px;
-  --space-12: 48px;
-  --space-16: 64px;
-
-  /* === Shadows === */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
-  --shadow-glow: 0 0 20px rgba(212,168,83,0.15);
-
-  /* === Transitions === */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 400ms ease;
-
-  /* === Container === */
-  --container-max: 1200px;
-  --content-padding: 24px;
+  --font-display: 'Playfair Display', Georgia, 'Noto Serif SC', serif;
+  --font-body: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
-/* === Typography Classes === */
-.cinema-display {
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--leading-tight);
-}
-.cinema-display-lg {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--text-4xl);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--leading-tight);
-}
 .cinema-heading {
   font-family: var(--font-display);
   font-weight: 600;
@@ -429,41 +417,30 @@ const editorPick = computed(() => {
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-snug);
 }
-.cinema-subheading {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: var(--text-lg);
-  line-height: var(--leading-snug);
-  color: var(--color-text-secondary);
-}
-.cinema-body {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--leading-normal);
-  color: var(--color-text-primary);
-}
+
 .cinema-body-sm {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
 }
-.cinema-caption {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  line-height: var(--leading-normal);
-  color: var(--color-text-tertiary);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-}
 
-/* === Component Styles === */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Remove number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /* Movie Card Hover Effects */
@@ -474,18 +451,6 @@ const editorPick = computed(() => {
   border-color: var(--color-primary) !important;
   transform: translateY(-4px);
   box-shadow: var(--shadow-glow);
-}
-
-/* Poster Icon */
-.poster-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 64px;
-  height: 64px;
-  opacity: 0.12;
-  color: #FFFFFF;
 }
 
 /* Star Icon */
@@ -508,7 +473,7 @@ const editorPick = computed(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
+  gap: 8px;
   padding: 8px 16px;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-default);
@@ -532,8 +497,8 @@ const editorPick = computed(() => {
 
 /* Page Dot */
 .page-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   border: none;
   background: var(--color-bg-muted);
@@ -544,30 +509,40 @@ const editorPick = computed(() => {
   background: var(--color-primary-tint-2);
 }
 .page-dot.active {
-  width: 24px;
+  width: 14px;
+  height: 6px;
   border-radius: var(--radius-full);
   background: var(--color-primary);
 }
 
-/* CTA Button */
-.cta-button {
+/* Jump Button */
+.jump-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  padding: 10px 24px;
-  border-radius: var(--radius-lg);
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-  border: none;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 600;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-default);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
-.cta-button:hover {
-  background: var(--color-primary-light);
+.jump-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* CTA Link */
+.cta-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+.cta-link:hover {
+  background: var(--color-primary-light) !important;
   transform: translateY(-1px);
 }
 
