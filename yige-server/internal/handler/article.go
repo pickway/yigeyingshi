@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/yigeyingshi/yige-server/internal/service"
@@ -9,6 +10,25 @@ import (
 
 type ArticleHandler struct {
 	service *service.ArticleService
+}
+
+func (h *ArticleHandler) GetByID(c *gin.Context) {
+	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		writeError(c, http.StatusBadRequest, "INVALID_ID", "文章编号无效")
+		return
+	}
+	article, err := h.service.GetByID(uint(id))
+	if err != nil {
+		writeError(c, http.StatusNotFound, "NOT_FOUND", "没有找到这篇文章")
+		return
+	}
+	related, err := h.service.Related(article, 3)
+	if err != nil {
+		writeError(c, http.StatusInternalServerError, "INTERNAL_ERROR", "暂时无法加载文章")
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": article, "related": related})
 }
 
 func NewArticleHandler(s *service.ArticleService) *ArticleHandler {

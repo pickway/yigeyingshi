@@ -30,7 +30,8 @@
     <section class="content-layout">
       <!-- Left: Resource Grid -->
       <div class="resource-grid-container">
-        <div v-if="loading" class="loading-state">加载中…</div>
+        <UiState v-if="loading" type="loading" title="正在整理学习资料…" />
+        <UiState v-else-if="error" type="error" :message="error" @retry="load" />
         <div v-else class="resource-grid">
           <article
             v-for="course in allCourses"
@@ -56,16 +57,16 @@
               <div class="resource-meta">
                 <span class="meta-item">
                   <BookOpen :size="13" />
-                  {{ course.duration }}课时
+                  {{ course.lessons || course.duration }}{{ course.lessons ? ' 课时' : '' }}
                 </span>
                 <span class="meta-item">
                   <Clock :size="13" />
-                  {{ Math.round(course.duration * 0.5) }}小时
+                  约 {{ Math.max(1, Math.round((course.lessons || 2) * 0.5)) }} 小时
                 </span>
               </div>
-              <a href="#" class="resource-link">
+              <button type="button" class="resource-link" @click="selectCourse(course)">
                 开始学习
-              </a>
+              </button>
             </div>
           </article>
         </div>
@@ -128,7 +129,7 @@
                 <p class="step-text" :class="{ 'step-text-completed': i < 2, 'step-text-locked': i > 2 }">
                   {{ course.title }}
                 </p>
-                <p class="step-duration">{{ Math.round(course.duration * 0.5) }}小时</p>
+                <p class="step-duration">约 {{ Math.max(1, Math.round((course.lessons || 2) * 0.5)) }} 小时</p>
               </div>
             </div>
           </div>
@@ -154,6 +155,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { learningApi } from '@/api'
+import UiState from '@/components/UiState.vue'
 import {
   ChevronRight,
   Clapperboard,
@@ -171,6 +173,7 @@ import {
 const allCourses = ref([])
 const paths = ref([])
 const loading = ref(true)
+const error = ref('')
 const activeTab = ref('全部')
 
 const tabs = computed(() => {
@@ -192,6 +195,7 @@ const iconMap = {
 
 async function load() {
   loading.value = true
+  error.value = ''
   try {
     const params = {}
     if (activeTab.value !== '全部') params.category = activeTab.value
@@ -202,10 +206,16 @@ async function load() {
     allCourses.value = courses.data || []
     paths.value = pathsRes.data || []
   } catch (e) {
-    console.error('加载学习数据失败', e)
+    error.value = e.message
   } finally {
     loading.value = false
   }
+}
+
+function selectCourse(course) {
+  myLearning.value.currentCourse = course.title
+  myLearning.value.currentProgress = 0
+  document.querySelector('.my-learning-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
 }
 
 onMounted(load)

@@ -13,6 +13,13 @@ import (
 func Setup(db *gorm.DB, mode string) *gin.Engine {
 	gin.SetMode(mode)
 	r := gin.Default()
+	r.Use(func(c *gin.Context) {
+		c.Header("X-Content-Type-Options", "nosniff")
+		c.Header("X-Frame-Options", "DENY")
+		c.Header("Referrer-Policy", "strict-origin-when-cross-origin")
+		c.Header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+		c.Next()
+	})
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
@@ -35,7 +42,6 @@ func Setup(db *gorm.DB, mode string) *gin.Engine {
 		movies.GET("", movieH.List)
 		movies.GET("/featured", movieH.Featured)
 		movies.GET("/:id", movieH.GetByID)
-		movies.POST("", movieH.Create)
 	}
 
 	articleSvc := service.NewArticleService(db)
@@ -44,7 +50,12 @@ func Setup(db *gorm.DB, mode string) *gin.Engine {
 	{
 		articles.GET("", articleH.List)
 		articles.GET("/latest", articleH.Latest)
+		articles.GET("/:id", articleH.GetByID)
 	}
+
+	searchSvc := service.NewSearchService(db)
+	searchH := handler.NewSearchHandler(searchSvc)
+	api.GET("/search", searchH.Search)
 
 	learningSvc := service.NewLearningService(db)
 	learningH := handler.NewLearningHandler(learningSvc)

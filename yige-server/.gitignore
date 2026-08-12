@@ -19,3 +19,7 @@ yige-server
 
 # Test
 coverage.out
+
+# Local runtime logs
+*-runtime.log
+*-runtime.err.log

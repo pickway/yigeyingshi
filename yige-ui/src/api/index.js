@@ -11,8 +11,12 @@ async function request(path, options = {}) {
     ...options,
   })
   if (!res.ok) {
-    const text = await res.text().catch(() => '')
-    throw new Error(`API ${res.status}: ${text || res.statusText}`)
+    const payload = await res.json().catch(() => null)
+    const apiError = payload?.error
+    const error = new Error(apiError?.message || `请求失败（${res.status}）`)
+    error.status = res.status
+    error.code = apiError?.code || 'REQUEST_FAILED'
+    throw error
   }
   return res.json()
 }
@@ -22,6 +26,7 @@ export const movieApi = {
   list: (params = {}) => {
     const q = new URLSearchParams()
     if (params.genre && params.genre !== '全部') q.set('genre', params.genre)
+    if (params.keyword) q.set('keyword', params.keyword)
     if (params.sort) q.set('sort', params.sort)
     if (params.page) q.set('page', params.page)
     if (params.pageSize) q.set('pageSize', params.pageSize)
@@ -30,7 +35,6 @@ export const movieApi = {
   },
   featured: () => request('/movies/featured'),
   detail: (id) => request(`/movies/${id}`),
-  create: (data) => request('/movies', { method: 'POST', body: JSON.stringify(data) }),
 }
 
 // === Articles ===
@@ -43,6 +47,11 @@ export const articleApi = {
     return request(`/articles${qs ? `?${qs}` : ''}`)
   },
   latest: (limit = 2) => request(`/articles/latest?limit=${limit}`),
+  detail: (id) => request(`/articles/${id}`),
+}
+
+export const searchApi = {
+  search: (query) => request(`/search?q=${encodeURIComponent(query)}`),
 }
 
 // === Learning ===

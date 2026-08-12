@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { aiApi, articleApi } from '@/api'
+import UiState from '@/components/UiState.vue'
+import { normalizeExternalUrl } from '@/utils/content'
 import { Video, Image, AudioWaveform, ArrowRight } from '@lucide/vue'
 
 const tools = ref([])
 const articles = ref([])
 const loading = ref(true)
+const error = ref('')
 const subscribing = ref(false)
 const subscribeMsg = ref('')
 
@@ -19,6 +22,7 @@ const form = reactive({ email: '' })
 
 async function load() {
   loading.value = true
+  error.value = ''
   try {
     const [toolsRes, articlesRes] = await Promise.all([
       aiApi.featuredTools(),
@@ -27,7 +31,7 @@ async function load() {
     tools.value = toolsRes.data || []
     articles.value = articlesRes.data || []
   } catch (e) {
-    console.error('加载 AI 数据失败', e)
+    error.value = e.message
   } finally {
     loading.value = false
   }
@@ -83,7 +87,8 @@ onMounted(load)
     <section id="tool-showcase" class="tool-showcase">
       <div class="container">
         <h2 class="cinema-heading section-title">推荐工具</h2>
-        <div v-if="loading" class="tool-grid">
+        <UiState v-if="error" type="error" :message="error" @retry="load" />
+        <div v-else-if="loading" class="tool-grid">
           <div v-for="i in 3" :key="i" class="tool-card">
             <div class="tool-icon-box">
               <Video :size="32" />
@@ -112,7 +117,7 @@ onMounted(load)
                 {{ tag.trim() }}
               </span>
             </div>
-            <a :href="tool.url || '#'" class="tool-link" target="_blank" rel="noopener">
+            <a :href="normalizeExternalUrl(tool.url)" class="tool-link" target="_blank" rel="noopener noreferrer">
               查看详情
               <ArrowRight :size="14" />
             </a>
@@ -133,11 +138,13 @@ onMounted(load)
               <p class="article-desc">正在获取技术文章</p>
             </div>
           </div>
-          <div
+          <router-link
             v-else
             v-for="(article, index) in articles"
             :key="article.id || index"
+            :to="`/articles/${article.id}`"
             class="article-row"
+            style="color:inherit;text-decoration:none;"
           >
             <div class="article-number">{{ index + 1 }}</div>
             <div class="article-content">
@@ -148,7 +155,7 @@ onMounted(load)
               <span class="article-tag">{{ primaryTag(article.tag) }}</span>
               <span class="article-date">{{ formatDate(article.publishedAt) }}</span>
             </div>
-          </div>
+          </router-link>
         </div>
       </div>
     </section>

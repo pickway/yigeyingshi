@@ -1,89 +1,28 @@
 <script setup>
-import { Mail, Globe, MessageCircle } from '@lucide/vue'
-
+import { ArrowUpRight, Mail } from '@lucide/vue'
 const currentYear = new Date().getFullYear()
 </script>
 
 <template>
-  <footer class="border-t" style="background:var(--color-bg-elevated); border-color:var(--color-border-subtle); padding-top:var(--space-12); padding-bottom:var(--space-12);">
-    <div class="max-w-[var(--container-max)] mx-auto"
-         style="padding-left:var(--content-padding); padding-right:var(--content-padding);">
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
-        <!-- Brand -->
-        <div>
-          <router-link to="/"
-             class="inline-block no-underline"
-             style="font-family:var(--font-display); font-weight:700; font-size:var(--text-xl); color:var(--color-primary); letter-spacing:var(--tracking-tight);">
-            CineVerse
-          </router-link>
-          <p class="mt-3" style="font-family:var(--font-body); font-size:var(--text-sm); color:var(--color-text-tertiary); line-height:var(--leading-normal); max-width:280px;">
-            探索光影世界，分享智慧火花
-          </p>
-        </div>
-
-        <!-- Quick Links -->
-        <div>
-          <h3 class="mb-4" style="font-family:var(--font-body); font-weight:600; font-size:var(--text-sm); color:var(--color-text-primary); letter-spacing:var(--tracking-wide); text-transform:uppercase;">
-            快速导航
-          </h3>
-          <ul class="flex flex-col gap-3 list-none m-0 p-0">
-            <li>
-              <router-link to="/" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">
-                首页
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/movie-recommend" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">
-                影视推荐
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/learning" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">
-                学习资料
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/ai-share" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">
-                AI 分享
-              </router-link>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Contact -->
-        <div>
-          <h3 class="mb-4" style="font-family:var(--font-body); font-weight:600; font-size:var(--text-sm); color:var(--color-text-primary); letter-spacing:var(--tracking-wide); text-transform:uppercase;">
-            联系方式
-          </h3>
-          <ul class="flex flex-col gap-3 list-none m-0 p-0">
-            <li class="flex items-center gap-2">
-              <Mail :size="16" style="color:var(--color-text-tertiary);" />
-              <span class="text-sm" style="color:var(--color-text-tertiary);">hello@cineverse.site</span>
-            </li>
-            <li class="flex items-center gap-2">
-              <Globe :size="16" style="color:var(--color-text-tertiary);" />
-              <a href="#" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">GitHub</a>
-            </li>
-            <li class="flex items-center gap-2">
-              <MessageCircle :size="16" style="color:var(--color-text-tertiary);" />
-              <a href="#" class="text-sm transition-colors duration-150 no-underline" style="color:var(--color-text-tertiary);">Twitter</a>
-            </li>
-          </ul>
-        </div>
+  <footer class="site-footer">
+    <div class="footer-grid content-shell">
+      <div class="footer-intro">
+        <span class="eyebrow">CineVerse Journal</span>
+        <h2>愿每一次观看，<br />都成为下一次创作的开始。</h2>
+        <p>一个关于电影、学习与 AI 创作的个人数字花园。保持好奇，持续记录。</p>
       </div>
-
-      <div class="mt-10 pt-6 border-t" style="border-color:var(--color-border-subtle);">
-        <p class="text-center" style="font-family:var(--font-body); font-size:var(--text-xs); color:var(--color-text-tertiary);">
-          &copy; {{ currentYear }} CineVerse. All rights reserved.
-        </p>
+      <div class="footer-links">
+        <div><strong>探索</strong><router-link to="/movie-recommend">影视片单</router-link><router-link to="/learning">学习资料</router-link><router-link to="/ai-share">AI 实验室</router-link></div>
+        <div><strong>关于</strong><router-link to="/about">关于我</router-link><a href="mailto:hello@cineverse.site">联系我</a><router-link to="/about">创作理念</router-link></div>
       </div>
+      <a class="footer-mail" href="mailto:hello@cineverse.site"><Mail :size="16" /> hello@cineverse.site <ArrowUpRight :size="15" /></a>
     </div>
+    <div class="footer-bottom content-shell"><span>© {{ currentYear }} CineVerse</span><span>在光影与代码之间持续更新</span></div>
   </footer>
 </template>
 
 <style scoped>
-a:hover {
-  color: var(--color-primary);
-}
+.site-footer{position:relative;padding:88px 0 30px;border-top:1px solid var(--color-border-subtle);background:#08090c;overflow:hidden}.site-footer::before{position:absolute;top:-120px;left:8%;width:380px;height:220px;border-radius:50%;background:rgba(212,168,83,.06);filter:blur(70px);content:''}
+.footer-grid{position:relative;display:grid;grid-template-columns:1.4fr .8fr;gap:80px}.eyebrow{color:var(--color-primary);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase}.footer-intro h2{margin:18px 0;font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);font-weight:500;line-height:1.15}.footer-intro p{max-width:520px;color:var(--color-text-tertiary);line-height:1.8}.footer-links{display:grid;grid-template-columns:1fr 1fr;gap:32px}.footer-links div{display:flex;flex-direction:column;gap:13px}.footer-links strong{margin-bottom:8px;color:var(--color-text-primary);font-size:.75rem;letter-spacing:.12em}.footer-links a{color:var(--color-text-tertiary);font-size:.85rem;text-decoration:none}.footer-links a:hover{color:var(--color-primary)}.footer-mail{grid-column:2;display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--color-border-default);color:var(--color-text-primary);text-decoration:none}.footer-bottom{display:flex;justify-content:space-between;margin-top:64px;padding-top:22px;border-top:1px solid var(--color-border-subtle);color:var(--color-text-tertiary);font-size:.7rem;letter-spacing:.08em}
+@media(max-width:760px){.site-footer{padding-top:64px}.footer-grid{grid-template-columns:1fr;gap:44px}.footer-mail{grid-column:1}.footer-bottom{gap:20px;flex-direction:column;margin-top:44px}}
 </style>

@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/yigeyingshi/yige-server/internal/model"
 	"gorm.io/gorm"
@@ -40,6 +41,7 @@ func NewNewsletterService(db *gorm.DB) *NewsletterService {
 }
 
 func (s *NewsletterService) Subscribe(email string) error {
+	email = strings.ToLower(strings.TrimSpace(email))
 	var existing model.Newsletter
 	err := s.db.Where("email = ?", email).First(&existing).Error
 	if err == nil {

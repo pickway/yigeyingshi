@@ -1,0 +1,7 @@
+.env
+*.db
+*.sqlite
+*.log
+coverage.out
+yige-admin-server.exe
+

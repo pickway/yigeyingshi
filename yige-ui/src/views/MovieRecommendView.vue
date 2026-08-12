@@ -4,10 +4,9 @@
 
       <!-- Page Header + Filter Bar -->
       <section class="pt-8 pb-6 border-b" style="border-color:var(--color-border-subtle);">
-        <h1 class="cinema-heading mb-6"
-            style="font-size:var(--text-3xl); text-wrap:balance; word-break:keep-all; overflow-wrap:break-word;">
-          影视推荐
-        </h1>
+        <span class="eyebrow">Curated Filmography</span>
+        <h1 class="cinema-heading mb-3" style="font-size:clamp(2.5rem,6vw,4.8rem); text-wrap:balance; word-break:keep-all; overflow-wrap:break-word;">私人片单</h1>
+        <p class="mb-8" style="max-width:620px;color:var(--color-text-tertiary);line-height:1.7;">在类型、年代和作者之间漫游。每一部都来自真实观看，而不是算法自动生成的榜单。</p>
 
         <!-- Filter + Search Row -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -38,6 +37,7 @@
                 style="width:180px; height:36px; background:var(--color-bg-muted); border:1px solid var(--color-border-default); color:var(--color-text-primary); font-family:var(--font-body);"
                 @focus="$event.target.style.borderColor='var(--color-primary)'"
                 @blur="$event.target.style.borderColor='var(--color-border-default)'"
+                @keydown.enter="submitSearch"
               />
             </div>
             <div class="relative">
@@ -58,14 +58,16 @@
 
       <!-- Movie Grid -->
       <section class="pt-8 pb-12">
-        <div v-if="loading" class="loading-state">加载中...</div>
-        <div v-else-if="allMovies.length === 0" class="loading-state">暂无数据</div>
+        <UiState v-if="loading" type="loading" title="正在整理片库…" />
+        <UiState v-else-if="error" type="error" :message="error" @retry="loadMovies" />
+        <UiState v-else-if="allMovies.length === 0" type="empty" title="没有找到相关影片" message="换一个关键词或类型试试。" />
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <article
+          <router-link
             v-for="movie in allMovies"
             :key="movie.id"
+            :to="`/movies/${movie.id}`"
             class="group rounded-lg border transition-all duration-250 movie-card"
-            style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden;"
+            style="background:var(--color-bg-surface); border-color:var(--color-border-default); overflow:hidden; color:inherit;text-decoration:none;"
           >
             <!-- Poster Area -->
             <div
@@ -108,7 +110,7 @@
                 {{ movie.description }}
               </p>
             </div>
-          </article>
+          </router-link>
         </div>
 
         <!-- Pagination -->
@@ -155,7 +157,7 @@
             </button>
             <div class="flex gap-2 items-center">
               <button
-                v-for="p in totalPages"
+                v-for="p in visiblePages"
                 :key="p"
                 class="page-dot"
                 :class="{ active: p === page }"
@@ -232,11 +234,11 @@
                 {{ editorPick.description || '诺兰以独特的叙事结构，将"原子弹之父"奥本海默的生平编织成一部震撼人心的传记史诗。影片在科学与道德的交汇处，探寻人类文明的终极困境。' }}
               </p>
               <router-link
-                to="/learning"
+                :to="`/movies/${editorPick.id}`"
                 class="inline-flex items-center justify-center px-6 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-150 no-underline cta-link"
                 style="background:var(--color-primary); color:var(--color-text-inverse); font-family:var(--font-body);"
               >
-                立即观看
+                查看影片笔记
               </router-link>
             </div>
           </div>
@@ -250,12 +252,15 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { movieApi } from '@/api'
+import UiState from '@/components/UiState.vue'
+import { buildMovieQuery, createPageRange } from '@/utils/content'
 import {
   Star, Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight
 } from '@lucide/vue'
 
 const allMovies = ref([])
 const loading = ref(true)
+const error = ref('')
 const activeGenre = ref('全部')
 const sort = ref('rating_desc')
 const page = ref(1)
@@ -263,7 +268,6 @@ const pageSize = ref(6)
 const total = ref(0)
 const jumpPage = ref(1)
 
-// Local state for search input (no backend integration yet)
 const searchQuery = ref('')
 
 // Hard-coded genre list aligned with design
@@ -296,10 +300,9 @@ function posterGradient(color) {
 
 async function loadMovies() {
   loading.value = true
+  error.value = ''
   try {
-    const params = { page: page.value, pageSize: pageSize.value }
-    if (activeGenre.value !== '全部') params.genre = activeGenre.value
-    params.sort = sort.value
+    const params = { ...buildMovieQuery({ keyword: searchQuery.value, genre: activeGenre.value, sort: sort.value }), page: page.value, pageSize: pageSize.value }
     const res = await movieApi.list(params)
     allMovies.value = (res.data || []).map(m => ({
       ...m,
@@ -307,7 +310,7 @@ async function loadMovies() {
     }))
     total.value = res.total || 0
   } catch (e) {
-    console.error('加载电影失败', e)
+    error.value = e.message
     allMovies.value = []
     total.value = 0
   } finally {
@@ -315,7 +318,14 @@ async function loadMovies() {
   }
 }
 
+function submitSearch() {
+  page.value = 1
+  jumpPage.value = 1
+  loadMovies()
+}
+
 const totalPages = computed(() => Math.ceil(total.value / pageSize.value) || 1)
+const visiblePages = computed(() => createPageRange(totalPages.value, page.value))
 
 function goToPage(p) {
   if (p < 1 || p > totalPages.value || p === page.value) return

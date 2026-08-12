@@ -5,7 +5,7 @@ import AppFooter from '@/components/AppFooter.vue'
 
 <template>
   <AppNavbar />
-  <main class="min-h-screen pt-16">
+  <main class="site-main">
     <router-view />
   </main>
   <AppFooter />

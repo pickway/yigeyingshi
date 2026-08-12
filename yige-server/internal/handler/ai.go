@@ -2,13 +2,14 @@ package handler
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/yigeyingshi/yige-server/internal/service"
 )
 
 type AiHandler struct {
-	toolService  *service.AiToolService
+	toolService   *service.AiToolService
 	newsletterSvc *service.NewsletterService
 }
 
@@ -36,17 +37,17 @@ func (h *AiHandler) FeaturedTools(c *gin.Context) {
 }
 
 type newsletterReq struct {
-	Email string `json:"email" binding:"required,email"`
+	Email string `json:"email" binding:"required,email,max=254"`
 }
 
 func (h *AiHandler) Subscribe(c *gin.Context) {
 	var req newsletterReq
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid email"})
+		writeError(c, http.StatusBadRequest, "INVALID_EMAIL", "请输入有效的邮箱地址")
 		return
 	}
-	if err := h.newsletterSvc.Subscribe(req.Email); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if err := h.newsletterSvc.Subscribe(strings.TrimSpace(req.Email)); err != nil {
+		writeError(c, http.StatusConflict, "ALREADY_SUBSCRIBED", err.Error())
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "订阅成功"})

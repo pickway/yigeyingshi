@@ -31,3 +31,18 @@ func (s *ArticleService) Latest(limit int) ([]model.Article, error) {
 	err := s.db.Order("published_at DESC").Limit(limit).Find(&list).Error
 	return list, err
 }
+
+func (s *ArticleService) GetByID(id uint) (*model.Article, error) {
+	var article model.Article
+	err := s.db.First(&article, id).Error
+	return &article, err
+}
+
+func (s *ArticleService) Related(article *model.Article, limit int) ([]model.Article, error) {
+	var list []model.Article
+	err := s.db.Where("category = ? AND id <> ?", article.Category, article.ID).
+		Order("published_at DESC").
+		Limit(limit).
+		Find(&list).Error
+	return list, err
+}
