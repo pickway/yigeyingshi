@@ -7,12 +7,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/yigeyingshi/yige-server/internal/handler"
 	"github.com/yigeyingshi/yige-server/internal/service"
+	"github.com/yigeyingshi/yige-server/pkg/accesslog"
 	"gorm.io/gorm"
 )
 
 func Setup(db *gorm.DB, mode string) *gin.Engine {
 	gin.SetMode(mode)
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Recovery())
+	// HTTP 访问日志：拦截每次请求，写入本地 JSON 行文件供 Filebeat 采集
+	r.Use(accesslog.Middleware("yige-server"))
 	r.Use(func(c *gin.Context) {
 		c.Header("X-Content-Type-Options", "nosniff")
 		c.Header("X-Frame-Options", "DENY")

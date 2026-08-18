@@ -9,8 +9,9 @@ import (
 )
 
 type Config struct {
-	Server   ServerConfig
-	Database DatabaseConfig
+	Server    ServerConfig
+	Database  DatabaseConfig
+	AccessLog AccessLogConfig
 }
 
 type ServerConfig struct {
@@ -24,12 +25,24 @@ type DatabaseConfig struct {
 	DSN    string
 }
 
+// AccessLogConfig HTTP 访问日志（写本地文件，供 Filebeat 采集）
+type AccessLogConfig struct {
+	Path       string // 日志文件路径
+	MaxSizeMB  int    // 单文件最大 MB
+	MaxBackups int    // 保留旧文件数
+	MaxAgeDays int    // 旧文件保留天数
+	Compress   bool   // 是否 gzip 压缩旧文件
+}
+
 var AppConfig *Config
 
 func Load() *Config {
 	_ = godotenv.Load()
 
 	port, _ := strconv.Atoi(getEnv("SERVER_PORT", "8080"))
+	maxSize, _ := strconv.Atoi(getEnv("ACCESS_LOG_MAX_SIZE_MB", "100"))
+	maxBackups, _ := strconv.Atoi(getEnv("ACCESS_LOG_MAX_BACKUPS", "5"))
+	maxAge, _ := strconv.Atoi(getEnv("ACCESS_LOG_MAX_AGE_DAYS", "7"))
 
 	AppConfig = &Config{
 		Server: ServerConfig{
@@ -41,9 +54,16 @@ func Load() *Config {
 			Driver: getEnv("DB_DRIVER", "sqlite"),
 			DSN:    getEnv("DB_DSN", "./yige.db"),
 		},
+		AccessLog: AccessLogConfig{
+			Path:       getEnv("ACCESS_LOG_PATH", "logs/access.log"),
+			MaxSizeMB:  maxSize,
+			MaxBackups: maxBackups,
+			MaxAgeDays: maxAge,
+			Compress:   getEnv("ACCESS_LOG_COMPRESS", "true") == "true",
+		},
 	}
 
-	log.Printf("[config] loaded: server=%s:%d db=%s", AppConfig.Server.Host, AppConfig.Server.Port, AppConfig.Database.Driver)
+	log.Printf("[config] loaded: server=%s:%d db=%s access_log=%s", AppConfig.Server.Host, AppConfig.Server.Port, AppConfig.Database.Driver, AppConfig.AccessLog.Path)
 	return AppConfig
 }
 

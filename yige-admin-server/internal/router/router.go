@@ -6,6 +6,7 @@ import (
 	"github.com/yigeyingshi/yige-admin-server/internal/auth"
 	"github.com/yigeyingshi/yige-admin-server/internal/config"
 	"github.com/yigeyingshi/yige-admin-server/internal/handler"
+	"github.com/yigeyingshi/yige-admin-server/pkg/accesslog"
 	"gorm.io/gorm"
 )
 
@@ -14,6 +15,8 @@ func Setup(db *gorm.DB, cfg *config.Config, mode string) *gin.Engine {
 	router := gin.New()
 	_ = router.SetTrustedProxies(nil)
 	router.Use(gin.Recovery())
+	// HTTP 访问日志：拦截每次请求，写入本地 JSON 行文件供 Filebeat 采集
+	router.Use(accesslog.Middleware("yige-admin-server"))
 	router.Use(cors.New(cors.Config{AllowOrigins: []string{cfg.AllowedOrigin}, AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}, AllowHeaders: []string{"Origin", "Content-Type", "Authorization"}}))
 	router.Use(func(c *gin.Context) {
 		c.Header("X-Content-Type-Options", "nosniff")
