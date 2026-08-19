@@ -1,8 +1,8 @@
 -- ================================================================
 -- CineVerse MySQL 初始化脚本
 -- 适用版本：MySQL 8.0+
--- 执行方式：
---   mysql -h 118.145.113.88 -P 3306 -u root -proot < scripts/cineverse-init.sql
+-- 执行方式（把占位符替换为真实凭据）：
+--   mysql -h MYSQL_HOST -P MYSQL_PORT -u MYSQL_USER -pMYSQL_PASSWORD < scripts/cineverse-init.sql
 -- 或在 MySQL 客户端：SOURCE scripts/cineverse-init.sql;
 -- ================================================================
 

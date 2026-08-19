@@ -8,7 +8,8 @@
 // filebeat 通过 output.elasticsearch.index: "yige-request-logs-%{+yyyy.MM.dd}"
 // 直接按天建索引，每个索引创建 7 天后被 ILM 自动删除。
 //
-// 用法：go run scripts/init_es.go
+// 用法（环境变量未配置时给出占位符提示）：
+//   ES_HOST=http://127.0.0.1:9200 KIBANA_HOST=http://127.0.0.1:5601 go run scripts/init_es.go
 package main
 
 import (
@@ -17,12 +18,20 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 )
 
-const (
-	esHost     = "http://118.145.113.88:9200"
-	kibanaHost = "http://118.145.113.88:5601"
+var (
+	esHost     = getEnv("ES_HOST", "ES_HOST_PLACEHOLDER")
+	kibanaHost = getEnv("KIBANA_HOST", "KIBANA_HOST_PLACEHOLDER")
 )
+
+func getEnv(key, def string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return def
+}
 
 func httpDo(method, url, body string, headers map[string]string) (int, string) {
 	req, _ := http.NewRequest(method, url, bytes.NewBufferString(body))

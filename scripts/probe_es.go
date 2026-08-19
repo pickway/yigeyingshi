@@ -7,9 +7,19 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
-const esURL = "http://118.145.113.88:9200"
+// ES 探查脚本，从环境变量读取 ES_HOST
+// 用法：ES_HOST=http://127.0.0.1:9200 go run scripts/probe_es.go
+var esURL = getEnv("ES_HOST", "ES_HOST_PLACEHOLDER")
+
+func getEnv(key, def string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return def
+}
 
 func main() {
 	// 1. ES 健康检查

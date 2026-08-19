@@ -5,8 +5,8 @@
 将原有 SQLite 数据源切换为 MySQL 8.x，供前台 `yige-server` 和后台 `yige-admin-server` 共享访问。全部表使用 InnoDB 引擎、`utf8mb4` 字符集与 `utf8mb4_general_ci` 排序规则，保证中文与 emoji 的稳定存储与检索。
 
 - 数据库名：`yigeyingshi`
-- 连接方式：TCP `118.145.113.88:3306`
-- DSN 格式：`user:pass@tcp(host:port)/yigeyingshi?charset=utf8mb4&parseTime=True&loc=Local`
+- 连接方式：TCP `MYSQL_HOST:MYSQL_PORT`（凭据从环境变量注入，禁止硬编码到仓库）
+- DSN 格式：`MYSQL_USER:MYSQL_PASSWORD@tcp(MYSQL_HOST:MYSQL_PORT)/yigeyingshi?charset=utf8mb4&parseTime=True&loc=Local`
 
 ## 二、ER 关系
 
@@ -145,13 +145,13 @@ movies               articles            learning_courses      ai_tools
 ```
 # yige-server
 DB_DRIVER=mysql
-DB_DSN=root:root@tcp(118.145.113.88:3306)/yigeyingshi?charset=utf8mb4&parseTime=True&loc=Local
+DB_DSN=MYSQL_USER:MYSQL_PASSWORD@tcp(MYSQL_HOST:MYSQL_PORT)/yigeyingshi?charset=utf8mb4&parseTime=True&loc=Local
 
 # yige-admin-server
-ADMIN_DB_DSN=root:root@tcp(118.145.113.88:3306)/yigeyingshi?charset=utf8mb4&parseTime=True&loc=Local
+ADMIN_DB_DSN=MYSQL_USER:MYSQL_PASSWORD@tcp(MYSQL_HOST:MYSQL_PORT)/yigeyingshi?charset=utf8mb4&parseTime=True&loc=Local
 ```
 
-两个服务的 `parseTime=True` 和 `loc=Local` 必不可少，否则 `time.Time` 字段无法正确扫描。
+部署时把占位符替换为真实凭据，或在 docker 部署时通过 `--env-file .env` 注入环境变量。**禁止把真实凭据写入仓库**。
 
 ## 七、测试数据范围（随脚本一并插入）
 

@@ -9,14 +9,24 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// 连接参数 —— 直接硬编码，一次性脚本
-const (
-	user     = "root"
-	pass     = "root"
-	host     = "118.145.113.88"
-	port     = "3306"
-	sqlFile  = "cineverse-init.sql"
+// 连接参数 —— 从环境变量读取，未配置时给出占位符提示
+// 用法示例：
+//   MYSQL_HOST=127.0.0.1 MYSQL_PORT=3306 MYSQL_USER=root MYSQL_PASSWORD=secret \
+//     go run scripts/init_db.go
+var (
+	user    = getEnv("MYSQL_USER", "MYSQL_USER_PLACEHOLDER")
+	pass    = getEnv("MYSQL_PASSWORD", "MYSQL_PASSWORD_PLACEHOLDER")
+	host    = getEnv("MYSQL_HOST", "MYSQL_HOST_PLACEHOLDER")
+	port    = getEnv("MYSQL_PORT", "3306")
+	sqlFile = "cineverse-init.sql"
 )
+
+func getEnv(key, def string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return def
+}
 
 func main() {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/?charset=utf8mb4&multiStatements=true&parseTime=True&loc=Local",

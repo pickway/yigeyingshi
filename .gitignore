@@ -20,6 +20,19 @@ yige-server/*.sqlite
 yige-server/.env
 yige-server/yige-server
 yige-server/coverage.out
+yige-server/logs/
+
+# === Backend (yige-admin-server) ===
+yige-admin-server/*.exe
+yige-admin-server/*.dll
+yige-admin-server/.env
+yige-admin-server/yige-admin-server
+yige-admin-server/logs/
+
+# === Secrets ===
+.env
+.env.local
+.env.*.local
 
 # === Design files ===
 *.design
