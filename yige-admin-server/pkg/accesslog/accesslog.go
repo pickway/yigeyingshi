@@ -1,5 +1,6 @@
 // Package accesslog 用 zap + lumberjack 把 HTTP 请求日志按 JSON 行写到本地文件，
-// 供 Filebeat 采集到 Elasticsearch。
+// 供 Filebeat 采集到 Elasticsearch。字段名遵循 ECS（Elastic Common Schema）规范，
+// 与索引模板 yige-request-logs 的字段定义对齐。
 package accesslog
 
 import (
@@ -70,13 +71,13 @@ func New(cfg Config) (*Logger, error) {
 		LocalTime:  true,
 	})
 
-	// 字段顺序与 Record 结构一致，便于 Filebeat 解析
+	// ECS 规范字段名：service.name / client.ip / user_agent.original
 	encoderCfg := zap.NewProductionEncoderConfig()
 	encoderCfg.TimeKey = "@timestamp"
-	encoderCfg.LevelKey = ""    // 不输出 level
-	encoderCfg.NameKey = ""     // 不输出 logger 名
-	encoderCfg.CallerKey = ""   // 不输出 caller
-	encoderCfg.MessageKey = ""  // 不输出 msg
+	encoderCfg.LevelKey = ""
+	encoderCfg.NameKey = ""
+	encoderCfg.CallerKey = ""
+	encoderCfg.MessageKey = ""
 	encoderCfg.StacktraceKey = ""
 	encoderCfg.EncodeTime = zapcore.ISO8601TimeEncoder
 
@@ -108,20 +109,20 @@ func Sync() {
 	}
 }
 
-// Write 写入一条访问日志
+// Write 写入一条访问日志（ECS 规范字段名）
 func (l *Logger) Write(rec Record) {
 	if l == nil {
 		return
 	}
 	fields := []zap.Field{
-		zap.String("service", rec.Service),
+		zap.String("service.name", rec.Service),
 		zap.String("method", rec.Method),
 		zap.String("path", rec.Path),
 		zap.String("query", rec.Query),
 		zap.Int("status", rec.Status),
 		zap.Float64("latency_ms", rec.LatencyMs),
-		zap.String("client_ip", rec.ClientIP),
-		zap.String("user_agent", rec.UserAgent),
+		zap.String("client.ip", rec.ClientIP),
+		zap.String("user_agent.original", rec.UserAgent),
 		zap.String("request_id", rec.RequestID),
 		zap.Int("bytes_out", rec.BytesOut),
 	}
@@ -131,6 +132,5 @@ func (l *Logger) Write(rec Record) {
 
 	l.mu.Lock()
 	defer l.mu.Unlock()
-	// 第一参数 message 经过 MessageKey="" 配置后不会出现在 JSON 中
 	l.z.Info("", fields...)
 }

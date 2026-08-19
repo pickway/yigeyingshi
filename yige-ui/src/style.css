@@ -8,8 +8,8 @@
   --color-text-primary:#f2eee5;--color-text-secondary:#aaa8a3;--color-text-tertiary:#73737a;--color-text-inverse:#0b0b0e;
   --state-success:#68c89c;--state-warning:#e2aa57;--state-error:#e77b72;
   --radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-xl:24px;--radius-full:9999px;
-  --font-display:"Noto Serif SC","Songti SC","STSong",Georgia,serif;
-  --font-body:Inter,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --font-display:"Songti SC","STSong",Georgia,serif;
+  --font-body:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;
   --container-max:1200px;--content-padding:24px;
   --text-xs:.75rem;--text-sm:.875rem;--text-base:1rem;--text-lg:1.125rem;--text-xl:1.25rem;--text-2xl:1.5rem;--text-3xl:1.875rem;
   --space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--space-20:5rem;

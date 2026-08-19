@@ -416,8 +416,8 @@ const editorPick = computed(() => {
   --tracking-normal: 0;
   --tracking-wide: 0.04em;
 
-  --font-display: 'Playfair Display', Georgia, 'Noto Serif SC', serif;
-  --font-body: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-display: Georgia, 'Songti SC', 'STSong', serif;
+  --font-body: -apple-system, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
 }
 
 .cinema-heading {
