@@ -1,0 +1,9 @@
+.env
+.git
+*.db
+*.db-*
+*.sqlite
+*.exe
+coverage.out
+logs
+yige-server

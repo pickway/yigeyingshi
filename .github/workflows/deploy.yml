@@ -1,0 +1,93 @@
+name: Test and deploy
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22.x"
+          cache-dependency-path: |
+            yige-server/go.sum
+            yige-admin-server/go.sum
+
+      - name: Test public API
+        working-directory: yige-server
+        run: go test ./...
+
+      - name: Test admin API
+        working-directory: yige-admin-server
+        run: go test ./...
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: |
+            yige-ui/package-lock.json
+            yige-admin-ui/package-lock.json
+
+      - name: Test and build public UI
+        working-directory: yige-ui
+        run: |
+          npm ci
+          npm test
+          npm run build
+
+      - name: Test and build admin UI
+        working-directory: yige-admin-ui
+        run: |
+          npm ci
+          npm test
+          npm run build
+
+  deploy:
+    name: Deploy production
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: production
+    steps:
+      - name: Configure SSH
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy requested commit
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+            -p "${DEPLOY_PORT:-22}" \
+            -o BatchMode=yes \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "cd /root/yigeyingshi && git fetch --prune origin dev && git checkout dev && git merge --ff-only '${GITHUB_SHA}' && APP_DIR=/root/yigeyingshi DEPLOY_BRANCH=dev sh deploy/deploy.sh '${GITHUB_SHA}'"

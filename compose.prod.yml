@@ -1,0 +1,91 @@
+name: yigeyingshi
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  yige-server:
+    image: yige-server:${IMAGE_TAG:-latest}
+    container_name: yige-server
+    build:
+      context: ./yige-server
+      dockerfile: Dockerfile
+    env_file:
+      - ./yige-server/.env
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/log/yige:/var/log/yige
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/health >/dev/null"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 15s
+    networks:
+      - yige-network
+    logging: *default-logging
+
+  yige-ui:
+    image: yige-ui:${IMAGE_TAG:-latest}
+    container_name: yige-ui
+    build:
+      context: ./yige-ui
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      yige-server:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - yige-network
+    logging: *default-logging
+
+  yige-admin-server:
+    image: yige-admin-server:${IMAGE_TAG:-latest}
+    container_name: yige-admin-server
+    build:
+      context: ./yige-admin-server
+      dockerfile: Dockerfile
+    env_file:
+      - ./yige-admin-server/.env
+    ports:
+      - "8081:8081"
+    volumes:
+      - /var/log/yige-admin:/var/log/yige-admin
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8081/health >/dev/null"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 15s
+    networks:
+      - yige-network
+    logging: *default-logging
+
+  yige-admin-ui:
+    image: yige-admin-ui:${IMAGE_TAG:-latest}
+    container_name: yige-admin-ui
+    build:
+      context: ./yige-admin-ui
+      dockerfile: Dockerfile
+    ports:
+      - "4174:80"
+    depends_on:
+      yige-admin-server:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - yige-network
+    logging: *default-logging
+
+networks:
+  yige-network:
+    name: yige-network
+    driver: bridge
