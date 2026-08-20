@@ -1,6 +1,6 @@
 # GitHub Actions 自动部署
 
-生产环境由 `.github/workflows/deploy.yml` 负责。每次代码推送到 `dev` 分支时，流水线先根据改动目录识别受影响服务，只测试、构建和部署这些服务，再通过 SSH 连接服务器执行 `deploy/deploy.sh`。
+生产环境由 `.github/workflows/deploy.yml` 负责。每次代码推送到 `dev` 分支时，流水线先根据改动目录识别受影响服务，只测试、构建和部署这些服务，再通过 SSH 将目标提交直接传到服务器并执行 `deploy/deploy.sh`。服务器无需直接访问 GitHub。
 
 ## 目录与服务映射
 
@@ -46,6 +46,7 @@
 
 ```sh
 cd /root/yigeyingshi
+git fetch --prune origin dev
 APP_DIR=/root/yigeyingshi DEPLOY_BRANCH=dev sh deploy/deploy.sh <40 位提交 SHA> yige-ui
 # 也可以一次指定多个服务
 APP_DIR=/root/yigeyingshi DEPLOY_BRANCH=dev sh deploy/deploy.sh <40 位提交 SHA> yige-server yige-ui

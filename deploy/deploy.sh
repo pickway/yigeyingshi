@@ -78,8 +78,7 @@ read_previous_tag() {
 
 cd "${APP_DIR}"
 
-echo "[deploy] 获取 ${DEPLOY_BRANCH} / ${DEPLOY_SHA}"
-git fetch --prune origin "${DEPLOY_BRANCH}"
+echo "[deploy] 准备 ${DEPLOY_BRANCH} / ${DEPLOY_SHA}"
 git cat-file -e "${DEPLOY_SHA}^{commit}"
 git checkout "${DEPLOY_BRANCH}"
 git merge --ff-only "${DEPLOY_SHA}"

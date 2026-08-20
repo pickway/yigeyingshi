@@ -114,6 +114,14 @@ jobs:
     timeout-minutes: 30
     environment: production
     steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Create commit bundle
+        run: git bundle create "$RUNNER_TEMP/deploy.bundle" HEAD
+
       - name: Configure SSH
         env:
           DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
@@ -124,6 +132,18 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
+
+      - name: Upload requested commit
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          scp -i ~/.ssh/id_ed25519 \
+            -P "${DEPLOY_PORT:-22}" \
+            -o BatchMode=yes \
+            "$RUNNER_TEMP/deploy.bundle" \
+            "${DEPLOY_USER}@${DEPLOY_HOST}:/tmp/yigeyingshi-${GITHUB_SHA}.bundle"
 
       - name: Deploy requested commit
         env:
@@ -145,4 +165,4 @@ jobs:
             -p "${DEPLOY_PORT:-22}" \
             -o BatchMode=yes \
             "${DEPLOY_USER}@${DEPLOY_HOST}" \
-            "cd /root/yigeyingshi && git fetch --prune origin dev && git checkout dev && git merge --ff-only '${GITHUB_SHA}' && APP_DIR=/root/yigeyingshi DEPLOY_BRANCH=dev sh deploy/deploy.sh '${GITHUB_SHA}' $services"
+            "cd /root/yigeyingshi && git fetch '/tmp/yigeyingshi-${GITHUB_SHA}.bundle' HEAD && rm -f '/tmp/yigeyingshi-${GITHUB_SHA}.bundle' && git checkout dev && git merge --ff-only '${GITHUB_SHA}' && APP_DIR=/root/yigeyingshi DEPLOY_BRANCH=dev sh deploy/deploy.sh '${GITHUB_SHA}' $services"
