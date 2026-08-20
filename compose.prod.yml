@@ -8,7 +8,7 @@ x-logging: &default-logging
 
 services:
   yige-server:
-    image: yige-server:${IMAGE_TAG:-latest}
+    image: yige-server:${YIGE_SERVER_TAG:-latest}
     container_name: yige-server
     build:
       context: ./yige-server
@@ -31,7 +31,7 @@ services:
     logging: *default-logging
 
   yige-ui:
-    image: yige-ui:${IMAGE_TAG:-latest}
+    image: yige-ui:${YIGE_UI_TAG:-latest}
     container_name: yige-ui
     build:
       context: ./yige-ui
@@ -47,7 +47,7 @@ services:
     logging: *default-logging
 
   yige-admin-server:
-    image: yige-admin-server:${IMAGE_TAG:-latest}
+    image: yige-admin-server:${YIGE_ADMIN_SERVER_TAG:-latest}
     container_name: yige-admin-server
     build:
       context: ./yige-admin-server
@@ -70,7 +70,7 @@ services:
     logging: *default-logging
 
   yige-admin-ui:
-    image: yige-admin-ui:${IMAGE_TAG:-latest}
+    image: yige-admin-ui:${YIGE_ADMIN_UI_TAG:-latest}
     container_name: yige-admin-ui
     build:
       context: ./yige-admin-ui

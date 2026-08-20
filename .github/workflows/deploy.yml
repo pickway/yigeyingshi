@@ -14,8 +14,45 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  detect:
+    name: Detect changed services
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      yige_server: ${{ steps.changes.outputs.yige_server }}
+      yige_ui: ${{ steps.changes.outputs.yige_ui }}
+      yige_admin_server: ${{ steps.changes.outputs.yige_admin_server }}
+      yige_admin_ui: ${{ steps.changes.outputs.yige_admin_ui }}
+      any: ${{ steps.changes.outputs.any }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Test directory mapping
+        run: sh deploy/detect-services.test.sh
+
+      - name: Detect affected services
+        id: changes
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] \
+            || [ -z "$BEFORE_SHA" ] \
+            || [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ] \
+            || ! git cat-file -e "$BEFORE_SHA^{commit}"; then
+            DEPLOY_ALL=true sh deploy/detect-services.sh >> "$GITHUB_OUTPUT"
+          else
+            git diff --name-only "$BEFORE_SHA" "$GITHUB_SHA" \
+              | sh deploy/detect-services.sh >> "$GITHUB_OUTPUT"
+          fi
+
   test:
-    name: Test and build
+    name: Test and build affected services
+    needs: detect
+    if: needs.detect.outputs.any == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -23,6 +60,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Set up Go
+        if: needs.detect.outputs.yige_server == 'true' || needs.detect.outputs.yige_admin_server == 'true'
         uses: actions/setup-go@v6
         with:
           go-version: "1.22.x"
@@ -31,14 +69,17 @@ jobs:
             yige-admin-server/go.sum
 
       - name: Test public API
+        if: needs.detect.outputs.yige_server == 'true'
         working-directory: yige-server
         run: go test ./...
 
       - name: Test admin API
+        if: needs.detect.outputs.yige_admin_server == 'true'
         working-directory: yige-admin-server
         run: go test ./...
 
       - name: Set up Node.js
+        if: needs.detect.outputs.yige_ui == 'true' || needs.detect.outputs.yige_admin_ui == 'true'
         uses: actions/setup-node@v5
         with:
           node-version: "22"
@@ -48,6 +89,7 @@ jobs:
             yige-admin-ui/package-lock.json
 
       - name: Test and build public UI
+        if: needs.detect.outputs.yige_ui == 'true'
         working-directory: yige-ui
         run: |
           npm ci
@@ -55,6 +97,7 @@ jobs:
           npm run build
 
       - name: Test and build admin UI
+        if: needs.detect.outputs.yige_admin_ui == 'true'
         working-directory: yige-admin-ui
         run: |
           npm ci
@@ -62,15 +105,17 @@ jobs:
           npm run build
 
   deploy:
-    name: Deploy production
-    needs: test
+    name: Deploy affected services
+    needs:
+      - detect
+      - test
+    if: always() && needs.detect.outputs.any == 'true' && needs.test.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment: production
     steps:
       - name: Configure SSH
         env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
@@ -85,9 +130,19 @@ jobs:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_YIGE_SERVER: ${{ needs.detect.outputs.yige_server }}
+          DEPLOY_YIGE_UI: ${{ needs.detect.outputs.yige_ui }}
+          DEPLOY_YIGE_ADMIN_SERVER: ${{ needs.detect.outputs.yige_admin_server }}
+          DEPLOY_YIGE_ADMIN_UI: ${{ needs.detect.outputs.yige_admin_ui }}
         run: |
+          services=""
+          if [ "$DEPLOY_YIGE_SERVER" = "true" ]; then services="$services yige-server"; fi
+          if [ "$DEPLOY_YIGE_UI" = "true" ]; then services="$services yige-ui"; fi
+          if [ "$DEPLOY_YIGE_ADMIN_SERVER" = "true" ]; then services="$services yige-admin-server"; fi
+          if [ "$DEPLOY_YIGE_ADMIN_UI" = "true" ]; then services="$services yige-admin-ui"; fi
+
           ssh -i ~/.ssh/id_ed25519 \
             -p "${DEPLOY_PORT:-22}" \
             -o BatchMode=yes \
             "${DEPLOY_USER}@${DEPLOY_HOST}" \
-            "cd /root/yigeyingshi && git fetch --prune origin dev && git checkout dev && git merge --ff-only '${GITHUB_SHA}' && APP_DIR=/root/yigeyingshi DEPLOY_BRANCH=dev sh deploy/deploy.sh '${GITHUB_SHA}'"
+            "cd /root/yigeyingshi && git fetch --prune origin dev && git checkout dev && git merge --ff-only '${GITHUB_SHA}' && APP_DIR=/root/yigeyingshi DEPLOY_BRANCH=dev sh deploy/deploy.sh '${GITHUB_SHA}' $services"
